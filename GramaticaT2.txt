@@ -1,6 +1,4 @@
-
-
-INICIO ->GENERARREPORTE
+INICIO -> GENERARREPORTE
 
 GENERARREPORTE ->"GenerarReporteEstadistico" "{" INSTRUCCIONES "}"
 
@@ -11,12 +9,48 @@ INSTRUCCION -> COMPARE
                 |DEFINIRGLOBALES
                 |GRAFICABARRAS
                 |GRAFICAPIE
+                |GRAFICALINEAL
+
+COMPARE -> "(" "'" cadena "'" "," "'" cadena "'" ")" ";"
+
+DEFINIRGLOBALES -> "definirglobales" "{" DEFINICIONVARIABLESG "}"
+                
+DEFINICIONVARIABLESG -> DEFINICIONVARIABLESG DEFINICIONVARIABLEG
+                |DEFINICIONVARIABLEG
+
+DEFINICIONVARIABLEG -> TIPO id "=" VALOR ";"
+        |TIPO
+
+TIPO -> string
+        |double
+
+VALOR -> cadena
+        |digito
+        |"$" "{" id "," cadena "," cadena "," "cadena" "}"
+
+GRAFICABARRAS -> "graficabarras" "{" INFOSBARRAS "}"
+
+GRAFICASLINEAS -> "graficaLineas" "{" INFOSLINEAS "}"
 
 GRAFICAPIE -> "graficapie" "{" INFOS "}" 
 
+INFOSBARRAS ->INFOSBARRAS "titulo" ":" id ";"
+        |INFOSBARRAS "ejex" ":" "[" DATOS "]"
+        |INFOSBARRAS VALORES
+        |INFOSBARRAS "tituloX" ":" cadena ";"
+        |INFOSBARRAS "tituloY" ":" cadena ";"
+        |"titulo" ":" id ";"
+        |"ejex" ":" "[" DATOS "]"
+        |"tituloX" ":" cadena ";"
+        |"tituloY" ":" cadena ";"
+        |VALORES
+
+INFOSLINEAS -> INFOSPIE "titulo" ":" id ";"
+        | "Archivo" ":" cadena ";"
+
 INFOS-> INFOS "titulo" ":" id ";"
         |INFOS "ejex" ":" "[" DATOS "]"
-        |INFO VALORES
+        |INFOS VALORES
         |"titulo" ":" id ";"
         |"ejex" ":" "[" DATOS "]"
         |VALORES
@@ -30,4 +64,4 @@ DATO -> decimal
         |digito
         |cadena
         |id
-        |"$" "{" id "," cadena "," cadena "," "}"
+        |"$" "{" id "," cadena "," cadena "," "cadena""}"

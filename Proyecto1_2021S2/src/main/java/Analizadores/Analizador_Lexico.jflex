@@ -60,7 +60,10 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 "\'"        { System.out.println("Reconocio "+yytext()+" comillasimple"); return new Symbol(Simbolos.comillasimple, yycolumn, yyline, yytext()); }
 "-"         { System.out.println("Reconocio "+yytext()+" guion"); return new Symbol(Simbolos.guion, yycolumn, yyline, yytext()); }
 "_"         { System.out.println("Reconocio "+yytext()+" guionBajo"); return new Symbol(Simbolos.guionBajo, yycolumn, yyline, yytext()); }
-
+"["         { System.out.println("Reconocio "+yytext()+" corcheteA"); return new Symbol(Simbolos.corcheteA, yycolumn, yyline, yytext()); }
+"]"         { System.out.println("Reconocio "+yytext()+" corcheteC"); return new Symbol(Simbolos.corcheteC, yycolumn, yyline, yytext()); }
+"="         { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos.igual, yycolumn, yyline, yytext()); }
+"("
 //-----> Palabras reservadas
 
 "GraficaBarras"     { System.out.println("Reconocio "+yytext()+" graficaBarras"); return new Symbol(Simbolos.graficaBarras, yycolumn, yyline, yytext()); }
