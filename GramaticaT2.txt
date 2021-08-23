@@ -1,0 +1,33 @@
+
+
+INICIO ->GENERARREPORTE
+
+GENERARREPORTE ->"GenerarReporteEstadistico" "{" INSTRUCCIONES "}"
+
+INSTRUCCIONES -> INSTRUCCIONES INSTRUCCION
+                | INSTRUCCION
+
+INSTRUCCION -> COMPARE
+                |DEFINIRGLOBALES
+                |GRAFICABARRAS
+                |GRAFICAPIE
+
+GRAFICAPIE -> "graficapie" "{" INFOS "}" 
+
+INFOS-> INFOS "titulo" ":" id ";"
+        |INFOS "ejex" ":" "[" DATOS "]"
+        |INFO VALORES
+        |"titulo" ":" id ";"
+        |"ejex" ":" "[" DATOS "]"
+        |VALORES
+
+VALORES -> "valores" ":" "[" DATOS "]"
+
+DATOS -> DATOS "," DATO
+        |DATO
+
+DATO -> decimal
+        |digito
+        |cadena
+        |id
+        |"$" "{" id "," cadena "," cadena "," "}"

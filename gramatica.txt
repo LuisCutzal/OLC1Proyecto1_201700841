@@ -1,0 +1,40 @@
+
+GraficaBarras{
+ Titulo: reporte1;
+Ejex: [ “Probabilidad Esperada clase 1”, “Probabilidad Obtenida Clase 1”, var2, var22, var3, var33];
+Valores: [ pe1, po1, pe2, po2, pe3, ${ PuntajeEspecifico, “archivo1.js”, “clase”, “clase3”} ];
+TituloX: “Atributo”;
+TituloY: “Puntaje”;
+
+}
+
+ GernerarReporteEstadistico{
+    compare(Ruta1,ruta2);
+}
+
+GraficaPie{
+Titulo: reporte1;
+Ejex: [ “Probabilidad Esperada clase 1”, “Probabilidad Obtenida Clase 1”, var2, var22, var3, var33];
+Valores: [ pe1, po1, pe2, po2, pe3, ${ PuntajeEspecifico, “archivo1.js”, “clase”, “clase3”} ];
+} 
+
+graficaLineas{
+ Titulo: reporteResumen;
+ Archivo: “archivo 1”;
+} 
+
+DefinirGlobales
+{
+ string reporte1 = “Reporte 1”;
+ double pe1 = 0.8;
+ double pe2 = 0.5;
+ double pe3 = 0.2;
+ double po1 = ${ PuntajeEspecifico, “archivo1.js”, “clase”, “clase1”};
+ double po2 = ${ PuntajeEspecifico, “archivo1.js”, “clase”, “clase2”};
+ string vart = “Valor Obtenido”;
+ string var2 = “Valore Esperado clase 1”;
+ string var22 = “Valor Obtenido clase 1”;
+ string var3 = “Valore Esperado clase 2”;
+ string var33 = “Valor Obtenido clase 2”;
+
+}

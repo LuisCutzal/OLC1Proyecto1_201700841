@@ -1,0 +1,120 @@
+
+
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+package Analizadores;
+import java_cup.runtime.Symbol;
+
+import com.mycompany.proyecto1.Nodo;
+import com.mycompany.proyecto1.Expresiones;
+
+import com.mycompany.proyecto1.Ventana;
+import com.mycompany.proyecto1.error;
+import com.mycompany.proyecto1.Arbol;
+
+import javax.swing.JOptionPane;
+import java.util.LinkedList;
+//------> Codigo para el parser,variables, metodos
+parser code{:
+
+ :}
+
+//------> Codigo para las acciones gramaticales
+action code
+{:  :}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+
+//------> declaracion de terminales 
+
+terminal String llaveabre,llavecierra;
+terminal Strinig dospuntos,puntoycoma,coma,dollar;
+terminal String comilladoble, comillasimple,especiales;
+terminal String guion,guionBajo;
+terminal String numero, cadena,id,letra;
+
+terminal String graficaBarras,titulo,ejeX,Valores,tituloX,tituloY;
+
+terminal String generarReporteEstadistico,compare;
+
+terminal String graficaPie;
+
+terminal String graficaLineas, archivo;
+
+terminal String DefinirGlobales,string,double;
+
+
+
+//------> declaracion de no terminales
+
+non terminal String  INICIO,CUERPO;
+
+non terminal LISTA_CONJ, CONJ,CONJUNTO;
+
+non terminal LinkedList<Expresiones> LISTA_EXPRESIONES;
+non terminal Expresiones EXPRESIONES;
+non terminal Nodo E;
+
+non terminal CADENAS_EVALUAR, EVALUAR;
+//------> precedencia de menor a mayor
+
+precedence left coma;
+precedence left tilde;
+precedence left saltolinea;
+
+precedence right concatenacion;
+precedence right disyuncion;
+precedence right kleene, positivo, interrogacion;
+
+
+start with INICIO;
+
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+
+INICIO::= llaveabre saltolinea CUERPO saltolinea llavecierra                                           {:  :}
+    ;
+CUERPO::=LISTA_CONJ                                                                                    {:  :}     
+    | LISTA_EXPRESIONES:a                                                                                {: parser.listaExpresiones= a; :}
+    | porcentaje porcentaje                                                                            {:  :}
+    | CADENAS_EVALUAR                                                                                  {:  :}
+    | CUERPO saltolinea CUERPO                                                                         {:  :}
+;
+
+LISTA_CONJ::= LISTA_CONJ CONJ                                                                          {:  :}
+    |CONJ                                                                                              {:  :}
+
+;
+
+CONJ::= conj dospuntos id guion mayor CONJUNTO puntoycoma                                              {:  :}
+;
+
+CONJUNTO::= CONJUNTO coma  CONJUNTO                                                                    {:  :}
+    | CONJUNTO tilde  CONJUNTO                                                                         {:  :}
+    | letra                                                                                            {:  :}
+    | numero                                                                                           {:  :}
+;
+
+LISTA_EXPRESIONES::= LISTA_EXPRESIONES:a EXPRESIONES:b                                                     {: RESULT=a; RESULT.add(b); :}
+    | EXPRESIONES:a                                                                                      {: RESULT=new LinkedList<>();RESULT.add(a); :}
+;
+EXPRESIONES::= id:a guion:b mayor:c E:d puntoycoma:e                                                             {: RESULT= new Expresiones(a.toString(), new Arbol(d)); :}
+;   
+
+E::= concatenacion:a E:b E:c                                                                             {: RESULT= new Nodo("." ,"" ,-1 ,b ,c,"N","",""); :}
+        |disyuncion:a E:b E:c                                                                            {: RESULT= new Nodo("|" ,"" ,-1 ,b ,c ,"N","",""); :}
+        | kleene:a E:b                                                                                   {: RESULT= new Nodo("*" ,"" ,-1 ,b ,null,"A","","" ); :}
+        | positivo:a  E:b                                                                                {: RESULT= new Nodo("+" ,"" ,-1 ,b ,null ,"N","",""); :}
+        | interrogacion:a E:b                                                                            {: RESULT= new Nodo("?" ,"" ,-1 ,b ,null,"A","",""); :}
+        | llaveabre:a id:b llavecierra:c                                                                 {: RESULT= new Nodo(b.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
+        | cadena:a                                                                                       {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
+        | especiales:a                                                                                   {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
+        | letra:a                                                                                        {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
+        | numero:a                                                                                       {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
+;
+
+CADENAS_EVALUAR::= CADENAS_EVALUAR EVALUAR                                                             {:  :}
+        |EVALUAR                                                                                       {:  :}
+;
+
+EVALUAR::= id dospuntos cadena puntoycoma                                                              {:  :}
+;
