@@ -100,7 +100,7 @@ DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG DEFINICIONVARIABLEG
     |DEFINICIONVARIABLEG                                                                                
     ;
 
-
+    
 DEFINICIONVARIABLEG::= TIPO id igual VALORTIPO puntoycoma                                                                                                                                              {: :}
     ;
 
