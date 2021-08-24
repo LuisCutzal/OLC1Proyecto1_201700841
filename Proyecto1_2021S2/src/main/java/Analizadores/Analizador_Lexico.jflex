@@ -65,7 +65,7 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 "]"         { System.out.println("Reconocio "+yytext()+" corcheteC"); return new Symbol(Simbolos.corcheteC, yycolumn, yyline, yytext()); }
 "="         { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos.igual, yycolumn, yyline, yytext()); }
 "("         { System.out.println("Reconocio "+yytext()+" parentesisA"); return new Symbol(Simbolos.parentesisA, yycolumn, yyline, yytext()); }
-")"         { System.out.println("Reconocio "+yytext()+" parentesisC); return new Symbol(Simbolos.parentesisC, yycolumn, yyline, yytext()); }
+")"         { System.out.println("Reconocio "+yytext()+" parentesisC"); return new Symbol(Simbolos.parentesisC, yycolumn, yyline, yytext()); }
 //-----> Palabras reservadas
 
 "GraficaBarras"     { System.out.println("Reconocio "+yytext()+" graficaBarras"); return new Symbol(Simbolos.graficaBarras, yycolumn, yyline, yytext()); }
@@ -85,7 +85,7 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 
 "DefinirGlobales"   { System.out.println("Reconocio "+yytext()+" DefinirGlobales"); return new Symbol(Simbolos.DefinirGlobales, yycolumn, yyline, yytext()); }
 "string"            { System.out.println("Reconocio "+yytext()+" string"); return new Symbol(Simbolos.string, yycolumn, yyline, yytext()); }
-"double"            { System.out.println("Reconocio "+yytext()+" double"); return new Symbol(Simbolos.double, yycolumn, yyline, yytext()); }
+"double"            { System.out.println("Reconocio "+yytext()+" dou"); return new Symbol(Simbolos.dou, yycolumn, yyline, yytext()); }
 
 
 
