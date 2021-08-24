@@ -1,5 +1,4 @@
 
-
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
 package Analizadores;
@@ -39,9 +38,9 @@ action code
 
 terminal String llaveabre,llavecierra;
 terminal Strinig dospuntos,puntoycoma,coma,dolar;
-terminal String comilladoble, comillasimple,especiales;
+terminal String comilladoble, comillasimple;
+terminal String numero,cadena,id,decimal,letra;
 terminal String guion,guionBajo;
-terminal String numero,cadena,id,letra,decimal;
 terminal String parentesisC, parentesisA,igual,corcheteC,corcheteA;
 
 terminal String graficaBarras,titulo,ejeX,Valores,tituloX,tituloY;
@@ -50,7 +49,7 @@ terminal String generarReporteEstadistico,compare;
 
 terminal String graficaPie;
 
-terminal String graficaLineas, archivo;
+terminal String graficaLineas, ar;
 
 terminal String DefinirGlobales,string,dou;
 
@@ -60,7 +59,7 @@ terminal String DefinirGlobales,string,dou;
 
 non terminal  INICIO, GENERARREPORTE;
 non terminal  INSTRUCCIONES,INSTRUCCION;
-non terminal  COMPARE,DEFINIRGLOBALES,GRAFICABARRAS,GRAFICAPIE,GRAFICALINEAL;
+non terminal  COMPARE,DEFINIRGLOBALES,GRAFICABARRAS,GRAFICAPIE,GRAFICASLINEAS;
 non terminal  DEFINICIONVARIABLESG,DEFINICIONVARIABLEG,TIPO,VALORTIPO;
 non terminal  INFOSBARRAS;
 non terminal  INFOSLINEAS;
@@ -87,56 +86,64 @@ INSTRUCCIONES::=INSTRUCCIONES INSTRUCCION                                       
 INSTRUCCION::= COMPARE                                                                                  {: :}
     |DEFINIRGLOBALES                                                                                    {: :}
     |GRAFICABARRAS                                                                                      {: :}
-    |GRAFICAPIE                                                                                         {: :}
-    |GRAFICALINEAL                                                                                      {: :}
+    |GRAFICAPIE                                                                                         
+    |GRAFICASLINEAS                                                                                      
     ;
 
-COMPARE::=parentesisA comillasimple cadena comillasimple coma comillasimple cadena comillasimple coma comillasimple cadena comillasimple parentesisC puntoycoma     {: :}
+COMPARE::= compare parentesisA  cadena  coma   cadena   parentesisC  puntoycoma     
     ;
 
-DEFINIRGLOBALES::= DefinirGlobales llaveabre DEFINICIONVARIABLESG llavecierra                           {: :}
+DEFINIRGLOBALES::= DefinirGlobales llaveabre DEFINICIONVARIABLESG llavecierra                           
     ;
 
-DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG DEFINICIONVARIABLEG                                        {: :}
-    |DEFINICIONVARIABLEG                                                                                {: :}
+DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG DEFINICIONVARIABLEG                                        
+    |DEFINICIONVARIABLEG                                                                                
     ;
 
 
-DEFINICIONVARIABLEG::= TIPO id igual VALORTIPO puntoycoma                                               {: :}
-    |TIPO                                                                                               {: :}
+DEFINICIONVARIABLEG::= TIPO id igual VALORTIPO puntoycoma                                                                                                                                              {: :}
     ;
 
-TIPO::= string                                                                                          {: :}
-    | dou                                                                                             {: :}
+TIPO::= string                                                                                          
+    | dou                                                                                             
     ;
 
-VALORTIPO::= cadena                                                                                     {: :}                                                                                          
+VALORTIPO::= cadena                                                                                                                                                                               
     |numero
-    |decimal                                                                                            {: :}
-    |dolar llaveabre id coma cadena coma cadena coma cadena llavecierra                                {: :}
+    |decimal                                                                                            
+    |dolar llaveabre id coma  cadena  coma cadena coma cadena llavecierra                                
     ;
 
 GRAFICABARRAS::= graficaBarras llaveabre INFOSBARRAS llavecierra                                        {: :}
     ;
+
+GRAFICASLINEAS::= graficaLineas llaveabre INFOSLINEAS  llavecierra
+    ;
+
+GRAFICAPIE::= graficaPie llaveabre INFOS llavecierra
+    ;
+
 INFOSBARRAS::=INFOSBARRAS titulo dospuntos id puntoycoma                                                {: :}
     |INFOSBARRAS ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                   {: :}
     |INFOSBARRAS VALORES                                                                                {: :}
-    |INFOSBARRAS tituloX dospuntos cadena puntoycoma                                                    {: :}
-    |INFOSBARRAS tituloY dospuntos cadena puntoycoma                                                    {: :}
+    |INFOSBARRAS tituloX dospuntos  cadena  puntoycoma                                                    {: :}
+    |INFOSBARRAS tituloY dospuntos  cadena  puntoycoma                                                    {: :}
     |titulo dospuntos id puntoycoma                                                                     {: :}
     |ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                               {: :}
-    |tituloX dospuntos cadena puntoycoma                                                                {: :}
-    |tituloY dospuntos cadena puntoycoma                                                                {: :}
+    |tituloX dospuntos  cadena  puntoycoma                                                                {: :}
+    |tituloY dospuntos  cadena  puntoycoma                                                                {: :}
     |VALORES                                                                                            {: :}
     ;
 
-INFOSLINEAS::= INFOSLINEAS titulo dospuntos id puntoycoma                                               {: :}
-    |archivo dospuntos cadena puntoycoma                                                                {: :}
+INFOSLINEAS::=INFOSLINEAS titulo dospuntos id puntoycoma                                                   {: :}
+    |INFOSLINEAS ar dospuntos cadena puntoycoma                                                                {: :}
+    |titulo dospuntos id puntoycoma
+    |ar dospuntos cadena puntoycoma
     ;
 
 INFOS::=INFOS titulo dospuntos id puntoycoma                                                            {: :}
     |INFOS ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                         {: :}
-    |VALORES                                                                                            {: :}
+    |INFOS VALORES                                                                                            {: :}
     |titulo dospuntos id puntoycoma                                                                     {: :}
     |ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                               {: :}
     |VALORES                                                                                            {: :}

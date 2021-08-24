@@ -11,7 +11,7 @@ INSTRUCCION -> COMPARE
                 |GRAFICAPIE
                 |GRAFICALINEAL
 
-COMPARE -> "(" "'" cadena "'" "," "'" cadena "'" ")" ";"
+COMPARE -> compare "(" "'" cadena "'" "," "'" cadena "'" ")" ";"
 
 DEFINIRGLOBALES -> "definirglobales" "{" DEFINICIONVARIABLESG "}"
                 
@@ -19,7 +19,6 @@ DEFINICIONVARIABLESG -> DEFINICIONVARIABLESG DEFINICIONVARIABLEG
                 |DEFINICIONVARIABLEG
 
 DEFINICIONVARIABLEG -> TIPO id "=" VALORTIPO ";"
-        |TIPO
 
 TIPO -> string
         |double

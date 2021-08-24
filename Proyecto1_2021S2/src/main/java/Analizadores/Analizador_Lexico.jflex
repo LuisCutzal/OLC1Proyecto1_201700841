@@ -34,7 +34,6 @@ decimal             = [0-9]+("."[ |0-9]+)
 Letra               = [a-zA-ZñÑ]
 cadena              = [\"][^\"\n]+[\"]| [\'][^\"\n]+[\']
 id                  = {Letra}({Letra}|{numero}|_)*
-especiales          = [\\][\']|[\\]["n"]
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
@@ -81,7 +80,7 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 "GraficaPie"        { System.out.println("Reconocio "+yytext()+" graficaPie"); return new Symbol(Simbolos.graficaPie, yycolumn, yyline, yytext()); }
 
 "GraficaLineas"     { System.out.println("Reconocio "+yytext()+" graficaLineas"); return new Symbol(Simbolos.graficaLineas, yycolumn, yyline, yytext()); }
-"Archivo"           { System.out.println("Reconocio "+yytext()+" archivo"); return new Symbol(Simbolos.archivo, yycolumn, yyline, yytext()); }
+"Archivo"           { System.out.println("Reconocio "+yytext()+" ar"); return new Symbol(Simbolos.ar, yycolumn, yyline, yytext()); }
 
 "DefinirGlobales"   { System.out.println("Reconocio "+yytext()+" DefinirGlobales"); return new Symbol(Simbolos.DefinirGlobales, yycolumn, yyline, yytext()); }
 "string"            { System.out.println("Reconocio "+yytext()+" string"); return new Symbol(Simbolos.string, yycolumn, yyline, yytext()); }
@@ -95,7 +94,6 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 {Letra}             { System.out.println("Reconocio "+yytext()+" letra"); return new Symbol(Simbolos.letra, yycolumn, yyline, yytext()); }
 {cadena}            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
 {id}                { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
-{especiales}        { System.out.println("Reconocio "+yytext()+" especiales"); return new Symbol(Simbolos.especiales, yycolumn, yyline, yytext()); }
 {decimal}           { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
 
 //------> Espacios
