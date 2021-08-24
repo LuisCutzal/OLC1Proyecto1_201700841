@@ -18,13 +18,13 @@ DEFINIRGLOBALES -> "definirglobales" "{" DEFINICIONVARIABLESG "}"
 DEFINICIONVARIABLESG -> DEFINICIONVARIABLESG DEFINICIONVARIABLEG
                 |DEFINICIONVARIABLEG
 
-DEFINICIONVARIABLEG -> TIPO id "=" VALOR ";"
+DEFINICIONVARIABLEG -> TIPO id "=" VALORTIPO ";"
         |TIPO
 
 TIPO -> string
         |double
 
-VALOR -> cadena
+VALORTIPO -> cadena
         |digito
         |"$" "{" id "," cadena "," cadena "," "cadena" "}"
 
@@ -45,7 +45,7 @@ INFOSBARRAS ->INFOSBARRAS "titulo" ":" id ";"
         |"tituloY" ":" cadena ";"
         |VALORES
 
-INFOSLINEAS -> INFOSPIE "titulo" ":" id ";"
+INFOSLINEAS -> INFOSLINEAS "titulo" ":" id ";"
         | "Archivo" ":" cadena ";"
 
 INFOS-> INFOS "titulo" ":" id ";"

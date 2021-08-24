@@ -17,7 +17,21 @@ import java.util.LinkedList;
 //------> Codigo para el parser,variables, metodos
 parser code{:
 
+        public void syntax_error(Symbol s)
+        {
+            System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
+            error nuevo = new error("Error Sintactico (Recuperado)", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
+        }
+        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+        {
+            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
+            error nuevo = new error("Error Sintactico", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
+        }
+
  :}
+
 
 //------> Codigo para las acciones gramaticales
 action code
@@ -31,7 +45,8 @@ terminal String llaveabre,llavecierra;
 terminal Strinig dospuntos,puntoycoma,coma,dollar;
 terminal String comilladoble, comillasimple,especiales;
 terminal String guion,guionBajo;
-terminal String numero, cadena,id,letra;
+terminal String numero, cadena,id,letra,decimal;
+terminal String parentesisC, parentesisA,igual,corcheteC,corcheteA;
 
 terminal String graficaBarras,titulo,ejeX,Valores,tituloX,tituloY;
 
@@ -47,74 +62,100 @@ terminal String DefinirGlobales,string,double;
 
 //------> declaracion de no terminales
 
-non terminal String  INICIO,CUERPO;
+non terminal  INICIO, GENERARREPORTE;
+non terminal  INSTRUCCIONES,INSTRUCCION;
+non terminal  COMPARE,DEFINIRGLOBALES,GRAFICABARRAS,GRAFICAPIE,GRAFICALINEAL;
+non terminal  DEFINICIONVARIABLESG,DEFINICIONVARIABLEG,TIPO,VALORTIPO;
+non terminal  INFOSBARRAS;
+non terminal  INFOSLINEAS;
+non terminal  INFOS,DATOS,VALORES,DATO;
 
-non terminal LISTA_CONJ, CONJ,CONJUNTO;
-
-non terminal LinkedList<Expresiones> LISTA_EXPRESIONES;
-non terminal Expresiones EXPRESIONES;
-non terminal Nodo E;
-
-non terminal CADENAS_EVALUAR, EVALUAR;
 //------> precedencia de menor a mayor
 
-precedence left coma;
-precedence left tilde;
-precedence left saltolinea;
-
-precedence right concatenacion;
-precedence right disyuncion;
-precedence right kleene, positivo, interrogacion;
 
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= llaveabre saltolinea CUERPO saltolinea llavecierra                                           {:  :}
+INICIO::= GENERARREPORTE                        {: :}
     ;
-CUERPO::=LISTA_CONJ                                                                                    {:  :}     
-    | LISTA_EXPRESIONES:a                                                                                {: parser.listaExpresiones= a; :}
-    | porcentaje porcentaje                                                                            {:  :}
-    | CADENAS_EVALUAR                                                                                  {:  :}
-    | CUERPO saltolinea CUERPO                                                                         {:  :}
-;
 
-LISTA_CONJ::= LISTA_CONJ CONJ                                                                          {:  :}
-    |CONJ                                                                                              {:  :}
+GENERARREPORTE::= GenerarReporteEstadistico  llaveabre INSTRUCCIONES  llavecierra                      {: :}
+    ;
 
-;
+INSTRUCCIONES::=INSTRUCCIONES INSTRUCCION                                                               {: :}
+    | INSTRUCCION                                                                                       {: :}
+    ;
 
-CONJ::= conj dospuntos id guion mayor CONJUNTO puntoycoma                                              {:  :}
-;
+INSTRUCCION::= COMPARE                                                                                  {: :}
+    |DEFINIRGLOBALES                                                                                    {: :}
+    |GRAFICABARRAS                                                                                      {: :}
+    |GRAFICAPIE                                                                                         {: :}
+    |GRAFICALINEAL                                                                                      {: :}
+    ;
 
-CONJUNTO::= CONJUNTO coma  CONJUNTO                                                                    {:  :}
-    | CONJUNTO tilde  CONJUNTO                                                                         {:  :}
-    | letra                                                                                            {:  :}
-    | numero                                                                                           {:  :}
-;
+COMPARE::=parentesisA comillasimple cadena comillasimple coma comillasimple cadena comillasimple coma comillasimple cadena comillasimple parentesisC puntoycoma     {: :}
+    ;
 
-LISTA_EXPRESIONES::= LISTA_EXPRESIONES:a EXPRESIONES:b                                                     {: RESULT=a; RESULT.add(b); :}
-    | EXPRESIONES:a                                                                                      {: RESULT=new LinkedList<>();RESULT.add(a); :}
-;
-EXPRESIONES::= id:a guion:b mayor:c E:d puntoycoma:e                                                             {: RESULT= new Expresiones(a.toString(), new Arbol(d)); :}
-;   
+DEFINIRGLOBALES::= DefinirGlobales llaveabre DEFINICIONVARIABLESG llavecierra                           {: :}
+    ;
 
-E::= concatenacion:a E:b E:c                                                                             {: RESULT= new Nodo("." ,"" ,-1 ,b ,c,"N","",""); :}
-        |disyuncion:a E:b E:c                                                                            {: RESULT= new Nodo("|" ,"" ,-1 ,b ,c ,"N","",""); :}
-        | kleene:a E:b                                                                                   {: RESULT= new Nodo("*" ,"" ,-1 ,b ,null,"A","","" ); :}
-        | positivo:a  E:b                                                                                {: RESULT= new Nodo("+" ,"" ,-1 ,b ,null ,"N","",""); :}
-        | interrogacion:a E:b                                                                            {: RESULT= new Nodo("?" ,"" ,-1 ,b ,null,"A","",""); :}
-        | llaveabre:a id:b llavecierra:c                                                                 {: RESULT= new Nodo(b.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
-        | cadena:a                                                                                       {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
-        | especiales:a                                                                                   {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
-        | letra:a                                                                                        {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
-        | numero:a                                                                                       {: RESULT= new Nodo(a.toString(),"",parser.hojas,null,null,"N","",""); parser.hojas++; :}
-;
+DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG DEFINICIONVARIABLEG                                        {: :}
+    |DEFINICIONVARIABLEG                                                                                {: :}
+    ;
 
-CADENAS_EVALUAR::= CADENAS_EVALUAR EVALUAR                                                             {:  :}
-        |EVALUAR                                                                                       {:  :}
-;
 
-EVALUAR::= id dospuntos cadena puntoycoma                                                              {:  :}
-;
+DEFINICIONVARIABLEG::= TIPO id igual VALORTIPO puntoycoma                                               {: :}
+    |TIPO                                                                                               {: :}
+    ;
+
+TIPO::= string                                                                                          {: :}
+    |double                                                                                             {: :}
+    ;
+
+VALORTIPO::= cadena                                                                                     {: :}
+    |digito                                                                                             {: :}
+    |decimal                                                                                            {: :}
+    |dollar llaveabre id coma cadena coma cadena coma cadena llavecierra                                {: :}
+    ;
+
+GRAFICABARRAS::= graficaBarras llaveabre INFOSBARRAS llavecierra                                        {: :}
+    ;
+INFOSBARRAS::=INFOSBARRAS titulo dospuntos id puntoycoma                                                {: :}
+    |INFOSBARRAS ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                   {: :}
+    |INFOSBARRAS VALORES                                                                                {: :}
+    |INFOSBARRAS tituloX dospuntos cadena puntoycoma                                                    {: :}
+    |INFOSBARRAS tituloY dospuntos cadena puntoycoma                                                    {: :}
+    |titulo dospuntos id puntoycoma                                                                     {: :}
+    |ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                               {: :}
+    |tituloX dospuntos cadena puntoycoma                                                                {: :}
+    |tituloY dospuntos cadena puntoycoma                                                                {: :}
+    |VALORES                                                                                            {: :}
+    ;
+
+INFOSLINEAS::= INFOSLINEAS titulo dospuntos id puntoycoma                                               {: :}
+    |archivo dospuntos cadena puntoycoma                                                                {: :}
+    ;
+
+INFOS::=INFOS titulo dospuntos id puntoycoma                                                            {: :}
+    |INFOS ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                         {: :}
+    |VALORES                                                                                            {: :}
+    |titulo dospuntos id puntoycoma                                                                     {: :}
+    |ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                               {: :}
+    |VALORES                                                                                            {: :}
+    ;
+
+VALORES::= Valores dospuntos corcheteA DATOS  corcheteC puntoycoma                                      {: :}
+    ;
+
+DATOS::= DATOS coma DATO                                                                                {: :}
+    |DATO                                                                                               {: :}
+    ;
+
+DATO::=decimal                                                                                          {: :}
+    |digito                                                                                             {: :}
+    |cadena                                                                                             {: :}
+    |id                                                                                                 {: :}
+    |dollar llaveabre id coma cadena coma cadena coma cadena llavecierra                                {: :}
+    ;

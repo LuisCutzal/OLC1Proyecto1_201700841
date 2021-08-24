@@ -30,6 +30,7 @@ import java_cup.runtime.*;
 //------> Expresiones Regulares
 
 numero              = [0-9]+
+decimal             = [0-9]+("."[ |0-9]+)
 Letra               = [a-zA-ZñÑ]
 cadena              = [\"][^\"\n]+[\"]| [\'][^\"\n]+[\']
 id                  = {Letra}({Letra}|{numero}|_)*
@@ -63,7 +64,8 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 "["         { System.out.println("Reconocio "+yytext()+" corcheteA"); return new Symbol(Simbolos.corcheteA, yycolumn, yyline, yytext()); }
 "]"         { System.out.println("Reconocio "+yytext()+" corcheteC"); return new Symbol(Simbolos.corcheteC, yycolumn, yyline, yytext()); }
 "="         { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos.igual, yycolumn, yyline, yytext()); }
-"("
+"("         { System.out.println("Reconocio "+yytext()+" parentesisA"); return new Symbol(Simbolos.parentesisA, yycolumn, yyline, yytext()); }
+")"         { System.out.println("Reconocio "+yytext()+" parentesisC); return new Symbol(Simbolos.parentesisC, yycolumn, yyline, yytext()); }
 //-----> Palabras reservadas
 
 "GraficaBarras"     { System.out.println("Reconocio "+yytext()+" graficaBarras"); return new Symbol(Simbolos.graficaBarras, yycolumn, yyline, yytext()); }
@@ -94,7 +96,7 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 {cadena}            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
 {id}                { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
 {especiales}        { System.out.println("Reconocio "+yytext()+" especiales"); return new Symbol(Simbolos.especiales, yycolumn, yyline, yytext()); }
-
+{decimal}           { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
 
 //------> Espacios
 {comentariosimple}      {System.out.println("Comentario: "+yytext()); }
