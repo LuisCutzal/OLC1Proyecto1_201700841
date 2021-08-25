@@ -1,0 +1,128 @@
+INICIO -> CLASES
+//**********CLASES*********
+
+CLASES -> CLASES CLASE
+    | CLASE
+
+CLASE -> "class" id () "{" INSTRUCCIONES "}"
+        | "class" id "{" INSTRUCCIONES "}"
+
+//**********INSTRUCCIONES*********
+
+INSTRUCCIONES -> INSTRUCCIONES -> INSTRUCCION
+    |INSTRUCCION
+
+INSTRUCCION -> IMPORT
+        |METODO
+        |DECLARACIONVARIABLES
+        |ASIGNACIONVARIABLES
+        |SENTENCIAIF
+        |SENTENCIAFOR
+        |SENTENCIAWHILE
+        |SENTENCIASWITCH
+        |CONSOLA
+        |BREAK
+        |LLAMADA
+
+//**********IMPORT*********
+//**********METODO*********
+
+METODO -> id "(" PARAMETROS ")" "{" INSTRUCCIONESMETODO "}"
+        | id "(" ")" "{" INSTRUCCIONESMETODO "}"
+
+PARAMETROS -> PARAMETROS coma id
+        |id
+
+INSTRUCCIONESMETODO -> INSTRUCCIONESMETODO DECLARACIONVARIABLES
+        |INSTRUCCIONESMETODO ASIGNACIONVARIABLES
+        |INSTRUCCIONESMETODO SENTENCIAIF
+        |INSTRUCCIONESMETODO SENTENCIAFOR
+        |INSTRUCCIONESMETODO SENTENCIAWHILE
+        |INSTRUCCIONESMETODO SENTENCIADOWHILE
+        |INSTRUCCIONESMETODO SENTENCIASWITCH
+        |INSTRUCCIONESMETODO CONSOLA
+        |INSTRUCCIONESMETODO BREAK
+        |INSTRUCCIONESMETODO LLAMADA
+
+//**********DECLARACIONVARIABLES*********
+
+DECLARACIONVARIABLES-> TIPO id "=" EXPRECION ";"
+        | TIPO id "=" EXPRECION
+        | TIPO id ";"
+        | TIPO id
+
+EXPRECION-> EXPRECION "==" EXPRECION
+        |EXPRECION "!=" EXPRECION
+        |EXPRECION "<" EXPRECION
+        |EXPRECION ">" EXPRECION
+        |EXPRECION "<=" EXPRECION
+        |EXPRECION ">=" EXPRECION
+        |EXPRECION "&&" EXPRECION
+        |EXPRECION "||" EXPRECION
+        | "!" EXPRECION
+        |EXPRECION "+" EXPRECION
+        |EXPRECION "-" EXPRECION
+        |EXPRECION "*" EXPRECION
+        |EXPRECION "/" EXPRECION
+        |EXPRECION "**" EXPRECION
+        |EXPRECION "&" EXPRECION
+        |"-" EXPRECION
+        | true | fasle | id | cadena| digito | decimal | caracter
+
+
+//**********ASIGNACIONVARIABLES*********
+
+ASIGNACIONVARIABLES -> id "=" EXPRECION
+                    | id "=" EXPRECION ";"
+
+//**********SENTENCIAIF*********
+
+SENTENCIAIF-> if "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}"
+            | if "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}" else "{" INSTRUCCIONESMETODO "}"
+            | if "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}" else SENTENCIAIF
+
+
+//**********SENTENCIAFOR*********
+
+SENTENCIAFOR -> for "(" DECLARACIONFOR ";" EXPRECION ";" CONTADOR ")" "{" INSTRUCCIONESMETODO "}"
+
+DECLARACIONFOR -> TIPO id "=" EXPRECION
+                    |id "=" EXPRECION
+
+CONTADOR -> id "++"
+            |id "--"
+
+
+//**********SENTENCIAWHILE*********
+
+SENTENCIAWHILE -> while "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}"
+
+//**********SENTENCIADOWHILE*********
+
+SENTENCIADOWHILE -> do "{" INSTRUCCIONESMETODO "}" while "(" EXPRECION ")" ";"
+                | do "{" INSTRUCCIONESMETODO "}" while "(" EXPRECION ")"
+
+//**********SENTENCIASWITCH*********
+
+SENTENCIASWITCH -> switch "(" EXPRECION ")" "{" CASOS "}"
+
+CASOS -> case EXPRECION ":" INSTRUCCIONESMETODO
+
+//**********CONSOLA*********
+
+CONSOLA -> console "." log "(" EXPRECION ")"
+
+//**********BREAK*********
+
+BREAK -> break ";"
+        |break
+
+//**********LLAMADA*********
+
+LLAMADA -> id "(" ")" ";"
+        | id "(" ")"
+        | id "(" LISTAPARAMETROS ")" ";"
+        | id "(" LISTAPARAMETROS ")"
+
+LISTAPARAMETROS -> LISTAPARAMETROS "," EXPRECION
+        |EXPRECION

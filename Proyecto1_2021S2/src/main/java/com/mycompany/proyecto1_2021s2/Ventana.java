@@ -7,6 +7,8 @@ package com.mycompany.proyecto1_2021s2;
 
 import Analizadores.Analizador_Lexico;
 import Analizadores.Sintactico;
+import AnalizadoresJS.ALexico;
+import AnalizadoresJS.SintacticoJS;
 import java.awt.Panel;
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -23,6 +25,7 @@ import javax.swing.JTabbedPane;
  */
 public class Ventana extends javax.swing.JFrame {
     public static ArrayList<error> listaErrores = new ArrayList<error>();
+    public static ArrayList<errorJS> listaErrores2= new ArrayList<errorJS>();
     /**
      * Creates new form Ventana
      */
@@ -186,14 +189,27 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-            try {
+            /*
+        try {
             Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             
             sint.parse();
-            System.out.println("Funciona");
+            System.out.println("Lectura del archivo AFC correcta");
              
         } catch (Exception e) {
         }
+        */
+        try {
+            SintacticoJS sint=new SintacticoJS(new ALexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
+            
+            sint.parse();
+            System.out.println("Lectura del archivo JS correcta");
+             
+        } catch (Exception e) {
+        }
+         
+            
+            
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed

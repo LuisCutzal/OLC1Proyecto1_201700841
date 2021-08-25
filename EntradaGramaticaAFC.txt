@@ -1,5 +1,7 @@
 GernerarReporteEstadistico{
     compare("Ruta1","ruta2");
+
+
     GraficaBarras{
         Titulo: reporte1;
         Ejex: [ "Probabilidad Esperada clase 1", "Probabilidad Obtenida Clase 1", var2, var22, var3, var33];
@@ -29,5 +31,11 @@ GernerarReporteEstadistico{
     string var22 = "Valor Obtenido clase 1";
     string var3 = "Valore Esperado clase 2";
     string var33 = "Valor Obtenido clase 2";
+     ## este es un comentario de una línea
+    #*
+    Este es
+    Un comentario
+    Multilínea*# 
     }
+       
 }
