@@ -18,7 +18,7 @@ import java_cup.runtime.*;
 //-------> Directivas
 %public 
 %class ALexico
-%cupsym SimbolosJS
+%cupsym Simbolos
 %cup
 %char
 %column
@@ -31,15 +31,15 @@ import java_cup.runtime.*;
 
 numero              = [0-9]+
 decimal             = [0-9]+("."[ |0-9]+)
-Letra               = [a-zA-ZñÑ]
+caracter               = [a-zA-ZñÑ]
 cadena              = [\"][^\"\n]+[\"]| [\'][^\"\n]+[\']
-id                  = {Letra}({Letra}|{numero}|_)*
+id                  = {caracter}({caracter}|{numero}|_)*
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
-comentariosimple    = "##" {InputCharacter}* {LineTerminator}?
-comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
+comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
+comentariodoble     = [\/*][^]+[\*/] {InputCharacter}* {LineTerminator}?
 //------> Estados
 
 %%
@@ -50,51 +50,70 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 
 //-----> Simbolos
 
-"{"         { System.out.println("Reconocio "+yytext()+" llaveabre"); return new Symbol(SimbolosJS.llaveabre, yycolumn, yyline, yytext()); }
-"}"         { System.out.println("Reconocio "+yytext()+" llavecierra"); return new Symbol(SimbolosJS.llavecierra, yycolumn, yyline, yytext()); }
-":"         { System.out.println("Reconocio "+yytext()+" dospuntos"); return new Symbol(SimbolosJS.dospuntos, yycolumn, yyline, yytext()); }
-";"         { System.out.println("Reconocio "+yytext()+" puntoycoma"); return new Symbol(SimbolosJS.puntoycoma, yycolumn, yyline, yytext()); }
-","         { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(SimbolosJS.coma, yycolumn, yyline, yytext()); }
-"$"         { System.out.println("Reconocio "+yytext()+" dolar"); return new Symbol(SimbolosJS.dolar, yycolumn, yyline, yytext()); }
-"\""        { System.out.println("Reconocio "+yytext()+" comilladoble"); return new Symbol(SimbolosJS.comilladoble, yycolumn, yyline, yytext()); }
-"\'"        { System.out.println("Reconocio "+yytext()+" comillasimple"); return new Symbol(SimbolosJS.comillasimple, yycolumn, yyline, yytext()); }
-"-"         { System.out.println("Reconocio "+yytext()+" guion"); return new Symbol(SimbolosJS.guion, yycolumn, yyline, yytext()); }
-"_"         { System.out.println("Reconocio "+yytext()+" guionBajo"); return new Symbol(SimbolosJS.guionBajo, yycolumn, yyline, yytext()); }
-"["         { System.out.println("Reconocio "+yytext()+" corcheteA"); return new Symbol(SimbolosJS.corcheteA, yycolumn, yyline, yytext()); }
-"]"         { System.out.println("Reconocio "+yytext()+" corcheteC"); return new Symbol(SimbolosJS.corcheteC, yycolumn, yyline, yytext()); }
-"="         { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(SimbolosJS.igual, yycolumn, yyline, yytext()); }
-"("         { System.out.println("Reconocio "+yytext()+" parentesisA"); return new Symbol(SimbolosJS.parentesisA, yycolumn, yyline, yytext()); }
-")"         { System.out.println("Reconocio "+yytext()+" parentesisC"); return new Symbol(SimbolosJS.parentesisC, yycolumn, yyline, yytext()); }
+"{"         { System.out.println("Reconocio "+yytext()+" llaveabre"); return new Symbol(Simbolos.llaveabre, yycolumn, yyline, yytext()); }
+"}"         { System.out.println("Reconocio "+yytext()+" llavecierra"); return new Symbol(Simbolos.llavecierra, yycolumn, yyline, yytext()); }
+":"         { System.out.println("Reconocio "+yytext()+" dospuntos"); return new Symbol(Simbolos.dospuntos, yycolumn, yyline, yytext()); }
+";"         { System.out.println("Reconocio "+yytext()+" puntoycoma"); return new Symbol(Simbolos.puntoycoma, yycolumn, yyline, yytext()); }
+","         { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos.coma, yycolumn, yyline, yytext()); }
+"\""        { System.out.println("Reconocio "+yytext()+" comilladoble"); return new Symbol(Simbolos.comilladoble, yycolumn, yyline, yytext()); }
+"\'"        { System.out.println("Reconocio "+yytext()+" comillasimple"); return new Symbol(Simbolos.comillasimple, yycolumn, yyline, yytext()); }
+"="         { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos.igual, yycolumn, yyline, yytext()); }
+"("         { System.out.println("Reconocio "+yytext()+" parentesisA"); return new Symbol(Simbolos.parentesisA, yycolumn, yyline, yytext()); }
+")"         { System.out.println("Reconocio "+yytext()+" parentesisC"); return new Symbol(Simbolos.parentesisC, yycolumn, yyline, yytext()); }
+"."         { System.out.println("Reconocio "+yytext()+" punto"); return new Symbol(Simbolos.punto, yycolumn, yyline, yytext()); }
+"=="        { System.out.println("Reconocio "+yytext()+" igualigual"); return new Symbol(Simbolos.igualigual, yycolumn, yyline, yytext()); }
+"!="        { System.out.println("Reconocio "+yytext()+" diferente"); return new Symbol(Simbolos.diferente, yycolumn, yyline, yytext()); }
+"<"         { System.out.println("Reconocio "+yytext()+" menorque"); return new Symbol(Simbolos.menorque, yycolumn, yyline, yytext()); }
+">"         { System.out.println("Reconocio "+yytext()+" mayorque"); return new Symbol(Simbolos.mayorque, yycolumn, yyline, yytext()); }
+"<="        { System.out.println("Reconocio "+yytext()+" menorIgual"); return new Symbol(Simbolos.menorIgual, yycolumn, yyline, yytext()); }
+">="        { System.out.println("Reconocio "+yytext()+" mayorIgual"); return new Symbol(Simbolos.mayorIgual, yycolumn, yyline, yytext()); }
+"&&"        { System.out.println("Reconocio "+yytext()+" AND"); return new Symbol(Simbolos.AND, yycolumn, yyline, yytext()); }
+"||"        { System.out.println("Reconocio "+yytext()+" OR"); return new Symbol(Simbolos.OR, yycolumn, yyline, yytext()); }
+"!"         { System.out.println("Reconocio "+yytext()+" NOT"); return new Symbol(Simbolos.NOT, yycolumn, yyline, yytext()); }
+"+"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mas, yycolumn, yyline, yytext()); }
+"-"         { System.out.println("Reconocio "+yytext()+" menos"); return new Symbol(Simbolos.menos, yycolumn, yyline, yytext()); }
+"*"         { System.out.println("Reconocio "+yytext()+" multiplicacion"); return new Symbol(Simbolos.multiplicacion, yycolumn, yyline, yytext()); }
+"/"         { System.out.println("Reconocio "+yytext()+" division"); return new Symbol(Simbolos.division, yycolumn, yyline, yytext()); }
+"**"        { System.out.println("Reconocio "+yytext()+" potencia"); return new Symbol(Simbolos.potencia, yycolumn, yyline, yytext()); }
+"%"         { System.out.println("Reconocio "+yytext()+" modulo"); return new Symbol(Simbolos.modulo, yycolumn, yyline, yytext()); }
+"++"        { System.out.println("Reconocio "+yytext()+" incrementoUno"); return new Symbol(Simbolos.incrementoUno, yycolumn, yyline, yytext()); }
+"--"        { System.out.println("Reconocio "+yytext()+" decrementoUno"); return new Symbol(Simbolos.decrementoUno, yycolumn, yyline, yytext()); }
+
+
 //-----> Palabras reservadas
 
-"GraficaBarras"     { System.out.println("Reconocio "+yytext()+" graficaBarras"); return new Symbol(SimbolosJS.graficaBarras, yycolumn, yyline, yytext()); }
-"Titulo"            { System.out.println("Reconocio "+yytext()+" titulo"); return new Symbol(SimbolosJS.titulo, yycolumn, yyline, yytext()); }
-"Ejex"              { System.out.println("Reconocio "+yytext()+" ejeX"); return new Symbol(SimbolosJS.ejeX, yycolumn, yyline, yytext()); }
-"Valores"           { System.out.println("Reconocio "+yytext()+" Valores"); return new Symbol(SimbolosJS.Valores, yycolumn, yyline, yytext()); }
-"TituloX"           { System.out.println("Reconocio "+yytext()+" tituloX"); return new Symbol(SimbolosJS.tituloX, yycolumn, yyline, yytext()); }
-"TituloY"           { System.out.println("Reconocio "+yytext()+" tituloY"); return new Symbol(SimbolosJS.tituloY, yycolumn, yyline, yytext()); }
+"class"             { System.out.println("Reconocio "+yytext()+" class_js"); return new Symbol(Simbolos.class_js, yycolumn, yyline, yytext()); }
+"require"           { System.out.println("Reconocio "+yytext()+" require"); return new Symbol(Simbolos.require, yycolumn, yyline, yytext()); }
+"true"              { System.out.println("Reconocio "+yytext()+" true_js"); return new Symbol(Simbolos.true_js, yycolumn, yyline, yytext()); }
+"fasle"             { System.out.println("Reconocio "+yytext()+" false_js"); return new Symbol(Simbolos.false_js, yycolumn, yyline, yytext()); }
+"if"                { System.out.println("Reconocio "+yytext()+" if_js"); return new Symbol(Simbolos.if_js, yycolumn, yyline, yytext()); }
+"else"              { System.out.println("Reconocio "+yytext()+" else_js"); return new Symbol(Simbolos.else_js, yycolumn, yyline, yytext()); }
+"for"               { System.out.println("Reconocio "+yytext()+" for_js"); return new Symbol(Simbolos.for_js, yycolumn, yyline, yytext()); }
 
-"GernerarReporteEstadistico"        { System.out.println("Reconocio "+yytext()+" generarReporteEstadistico"); return new Symbol(SimbolosJS.generarReporteEstadistico, yycolumn, yyline, yytext()); }
-"compare"           { System.out.println("Reconocio "+yytext()+" compare"); return new Symbol(SimbolosJS.compare, yycolumn, yyline, yytext()); }
+"while"             { System.out.println("Reconocio "+yytext()+" while_js"); return new Symbol(Simbolos.while_js, yycolumn, yyline, yytext()); }
+"do"                { System.out.println("Reconocio "+yytext()+" do_js"); return new Symbol(Simbolos.do_js, yycolumn, yyline, yytext()); }
 
-"GraficaPie"        { System.out.println("Reconocio "+yytext()+" graficaPie"); return new Symbol(SimbolosJS.graficaPie, yycolumn, yyline, yytext()); }
+"switch"            { System.out.println("Reconocio "+yytext()+" switch_js"); return new Symbol(Simbolos.switch_js, yycolumn, yyline, yytext()); }
 
-"GraficaLineas"     { System.out.println("Reconocio "+yytext()+" graficaLineas"); return new Symbol(SimbolosJS.graficaLineas, yycolumn, yyline, yytext()); }
-"Archivo"           { System.out.println("Reconocio "+yytext()+" ar"); return new Symbol(SimbolosJS.ar, yycolumn, yyline, yytext()); }
+"case"              { System.out.println("Reconocio "+yytext()+" case_js"); return new Symbol(Simbolos.case_js, yycolumn, yyline, yytext()); }
+"break"             { System.out.println("Reconocio "+yytext()+" break_js"); return new Symbol(Simbolos.break_js, yycolumn, yyline, yytext()); }
 
-"DefinirGlobales"   { System.out.println("Reconocio "+yytext()+" DefinirGlobales"); return new Symbol(SimbolosJS.DefinirGlobales, yycolumn, yyline, yytext()); }
-"string"            { System.out.println("Reconocio "+yytext()+" string"); return new Symbol(SimbolosJS.string, yycolumn, yyline, yytext()); }
-"double"            { System.out.println("Reconocio "+yytext()+" dou"); return new Symbol(SimbolosJS.dou, yycolumn, yyline, yytext()); }
+"console"           { System.out.println("Reconocio "+yytext()+" console_js"); return new Symbol(Simbolos.console_js, yycolumn, yyline, yytext()); }
+"log"               { System.out.println("Reconocio "+yytext()+" log_js"); return new Symbol(Simbolos.log_js, yycolumn, yyline, yytext()); }
 
+"int"               { System.out.println("Reconocio "+yytext()+" int_js"); return new Symbol(Simbolos.int_js, yycolumn, yyline, yytext()); }
+"bool"              { System.out.println("Reconocio "+yytext()+" bool_js"); return new Symbol(Simbolos.bool_js, yycolumn, yyline, yytext()); }
+"string"            { System.out.println("Reconocio "+yytext()+" string_js"); return new Symbol(Simbolos.string_js, yycolumn, yyline, yytext()); }
+"double"            { System.out.println("Reconocio "+yytext()+" double_js"); return new Symbol(Simbolos.double_js, yycolumn, yyline, yytext()); }
 
 
 
 //-------> Simbolos ER
-{numero}            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(SimbolosJS.numero, yycolumn, yyline, yytext()); }
-{Letra}             { System.out.println("Reconocio "+yytext()+" letra"); return new Symbol(SimbolosJS.letra, yycolumn, yyline, yytext()); }
-{cadena}            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(SimbolosJS.cadena, yycolumn, yyline, yytext()); }
-{id}                { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(SimbolosJS.id, yycolumn, yyline, yytext()); }
-{decimal}           { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(SimbolosJS.decimal, yycolumn, yyline, yytext()); }
+{numero}            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext()); }
+{caracter}          { System.out.println("Reconocio "+yytext()+" caracter"); return new Symbol(Simbolos.caracter, yycolumn, yyline, yytext()); }
+{cadena}            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
+{id}                { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
+{decimal}           { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
 
 //------> Espacios
 {comentariosimple}      {System.out.println("Comentario: "+yytext()); }

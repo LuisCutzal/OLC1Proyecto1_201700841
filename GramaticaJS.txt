@@ -4,7 +4,7 @@ INICIO -> CLASES
 CLASES -> CLASES CLASE
     | CLASE
 
-CLASE -> "class" id () "{" INSTRUCCIONES "}"
+CLASE -> "class" id "(" "") "{" INSTRUCCIONES "}"
         | "class" id "{" INSTRUCCIONES "}"
 
 //**********INSTRUCCIONES*********
@@ -19,12 +19,17 @@ INSTRUCCION -> IMPORT
         |SENTENCIAIF
         |SENTENCIAFOR
         |SENTENCIAWHILE
+        |SENTENCIADOWHILE
         |SENTENCIASWITCH
         |CONSOLA
         |BREAK
         |LLAMADA
 
 //**********IMPORT*********
+
+IMPORT -> TIPO id igual require ( EXPRESION ) pyc
+        | TIPO id igual require ( EXPRESION )
+
 //**********METODO*********
 
 METODO -> id "(" PARAMETROS ")" "{" INSTRUCCIONESMETODO "}"
@@ -33,84 +38,98 @@ METODO -> id "(" PARAMETROS ")" "{" INSTRUCCIONESMETODO "}"
 PARAMETROS -> PARAMETROS coma id
         |id
 
-INSTRUCCIONESMETODO -> INSTRUCCIONESMETODO DECLARACIONVARIABLES
-        |INSTRUCCIONESMETODO ASIGNACIONVARIABLES
-        |INSTRUCCIONESMETODO SENTENCIAIF
-        |INSTRUCCIONESMETODO SENTENCIAFOR
-        |INSTRUCCIONESMETODO SENTENCIAWHILE
-        |INSTRUCCIONESMETODO SENTENCIADOWHILE
-        |INSTRUCCIONESMETODO SENTENCIASWITCH
-        |INSTRUCCIONESMETODO CONSOLA
-        |INSTRUCCIONESMETODO BREAK
-        |INSTRUCCIONESMETODO LLAMADA
+
+INSTRUCCIONESMETODO -> INSTRUCCIONESMETODO INSTRUCCIONMETODO
+        |INSTRUCCIONMETODO
+
+INSTRUCCIONMETODO ->  DECLARACIONVARIABLES
+        | ASIGNACIONVARIABLES
+        | SENTENCIAIF
+        | SENTENCIAFOR
+        | SENTENCIAWHILE
+        | SENTENCIADOWHILE
+        | SENTENCIADOWHILE
+        | SENTENCIASWITCH
+        | CONSOLA
+        | BREAK
+        | LLAMADA
 
 //**********DECLARACIONVARIABLES*********
 
-DECLARACIONVARIABLES-> TIPO id "=" EXPRECION ";"
-        | TIPO id "=" EXPRECION
+DECLARACIONVARIABLES-> TIPO id "=" EXPRESION ";"
+        | TIPO id "=" EXPRESION
         | TIPO id ";"
         | TIPO id
 
-EXPRECION-> EXPRECION "==" EXPRECION
-        |EXPRECION "!=" EXPRECION
-        |EXPRECION "<" EXPRECION
-        |EXPRECION ">" EXPRECION
-        |EXPRECION "<=" EXPRECION
-        |EXPRECION ">=" EXPRECION
-        |EXPRECION "&&" EXPRECION
-        |EXPRECION "||" EXPRECION
-        | "!" EXPRECION
-        |EXPRECION "+" EXPRECION
-        |EXPRECION "-" EXPRECION
-        |EXPRECION "*" EXPRECION
-        |EXPRECION "/" EXPRECION
-        |EXPRECION "**" EXPRECION
-        |EXPRECION "&" EXPRECION
-        |"-" EXPRECION
+EXPRESION-> EXPRESION "==" EXPRESION
+        |EXPRESION "!=" EXPRESION
+        |EXPRESION "<" EXPRESION
+        |EXPRESION ">" EXPRESION
+        |EXPRESION "<=" EXPRESION
+        |EXPRESION ">=" EXPRESION
+        |EXPRESION "&&" EXPRESION
+        |EXPRESION "||" EXPRESION
+        | "!" EXPRESION
+        |EXPRESION "+" EXPRESION
+        |EXPRESION "-" EXPRESION
+        |EXPRESION "*" EXPRESION
+        |EXPRESION "/" EXPRESION
+        |EXPRESION "**" EXPRESION
+        |EXPRESION "%" EXPRESION
+        |"-" EXPRESION
         | true | fasle | id | cadena| digito | decimal | caracter
 
 
 //**********ASIGNACIONVARIABLES*********
 
-ASIGNACIONVARIABLES -> id "=" EXPRECION
-                    | id "=" EXPRECION ";"
+ASIGNACIONVARIABLES -> id "=" EXPRESION ";"
+                    | id "=" EXPRESION 
 
 //**********SENTENCIAIF*********
 
-SENTENCIAIF-> if "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}"
-            | if "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}" else "{" INSTRUCCIONESMETODO "}"
-            | if "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}" else SENTENCIAIF
+SENTENCIAIF-> if "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}"
+            | if "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}" else SENTENCIAIF
+            | if "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}" else "{" INSTRUCCIONESMETODO "}"
 
 
 //**********SENTENCIAFOR*********
 
-SENTENCIAFOR -> for "(" DECLARACIONFOR ";" EXPRECION ";" CONTADOR ")" "{" INSTRUCCIONESMETODO "}"
+SENTENCIAFOR -> for "(" DECLARACIONFOR ";" EXPRESION ";" CONTADOR ")" "{" INSTRUCCIONESMETODO "}"
 
-DECLARACIONFOR -> TIPO id "=" EXPRECION
-                    |id "=" EXPRECION
+DECLARACIONFOR -> TIPO id "=" EXPRESION
+                    |id "=" EXPRESION
 
-CONTADOR -> id "++"
-            |id "--"
+CONTADOR -> id INCREMENTO
 
+INCREMENTO -> "++"
+            |"--"
+            |"+"digito
+            |"-"digito
+
+
+TIPO -> string
+        |double
+        |bool
+        |int
 
 //**********SENTENCIAWHILE*********
 
-SENTENCIAWHILE -> while "(" EXPRECION ")" "{" INSTRUCCIONESMETODO "}"
+SENTENCIAWHILE -> while "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}"
 
 //**********SENTENCIADOWHILE*********
 
-SENTENCIADOWHILE -> do "{" INSTRUCCIONESMETODO "}" while "(" EXPRECION ")" ";"
-                | do "{" INSTRUCCIONESMETODO "}" while "(" EXPRECION ")"
+SENTENCIADOWHILE -> do "{" INSTRUCCIONESMETODO "}" while "(" EXPRESION ")" ";"
+                | do "{" INSTRUCCIONESMETODO "}" while "(" EXPRESION ")"
 
 //**********SENTENCIASWITCH*********
 
-SENTENCIASWITCH -> switch "(" EXPRECION ")" "{" CASOS "}"
+SENTENCIASWITCH -> switch "(" EXPRESION ")" "{" CASOS "}"
 
-CASOS -> case EXPRECION ":" INSTRUCCIONESMETODO
+CASOS -> case EXPRESION ":" INSTRUCCIONESMETODO
 
 //**********CONSOLA*********
 
-CONSOLA -> console "." log "(" EXPRECION ")"
+CONSOLA -> console "." log "(" EXPRESION ")"
 
 //**********BREAK*********
 
@@ -124,5 +143,5 @@ LLAMADA -> id "(" ")" ";"
         | id "(" LISTAPARAMETROS ")" ";"
         | id "(" LISTAPARAMETROS ")"
 
-LISTAPARAMETROS -> LISTAPARAMETROS "," EXPRECION
-        |EXPRECION
+LISTAPARAMETROS -> LISTAPARAMETROS "," EXPRESION
+        |EXPRESION

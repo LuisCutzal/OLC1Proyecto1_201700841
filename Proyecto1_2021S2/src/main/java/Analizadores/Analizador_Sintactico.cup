@@ -37,7 +37,7 @@ action code
 //------> declaracion de terminales 
 
 terminal String llaveabre,llavecierra;
-terminal Strinig dospuntos,puntoycoma,coma,dolar;
+terminal String dospuntos,puntoycoma,coma,dolar;
 terminal String comilladoble, comillasimple;
 terminal String numero,cadena,id,decimal,letra;
 terminal String guion,guionBajo;

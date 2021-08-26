@@ -15,7 +15,7 @@ public class GeneradorSintactico2{
         opciones[2] = "-symbols"; 
         
         //Le damos el nombre que queremos que tenga
-        opciones[3] = "SimbolosJS";
+        opciones[3] = "Simbolos";
         
         //Seleccionamos la opcion de clase parser
         opciones[4] = "-parser";         
