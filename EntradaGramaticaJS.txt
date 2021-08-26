@@ -1,0 +1,60 @@
+Class Car(){
+    var Variable1 = 5;
+    
+    let x=50.5;
+    var y=true
+    if(x<60 && y!=true){
+        Variable1 = "hola mundo if "
+    }else if(j != 0){
+        Variable1 = "hola mundo else if";
+    }else{
+        Variable1 = "hola mundo else"
+    }
+
+    let x;
+    for(x = -3*n/2; x <= n; x++){
+        let edad = 18;
+    }
+
+    while(n <= 5){
+        let edad = 18;
+    } 
+
+    do{
+        console.log(2+2*3+5);
+    } while(j != 0);
+
+    switch(numero){
+    case 0:
+        let edad = 18;
+    break;
+    case 1:
+        let edad = 18;
+    break;
+    default:
+        let edad = 18;
+    } 
+
+    //Este es un comentario unilinea
+    /*
+    Este es un comentario multilínea
+    */ 
+    var c = 0;
+    while(c<11){
+        c++;
+        if(c>5){
+            break;
+        }
+    } 
+
+
+    llamada1();
+    llamada2(1,2,3,”hola”,var1); 
+
+
+    const archivo1 = require("../Carpeta1/archivo1 ")
+    var archivo2 = require("../controller/Carpeta2/archivo2")
+    let archivo3 = require("../archivo3") 
+
+} 
+

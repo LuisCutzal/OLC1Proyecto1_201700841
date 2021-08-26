@@ -23,7 +23,6 @@ import java_cup.runtime.*;
 %char
 %column
 %full
-%ignorecase
 %line
 %unicode
 
@@ -31,7 +30,7 @@ import java_cup.runtime.*;
 
 numero              = [0-9]+
 decimal             = [0-9]+("."[ |0-9]+)
-caracter               = [a-zA-ZñÑ]
+caracter            = [a-zA-ZñÑ]
 cadena              = [\"][^\"\n]+[\"]| [\'][^\"\n]+[\']
 id                  = {caracter}({caracter}|{numero}|_)*
 
@@ -61,28 +60,26 @@ comentariodoble     = [\/*][^]+[\*/] {InputCharacter}* {LineTerminator}?
 "("         { System.out.println("Reconocio "+yytext()+" parentesisA"); return new Symbol(Simbolos.parentesisA, yycolumn, yyline, yytext()); }
 ")"         { System.out.println("Reconocio "+yytext()+" parentesisC"); return new Symbol(Simbolos.parentesisC, yycolumn, yyline, yytext()); }
 "."         { System.out.println("Reconocio "+yytext()+" punto"); return new Symbol(Simbolos.punto, yycolumn, yyline, yytext()); }
-"=="        { System.out.println("Reconocio "+yytext()+" igualigual"); return new Symbol(Simbolos.igualigual, yycolumn, yyline, yytext()); }
-"!="        { System.out.println("Reconocio "+yytext()+" diferente"); return new Symbol(Simbolos.diferente, yycolumn, yyline, yytext()); }
 "<"         { System.out.println("Reconocio "+yytext()+" menorque"); return new Symbol(Simbolos.menorque, yycolumn, yyline, yytext()); }
 ">"         { System.out.println("Reconocio "+yytext()+" mayorque"); return new Symbol(Simbolos.mayorque, yycolumn, yyline, yytext()); }
-"<="        { System.out.println("Reconocio "+yytext()+" menorIgual"); return new Symbol(Simbolos.menorIgual, yycolumn, yyline, yytext()); }
-">="        { System.out.println("Reconocio "+yytext()+" mayorIgual"); return new Symbol(Simbolos.mayorIgual, yycolumn, yyline, yytext()); }
-"&&"        { System.out.println("Reconocio "+yytext()+" AND"); return new Symbol(Simbolos.AND, yycolumn, yyline, yytext()); }
-"||"        { System.out.println("Reconocio "+yytext()+" OR"); return new Symbol(Simbolos.OR, yycolumn, yyline, yytext()); }
-"!"         { System.out.println("Reconocio "+yytext()+" NOT"); return new Symbol(Simbolos.NOT, yycolumn, yyline, yytext()); }
+"!"         { System.out.println("Reconocio "+yytext()+" not"); return new Symbol(Simbolos.not, yycolumn, yyline, yytext()); }
 "+"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mas, yycolumn, yyline, yytext()); }
 "-"         { System.out.println("Reconocio "+yytext()+" menos"); return new Symbol(Simbolos.menos, yycolumn, yyline, yytext()); }
 "*"         { System.out.println("Reconocio "+yytext()+" multiplicacion"); return new Symbol(Simbolos.multiplicacion, yycolumn, yyline, yytext()); }
 "/"         { System.out.println("Reconocio "+yytext()+" division"); return new Symbol(Simbolos.division, yycolumn, yyline, yytext()); }
-"**"        { System.out.println("Reconocio "+yytext()+" potencia"); return new Symbol(Simbolos.potencia, yycolumn, yyline, yytext()); }
 "%"         { System.out.println("Reconocio "+yytext()+" modulo"); return new Symbol(Simbolos.modulo, yycolumn, yyline, yytext()); }
-"++"        { System.out.println("Reconocio "+yytext()+" incrementoUno"); return new Symbol(Simbolos.incrementoUno, yycolumn, yyline, yytext()); }
-"--"        { System.out.println("Reconocio "+yytext()+" decrementoUno"); return new Symbol(Simbolos.decrementoUno, yycolumn, yyline, yytext()); }
+"&"        { System.out.println("Reconocio "+yytext()+" and"); return new Symbol(Simbolos.and, yycolumn, yyline, yytext()); }
+"|"        { System.out.println("Reconocio "+yytext()+" or"); return new Symbol(Simbolos.or, yycolumn, yyline, yytext()); }
 
 
 //-----> Palabras reservadas
 
 "class"             { System.out.println("Reconocio "+yytext()+" class_js"); return new Symbol(Simbolos.class_js, yycolumn, yyline, yytext()); }
+"Class"             { System.out.println("Reconocio "+yytext()+" Class_js"); return new Symbol(Simbolos.Class_js, yycolumn, yyline, yytext()); }
+"var"               { System.out.println("Reconocio "+yytext()+" var_js"); return new Symbol(Simbolos.var_js, yycolumn, yyline, yytext()); }
+"let"               { System.out.println("Reconocio "+yytext()+" let_js"); return new Symbol(Simbolos.let_js, yycolumn, yyline, yytext()); }
+"const"             { System.out.println("Reconocio "+yytext()+" const_js"); return new Symbol(Simbolos.const_js, yycolumn, yyline, yytext()); }
+
 "require"           { System.out.println("Reconocio "+yytext()+" require"); return new Symbol(Simbolos.require, yycolumn, yyline, yytext()); }
 "true"              { System.out.println("Reconocio "+yytext()+" true_js"); return new Symbol(Simbolos.true_js, yycolumn, yyline, yytext()); }
 "fasle"             { System.out.println("Reconocio "+yytext()+" false_js"); return new Symbol(Simbolos.false_js, yycolumn, yyline, yytext()); }
@@ -97,14 +94,9 @@ comentariodoble     = [\/*][^]+[\*/] {InputCharacter}* {LineTerminator}?
 
 "case"              { System.out.println("Reconocio "+yytext()+" case_js"); return new Symbol(Simbolos.case_js, yycolumn, yyline, yytext()); }
 "break"             { System.out.println("Reconocio "+yytext()+" break_js"); return new Symbol(Simbolos.break_js, yycolumn, yyline, yytext()); }
-
+"default"           { System.out.println("Reconocio "+yytext()+" default_js"); return new Symbol(Simbolos.default_js, yycolumn, yyline, yytext()); }
 "console"           { System.out.println("Reconocio "+yytext()+" console_js"); return new Symbol(Simbolos.console_js, yycolumn, yyline, yytext()); }
 "log"               { System.out.println("Reconocio "+yytext()+" log_js"); return new Symbol(Simbolos.log_js, yycolumn, yyline, yytext()); }
-
-"int"               { System.out.println("Reconocio "+yytext()+" int_js"); return new Symbol(Simbolos.int_js, yycolumn, yyline, yytext()); }
-"bool"              { System.out.println("Reconocio "+yytext()+" bool_js"); return new Symbol(Simbolos.bool_js, yycolumn, yyline, yytext()); }
-"string"            { System.out.println("Reconocio "+yytext()+" string_js"); return new Symbol(Simbolos.string_js, yycolumn, yyline, yytext()); }
-"double"            { System.out.println("Reconocio "+yytext()+" double_js"); return new Symbol(Simbolos.double_js, yycolumn, yyline, yytext()); }
 
 
 

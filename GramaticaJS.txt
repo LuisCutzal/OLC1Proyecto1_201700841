@@ -1,147 +1,148 @@
-INICIO -> CLASES
-//**********CLASES*********
+INICIO::= CLASES
+    ;
+CLASES::= CLASES CLASE
+    |CLASE
+    ;
+CLASES::= class_js id parentesisA parentesisC llaveabre INSTRUCCIONES llavecierra
+    | class_js id llaveabre INSTRUCCIONES llavecierra
+    ;
 
-CLASES -> CLASES CLASE
-    | CLASE
 
-CLASE -> "class" id "(" "") "{" INSTRUCCIONES "}"
-        | "class" id "{" INSTRUCCIONES "}"
-
-//**********INSTRUCCIONES*********
-
-INSTRUCCIONES -> INSTRUCCIONES -> INSTRUCCION
+INSTRUCCIONES::=INSTRUCCIONES INSTRUCCION
     |INSTRUCCION
-
-INSTRUCCION -> IMPORT
-        |METODO
-        |DECLARACIONVARIABLES
-        |ASIGNACIONVARIABLES
-        |SENTENCIAIF
-        |SENTENCIAFOR
-        |SENTENCIAWHILE
-        |SENTENCIADOWHILE
-        |SENTENCIASWITCH
-        |CONSOLA
-        |BREAK
-        |LLAMADA
-
-//**********IMPORT*********
-
-IMPORT -> TIPO id igual require ( EXPRESION ) pyc
-        | TIPO id igual require ( EXPRESION )
-
-//**********METODO*********
-
-METODO -> id "(" PARAMETROS ")" "{" INSTRUCCIONESMETODO "}"
-        | id "(" ")" "{" INSTRUCCIONESMETODO "}"
-
-PARAMETROS -> PARAMETROS coma id
-        |id
+    ;
 
 
-INSTRUCCIONESMETODO -> INSTRUCCIONESMETODO INSTRUCCIONMETODO
-        |INSTRUCCIONMETODO
+INSTRUCCION::=IMPORT
+    |METODO
+    |DECLARACIONVARIABLES
+    |ASIGNACIONVARIABLES
+    |SENTENCIAIF
+    |SENTENCIAFOR   
+    |SENTENCIAWHILE
+    |SENTENCIADOWHILE
+    |SENTENCIASWITCH
+    |CONSOLA
+    |BREAK
+    |LLAMADA
+    ;
 
-INSTRUCCIONMETODO ->  DECLARACIONVARIABLES
-        | ASIGNACIONVARIABLES
-        | SENTENCIAIF
-        | SENTENCIAFOR
-        | SENTENCIAWHILE
-        | SENTENCIADOWHILE
-        | SENTENCIADOWHILE
-        | SENTENCIASWITCH
-        | CONSOLA
-        | BREAK
-        | LLAMADA
+IMPORT::= TIPO id igual require parentesisA EXPRESION parentesisC puntoycoma
+    | TIPO id igual require parentesisA EXPRESION parentesisC
+    ;
 
-//**********DECLARACIONVARIABLES*********
+METODO::= id parentesisA PARAMETROS parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+    | id parentesisA  parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+    ;
 
-DECLARACIONVARIABLES-> TIPO id "=" EXPRESION ";"
-        | TIPO id "=" EXPRESION
-        | TIPO id ";"
-        | TIPO id
+PARAMETROS::= PARAMETROS coma id
+    |id
+    ;
+INSTRUCCIONESMETODO::= INSTRUCCIONESMETODO INSTRUCCIONMETODO
+    |INSTRUCCIONMETODO
+    ;
 
-EXPRESION-> EXPRESION "==" EXPRESION
-        |EXPRESION "!=" EXPRESION
-        |EXPRESION "<" EXPRESION
-        |EXPRESION ">" EXPRESION
-        |EXPRESION "<=" EXPRESION
-        |EXPRESION ">=" EXPRESION
-        |EXPRESION "&&" EXPRESION
-        |EXPRESION "||" EXPRESION
-        | "!" EXPRESION
-        |EXPRESION "+" EXPRESION
-        |EXPRESION "-" EXPRESION
-        |EXPRESION "*" EXPRESION
-        |EXPRESION "/" EXPRESION
-        |EXPRESION "**" EXPRESION
-        |EXPRESION "%" EXPRESION
-        |"-" EXPRESION
-        | true | fasle | id | cadena| digito | decimal | caracter
+INSTRUCCIONMETODO::= DECLARACIONVARIABLES
+    |ASIGNACIONVARIABLES
+    |SENTENCIAIF
+    |SENTENCIAFOR   
+    |SENTENCIAWHILE
+    |SENTENCIADOWHILE
+    |SENTENCIASWITCH
+    |CONSOLA
+    |BREAK
+    |LLAMADA
+    ;
 
+DECLARACIONVARIABLES::= TIPO id igual EXPRESION puntoycoma
+    |TIPO id igual EXPRESION
+    |TIPO id puntoycoma
+    |TIPO id igual id puntoycoma
+    |TIPO id igual id
+    |TIPO id 
+    ;
 
-//**********ASIGNACIONVARIABLES*********
+EXPRESION::= EXPRESION igualigual EXPRESION 
+    |EXPRESION diferente EXPRESION
+    |EXPRESION menorque EXPRESION
+    |EXPRESION mayorque EXPRESION
+    |EXPRESION menorIgual EXPRESION
+    |EXPRESION mayorIgual EXPRESION
+    |EXPRESION AND EXPRESION
+    |EXPRESION OR EXPRESION
+    |NOT EXPRESION
+    |EXPRESION mas EXPRESION
+    |EXPRESION menos EXPRESION
+    |EXPRESION multiplicacion EXPRESION
+    |EXPRESION division EXPRESION
+    |EXPRESION potencia EXPRESION
+    |EXPRESION modulo EXPRESION
+    |menos EXPRESION
+    |true_js
+    |false_js
+    |cadena
+    |numero
+    |decimal
+    |caracter
+    ;
 
-ASIGNACIONVARIABLES -> id "=" EXPRESION ";"
-                    | id "=" EXPRESION 
+ASIGNACIONVARIABLES::= id igual EXPRESION puntoycoma
+    |id igual EXPRESION
+    ;
 
-//**********SENTENCIAIF*********
+SENTENCIAIF::= if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra else_js SENTENCIAIF
+    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra else_js llaveabre INSTRUCCIONESMETODO llavecierra
+    ;
 
-SENTENCIAIF-> if "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}"
-            | if "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}" else SENTENCIAIF
-            | if "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}" else "{" INSTRUCCIONESMETODO "}"
+SENTENCIAFOR::= for_js parentesisA DECLARACIONFOR puntoycoma EXPRESION puntoycoma CONTADOR parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+    ;
 
+DECLARACIONFOR::= TIPO id igual EXPRESION
+    | id igual EXPRESION
+    ;
 
-//**********SENTENCIAFOR*********
+CONTADOR::= id INCREMENTO
+    ;
+INCREMENTO::= incrementoUno
+    |decrementoUno
+    |mas numero
+    |menos numero
+    ;
 
-SENTENCIAFOR -> for "(" DECLARACIONFOR ";" EXPRESION ";" CONTADOR ")" "{" INSTRUCCIONESMETODO "}"
+TIPO::= string_js
+    |double_js
+    |bool_js
+    |int_js
+    ;
 
-DECLARACIONFOR -> TIPO id "=" EXPRESION
-                    |id "=" EXPRESION
+SENTENCIAWHILE::= while_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+    ;
 
-CONTADOR -> id INCREMENTO
+SENTENCIADOWHILE::= do_js llaveabre INSTRUCCIONESMETODO llavecierra while_js parentesisA EXPRESION parentesisC puntoycoma
+    | do_js llaveabre INSTRUCCIONESMETODO llavecierra while_js parentesisA EXPRESION parentesisC 
+    ;
 
-INCREMENTO -> "++"
-            |"--"
-            |"+"digito
-            |"-"digito
+SENTENCIASWITCH::= switch_js parentesisA EXPRESION parentesisC llaveabre CASOS llavecierra
+    ;
 
+CASOS::= case_js EXPRESION dospuntos INSTRUCCIONESMETODO
+        |default dospuntos INSTRUCCIONESMETODO
+    ;
 
-TIPO -> string
-        |double
-        |bool
-        |int
+CONSOLA::=console_js punto log_js parentesisA EXPRESION parentesisC puntoycoma
+    ;
 
-//**********SENTENCIAWHILE*********
+BREAK::= break_js puntoycoma
+    | break_js
+    ;
 
-SENTENCIAWHILE -> while "(" EXPRESION ")" "{" INSTRUCCIONESMETODO "}"
+LLAMADA::= id parentesisA parentesisC puntoycoma
+    |id parentesisA parentesisC
+    |id parentesisA LISTAPARAMETROS parentesisC puntoycoma
+    |id parentesisA LISTAPARAMETROS parentesisC 
+    ;
 
-//**********SENTENCIADOWHILE*********
-
-SENTENCIADOWHILE -> do "{" INSTRUCCIONESMETODO "}" while "(" EXPRESION ")" ";"
-                | do "{" INSTRUCCIONESMETODO "}" while "(" EXPRESION ")"
-
-//**********SENTENCIASWITCH*********
-
-SENTENCIASWITCH -> switch "(" EXPRESION ")" "{" CASOS "}"
-
-CASOS -> case EXPRESION ":" INSTRUCCIONESMETODO
-
-//**********CONSOLA*********
-
-CONSOLA -> console "." log "(" EXPRESION ")"
-
-//**********BREAK*********
-
-BREAK -> break ";"
-        |break
-
-//**********LLAMADA*********
-
-LLAMADA -> id "(" ")" ";"
-        | id "(" ")"
-        | id "(" LISTAPARAMETROS ")" ";"
-        | id "(" LISTAPARAMETROS ")"
-
-LISTAPARAMETROS -> LISTAPARAMETROS "," EXPRESION
-        |EXPRESION
+LISTAPARAMETROS::= LISTAPARAMETROS coma EXPRESION
+    |EXPRESION
+    ;
