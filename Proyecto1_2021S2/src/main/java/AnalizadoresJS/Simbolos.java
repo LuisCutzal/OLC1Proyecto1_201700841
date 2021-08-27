@@ -8,59 +8,59 @@ package AnalizadoresJS;
 /** CUP generated class containing symbol constants. */
 public class Simbolos {
   /* terminals */
-  public static final int class_js = 36;
-  public static final int igualigual = 19;
-  public static final int require = 38;
-  public static final int console_js = 50;
-  public static final int const_js = 54;
-  public static final int false_js = 40;
+  public static final int class_js = 26;
+  public static final int require = 28;
+  public static final int console_js = 40;
+  public static final int const_js = 44;
+  public static final int false_js = 30;
   public static final int llaveabre = 2;
-  public static final int else_js = 42;
+  public static final int else_js = 32;
   public static final int coma = 6;
-  public static final int igual = 17;
-  public static final int switch_js = 46;
-  public static final int multiplicacion = 30;
-  public static final int for_js = 43;
-  public static final int incrementoUno = 34;
-  public static final int guion = 14;
-  public static final int NOT = 27;
-  public static final int AND = 25;
-  public static final int caracter = 13;
-  public static final int mayorque = 22;
-  public static final int if_js = 41;
-  public static final int var_js = 52;
-  public static final int menorIgual = 23;
-  public static final int OR = 26;
+  public static final int igual = 16;
+  public static final int switch_js = 36;
+  public static final int multiplicacion = 23;
+  public static final int for_js = 33;
+  public static final int guion = 13;
+  public static final int mayorque = 20;
+  public static final int if_js = 31;
+  public static final int menorIgual = 48;
+  public static final int var_js = 42;
+  public static final int igualacion = 54;
   public static final int puntoycoma = 5;
   public static final int comillasimple = 8;
-  public static final int do_js = 45;
+  public static final int do_js = 35;
   public static final int numero = 9;
-  public static final int menos = 29;
+  public static final int menos = 22;
+  public static final int unario = 17;
   public static final int EOF = 0;
-  public static final int case_js = 47;
-  public static final int Class_js = 37;
-  public static final int mas = 28;
+  public static final int case_js = 37;
+  public static final int mas = 21;
+  public static final int Class_js = 27;
   public static final int comilladoble = 7;
-  public static final int mayorIgual = 24;
+  public static final int mayorIgual = 49;
   public static final int error = 1;
+  public static final int or = 46;
   public static final int punto = 18;
   public static final int dospuntos = 4;
-  public static final int menorque = 21;
-  public static final int default_js = 49;
-  public static final int break_js = 48;
-  public static final int potencia = 32;
+  public static final int menorque = 19;
+  public static final int default_js = 39;
+  public static final int break_js = 38;
+  public static final int potencia = 53;
   public static final int id = 11;
-  public static final int true_js = 39;
+  public static final int incremento = 51;
+  public static final int true_js = 29;
   public static final int llavecierra = 3;
-  public static final int diferente = 20;
-  public static final int log_js = 51;
-  public static final int parentesisC = 15;
-  public static final int parentesisA = 16;
-  public static final int while_js = 44;
-  public static final int decrementoUno = 35;
-  public static final int let_js = 53;
-  public static final int division = 31;
-  public static final int modulo = 33;
+  public static final int diferente = 50;
+  public static final int decremento = 52;
+  public static final int not = 47;
+  public static final int and = 45;
+  public static final int log_js = 41;
+  public static final int parentesisC = 14;
+  public static final int parentesisA = 15;
+  public static final int while_js = 34;
+  public static final int let_js = 43;
+  public static final int division = 24;
+  public static final int modulo = 25;
   public static final int decimal = 12;
   public static final int cadena = 10;
   public static final String[] terminalNames = new String[] {
@@ -77,29 +77,19 @@ public class Simbolos {
   "cadena",
   "id",
   "decimal",
-  "caracter",
   "guion",
   "parentesisC",
   "parentesisA",
   "igual",
+  "unario",
   "punto",
-  "igualigual",
-  "diferente",
   "menorque",
   "mayorque",
-  "menorIgual",
-  "mayorIgual",
-  "AND",
-  "OR",
-  "NOT",
   "mas",
   "menos",
   "multiplicacion",
   "division",
-  "potencia",
   "modulo",
-  "incrementoUno",
-  "decrementoUno",
   "class_js",
   "Class_js",
   "require",
@@ -118,7 +108,17 @@ public class Simbolos {
   "log_js",
   "var_js",
   "let_js",
-  "const_js"
+  "const_js",
+  "and",
+  "or",
+  "not",
+  "menorIgual",
+  "mayorIgual",
+  "diferente",
+  "incremento",
+  "decremento",
+  "potencia",
+  "igualacion"
   };
 }
 

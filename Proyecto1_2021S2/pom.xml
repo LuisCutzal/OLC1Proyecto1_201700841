@@ -21,6 +21,16 @@
             <artifactId>JFlex</artifactId>
             <version>1.6.1</version>
         </dependency>
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfree</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>jfreechart</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.1</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

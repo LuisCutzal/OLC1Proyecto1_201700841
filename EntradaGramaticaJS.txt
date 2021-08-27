@@ -1,8 +1,9 @@
 Class Car(){
-    var Variable1 = 5;
+    const archivo1 = require("../Carpeta1/archivo1 ")
+    var archivo2 = require("../controller/Carpeta2/archivo2")
+    let archivo3 = require("../archivo3") 
+    var Variable1 = 5; 
     
-    let x=50.5;
-    var y=true
     if(x<60 && y!=true){
         Variable1 = "hola mundo if "
     }else if(j != 0){
@@ -10,12 +11,6 @@ Class Car(){
     }else{
         Variable1 = "hola mundo else"
     }
-
-    let x;
-    for(x = -3*n/2; x <= n; x++){
-        let edad = 18;
-    }
-
     while(n <= 5){
         let edad = 18;
     } 
@@ -41,7 +36,7 @@ Class Car(){
     */ 
     var c = 0;
     while(c<11){
-        c++;
+        c++; 
         if(c>5){
             break;
         }
@@ -49,12 +44,19 @@ Class Car(){
 
 
     llamada1();
-    llamada2(1,2,3,”hola”,var1); 
+    llamada2(1,2,3,"hola",var1); 
 
 
-    const archivo1 = require("../Carpeta1/archivo1 ")
-    var archivo2 = require("../controller/Carpeta2/archivo2")
-    let archivo3 = require("../archivo3") 
+
+
+    let x=50.5;
+    var y=true 
+
+    let x;
+    for(x = -3*n/2; x <= n; x++){//no me funciona ese -3*n/2, lo toma como comentario
+        let edad = 18;
+    }
+
 
 } 
 

@@ -39,7 +39,7 @@ action code
 terminal String llaveabre,llavecierra;
 terminal String dospuntos,puntoycoma,coma;
 terminal String comilladoble, comillasimple;
-terminal String numero,cadena,id,decimal,caracter, guion;
+terminal String numero,cadena,id,decimal, guion;
 terminal String parentesisC, parentesisA,igual,unario;
 
 terminal String punto,menorque,mayorque;
@@ -54,7 +54,7 @@ terminal String console_js, log_js;
 
 terminal String var_js,let_js,const_js;
 
-terminal especial;
+terminal and, or, not,menorIgual,mayorIgual,diferente,incremento,decremento,potencia,igualacion;
 
 //------> declaracion de no terminales
 
@@ -64,9 +64,9 @@ non terminal INSTRUCCION,INSTRUCCIONES;
 non terminal IMPORT,METODO,DECLARACIONVARIABLES,ASIGNACIONVARIABLES;
 non terminal SENTENCIAIF,SENTENCIAFOR,SENTENCIAWHILE,SENTENCIADOWHILE,SENTENCIASWITCH;
 non terminal CONSOLA,BREAK,LLAMADA;
-non terminal TIPO,EXPRESION,EXPRESS,PARAMETROS,INSTRUCCIONESMETODO,INSTRUCCIONMETODO;
-non terminal DECLARACIONFOR,CONTADOR,INCREMENTO;
-non terminal CASOS,LISTAPARAMETROS;
+non terminal TIPO,EXPRESION,PARAMETROS;
+non terminal DECLARACIONFOR,CONTADOR;
+non terminal CASOS,CASO;
 
 //------> precedencia de menor a mayor
 
@@ -79,9 +79,13 @@ precedence left division;
 precedence left modulo;
 precedence right unario;
 
-
-
-
+precedence left igualacion;
+precedence left diferente;
+precedence left menorIgual;
+precedence left mayorIgual;
+precedence left and;
+precedence left or;
+precedence left potencia;
 
 
 
@@ -97,8 +101,7 @@ CLASES::= CLASES CLASE
     ;
 CLASES::= class_js id parentesisA parentesisC llaveabre INSTRUCCIONES llavecierra                      {: :}
     | class_js id llaveabre INSTRUCCIONES llavecierra
-    |Class_js id parentesisA parentesisC llaveabre INSTRUCCIONES llavecierra
-    |Class_js id llaveabre INSTRUCCIONES llavecierra
+    
     ;
 
 
@@ -125,109 +128,68 @@ IMPORT::= TIPO id igual require parentesisA cadena parentesisC puntoycoma
     | TIPO id igual require parentesisA cadena parentesisC
     ;
 
-METODO::= id parentesisA PARAMETROS parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
-    | id parentesisA  parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+METODO::= id parentesisA PARAMETROS parentesisC llaveabre INSTRUCCIONES llavecierra
+    | id parentesisA  parentesisC llaveabre INSTRUCCIONES llavecierra
     ;
 
-PARAMETROS::= PARAMETROS coma id
-    |id
-    ;
-INSTRUCCIONESMETODO::= INSTRUCCIONESMETODO INSTRUCCIONMETODO
-    |INSTRUCCIONMETODO
+PARAMETROS::= PARAMETROS coma EXPRESION
+    |EXPRESION
     ;
 
-INSTRUCCIONMETODO::= DECLARACIONVARIABLES
-    |ASIGNACIONVARIABLES
-    |SENTENCIAIF
-    |SENTENCIAFOR   
-    |SENTENCIAWHILE
-    |SENTENCIADOWHILE
-    |SENTENCIASWITCH
-    |CONSOLA
-    |BREAK
-    |LLAMADA
-    ;
+
+
 
 DECLARACIONVARIABLES::= TIPO id igual EXPRESION puntoycoma
     |TIPO id igual EXPRESION
     |TIPO id puntoycoma
-    |TIPO id igual EXPRESS puntoycoma
-    |TIPO id igual EXPRESS
+    |CONTADOR puntoycoma
+    |CONTADOR 
     |TIPO id 
     ;
 
-EXPRESION::= EXPRESION especial EXPRESION 
-    |EXPRESION especial EXPRESION
-    |EXPRESION menorque EXPRESION
-    |EXPRESION mayorque EXPRESION
-    |EXPRESION especial EXPRESION
-    |EXPRESION especial EXPRESION
-    |EXPRESION especial EXPRESION
-    |EXPRESION especial EXPRESION
-    |not EXPRESION
-    |EXPRESION mas EXPRESION
-    |EXPRESION menos EXPRESION
-    |EXPRESION multiplicacion EXPRESION
-    |EXPRESION division EXPRESION
-    |EXPRESION especial EXPRESION
-    |EXPRESION modulo EXPRESION
-    |menos EXPRESION %prec unario
-    |true_js
-    |false_js
-    |cadena
-    |numero
-    |decimal
-    |caracter
+    EXPRESION::= EXPRESION igualacion EXPRESION 
+        |EXPRESION diferente EXPRESION
+        |EXPRESION menorque EXPRESION
+        |EXPRESION mayorque EXPRESION
+        |EXPRESION menorIgual EXPRESION
+        |EXPRESION mayorIgual EXPRESION
+        |EXPRESION and EXPRESION
+        |EXPRESION or EXPRESION
+        |not EXPRESION
+        |EXPRESION mas EXPRESION
+        |EXPRESION menos EXPRESION
+        |EXPRESION multiplicacion EXPRESION
+        |EXPRESION division EXPRESION
+        |EXPRESION potencia EXPRESION
+        |EXPRESION modulo EXPRESION
+        |menos EXPRESION %prec unario
+        |true_js
+        |false_js
+        |cadena
+        |numero
+        |decimal
+        |id
     ;
 
-EXPRESS::= id especial id
-    |id diferencia id
-    |id menorque id
-    |id mayorque id
-    |id especial id
-    |id especial id
-    |id especial id
-    |id especial id
-    |not id
-    |id mas id
-    |id menos id
-    |id multiplicacion id
-    |id division id
-    |id especial id
-    |id modulo id
-    |menos id %prec unario
-    ;
 
 ASIGNACIONVARIABLES::= id igual EXPRESION puntoycoma
     |id igual EXPRESION
-    |id igual EXPRESS puntoycoma
-    |id igual EXPRESS
     ;
 
-SENTENCIAIF::= if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
-    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra else_js SENTENCIAIF
-    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra else_js llaveabre INSTRUCCIONESMETODO llavecierra
-    | if_js parentesisA EXPRESS parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
-    | if_js parentesisA EXPRESS parentesisC llaveabre INSTRUCCIONESMETODO llavecierra else_js SENTENCIAIF
-    | if_js parentesisA EXPRESS parentesisC llaveabre INSTRUCCIONESMETODO llavecierra else_js llaveabre INSTRUCCIONESMETODO llavecierra
+SENTENCIAIF::= if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra
+    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra else_js SENTENCIAIF
+    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra else_js llaveabre INSTRUCCIONES llavecierra
     ;
 
-SENTENCIAFOR::= for_js parentesisA DECLARACIONFOR puntoycoma EXPRESION puntoycoma CONTADOR parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
-    |for_js parentesisA DECLARACIONFOR puntoycoma EXPRESS puntoycoma CONTADOR parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+SENTENCIAFOR::= for_js parentesisA DECLARACIONFOR puntoycoma EXPRESION puntoycoma CONTADOR parentesisC llaveabre INSTRUCCIONES llavecierra
     ;
 
 DECLARACIONFOR::= TIPO id igual EXPRESION
     | id igual EXPRESION
-    |TIPO id igual EXPRESS
-    |id igual EXPRESS
     ;
 
-CONTADOR::= id INCREMENTO
-    ;
-INCREMENTO::= mas mas
-    |menos menos
-    |mas numero
-    |menos numero
+CONTADOR::= id incremento
+    | id decremento
     ;
 
 TIPO::= var_js
@@ -235,27 +197,25 @@ TIPO::= var_js
     |const_js
     ;
 
-SENTENCIAWHILE::= while_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
-    |while_js parentesisA EXPRESS parentesisC llaveabre INSTRUCCIONESMETODO llavecierra
+SENTENCIAWHILE::= while_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra
     ;
 
-SENTENCIADOWHILE::= do_js llaveabre INSTRUCCIONESMETODO llavecierra while_js parentesisA EXPRESION parentesisC puntoycoma
-    | do_js llaveabre INSTRUCCIONESMETODO llavecierra while_js parentesisA EXPRESION parentesisC
-    |do_js llaveabre INSTRUCCIONESMETODO llavecierra while_js parentesisA EXPRESS parentesisC puntoycoma
-    |do_js llaveabre INSTRUCCIONESMETODO llavecierra while_js parentesisA EXPRESS parentesisC
+SENTENCIADOWHILE::= do_js llaveabre INSTRUCCIONES llavecierra while_js parentesisA EXPRESION parentesisC puntoycoma
+    | do_js llaveabre INSTRUCCIONES llavecierra while_js parentesisA EXPRESION parentesisC
     ;
 
 SENTENCIASWITCH::= switch_js parentesisA EXPRESION parentesisC llaveabre CASOS llavecierra
-    |switch_js parentesisA EXPRESS parentesisC llaveabre CASOS llavecierra
     ;
 
-CASOS::= case_js EXPRESION dospuntos INSTRUCCIONESMETODO
-    |case_js EXPRESS dospuntos INSTRUCCIONESMETODO
-    |default_js dospuntos INSTRUCCIONESMETODO
+CASOS::= CASOS CASO
+    |CASO
+    ;
+
+CASO::= case_js EXPRESION dospuntos INSTRUCCIONES
+    |default_js dospuntos INSTRUCCIONES
     ;
 
 CONSOLA::=console_js punto log_js parentesisA EXPRESION parentesisC puntoycoma
-    |console_js punto log_js parentesisA EXPRESS parentesisC puntoycoma
     ;
 
 BREAK::= break_js puntoycoma
@@ -264,12 +224,6 @@ BREAK::= break_js puntoycoma
 
 LLAMADA::= id parentesisA parentesisC puntoycoma
     |id parentesisA parentesisC
-    |id parentesisA LISTAPARAMETROS parentesisC puntoycoma
-    |id parentesisA LISTAPARAMETROS parentesisC 
-    ;
-
-LISTAPARAMETROS::= LISTAPARAMETROS coma EXPRESION
-    |LISTAPARAMETROS coma EXPRESS
-    |EXPRESION
-    |EXPRESS
+    |id parentesisA PARAMETROS parentesisC puntoycoma
+    |id parentesisA PARAMETROS parentesisC 
     ;

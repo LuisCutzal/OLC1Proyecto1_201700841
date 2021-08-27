@@ -9,6 +9,11 @@ import com.mycompany.proyecto1_2021s2.error;
 
 import javax.swing.JOptionPane;
 import java.util.LinkedList;
+
+import Reportes.Caracteristica;
+import Reportes.GBarras;
+import Reportes.Valor;
+
 //------> Codigo para el parser,variables, metodos
 parser code{:
 

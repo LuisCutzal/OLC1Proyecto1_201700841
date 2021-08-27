@@ -38,7 +38,7 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
 comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
-comentariodoble     = [\/*][^]+[\*/] {InputCharacter}* {LineTerminator}?
+comentariodoble     = "\/*"[^]+ "\*/"{InputCharacter}* {LineTerminator}?
 //------> Estados
 
 %%
@@ -68,8 +68,15 @@ comentariodoble     = [\/*][^]+[\*/] {InputCharacter}* {LineTerminator}?
 "*"         { System.out.println("Reconocio "+yytext()+" multiplicacion"); return new Symbol(Simbolos.multiplicacion, yycolumn, yyline, yytext()); }
 "/"         { System.out.println("Reconocio "+yytext()+" division"); return new Symbol(Simbolos.division, yycolumn, yyline, yytext()); }
 "%"         { System.out.println("Reconocio "+yytext()+" modulo"); return new Symbol(Simbolos.modulo, yycolumn, yyline, yytext()); }
-"&"        { System.out.println("Reconocio "+yytext()+" and"); return new Symbol(Simbolos.and, yycolumn, yyline, yytext()); }
-"|"        { System.out.println("Reconocio "+yytext()+" or"); return new Symbol(Simbolos.or, yycolumn, yyline, yytext()); }
+"&&"        { System.out.println("Reconocio "+yytext()+" and"); return new Symbol(Simbolos.and, yycolumn, yyline, yytext()); }
+"||"        { System.out.println("Reconocio "+yytext()+" or"); return new Symbol(Simbolos.or, yycolumn, yyline, yytext()); }
+"<="         { System.out.println("Reconocio "+yytext()+" menorIgual"); return new Symbol(Simbolos.menorIgual, yycolumn, yyline, yytext()); }
+">="         { System.out.println("Reconocio "+yytext()+" mayorIgual"); return new Symbol(Simbolos.mayorIgual, yycolumn, yyline, yytext()); }
+"!="         { System.out.println("Reconocio "+yytext()+" diferente"); return new Symbol(Simbolos.diferente, yycolumn, yyline, yytext()); }
+"++"         { System.out.println("Reconocio "+yytext()+" incremento"); return new Symbol(Simbolos.incremento, yycolumn, yyline, yytext()); }
+"--"         { System.out.println("Reconocio "+yytext()+" decremento"); return new Symbol(Simbolos.decremento, yycolumn, yyline, yytext()); }
+"**"         { System.out.println("Reconocio "+yytext()+" potencia"); return new Symbol(Simbolos.potencia, yycolumn, yyline, yytext()); }
+"=="         { System.out.println("Reconocio "+yytext()+" igualacion"); return new Symbol(Simbolos.igualacion, yycolumn, yyline, yytext()); }
 
 
 //-----> Palabras reservadas
@@ -102,7 +109,7 @@ comentariodoble     = [\/*][^]+[\*/] {InputCharacter}* {LineTerminator}?
 
 //-------> Simbolos ER
 {numero}            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext()); }
-{caracter}          { System.out.println("Reconocio "+yytext()+" caracter"); return new Symbol(Simbolos.caracter, yycolumn, yyline, yytext()); }
+
 {cadena}            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
 {id}                { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
 {decimal}           { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
