@@ -7,7 +7,8 @@
 //------> Paquetes,importaciones
 package AnalizadoresJS;
 import java_cup.runtime.*;
-
+import com.mycompany.proyecto1_2021s2.error;
+import com.mycompany.proyecto1_2021s2.Ventana;
 
 /*----------------------------------------------------------
   ------------  2da Area: Opciones y Declaraciones ---------
@@ -745,7 +746,9 @@ public class ALexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn);
+            { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn); 
+                            error nuevo = new error("Error Lexico", yytext(), yyline, yycolumn);
+                            Ventana.listaErrores.add(nuevo);
             }
           case 56: break;
           case 2: 
@@ -837,7 +840,8 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 78: break;
           case 24: 
-            { System.out.println("Comentario: "+yytext());
+            { System.out.println("Comentario: "+yytext()); 
+                        Ventana.lista_comentarios.add(yytext());
             }
           case 79: break;
           case 25: 
@@ -921,7 +925,8 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 99: break;
           case 45: 
-            { System.out.println("Comentario doble: "+yytext());
+            { System.out.println("Comentario doble: "+yytext()); 
+                        Ventana.lista_comentarios.add(yytext());
             }
           case 100: break;
           case 46: 

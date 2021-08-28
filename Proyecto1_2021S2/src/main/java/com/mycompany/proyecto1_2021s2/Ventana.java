@@ -11,11 +11,15 @@ import AnalizadoresJS.ALexico;
 import AnalizadoresJS.SintacticoJS;
 import java.awt.Panel;
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -27,7 +31,11 @@ import javax.swing.JTextArea;
  */
 public class Ventana extends javax.swing.JFrame {
     public static ArrayList<error> listaErrores = new ArrayList<error>();
-    public static ArrayList<errorJS> listaErrores2= new ArrayList<errorJS>();
+    LinkedList<Archivo> datos_archivos = new LinkedList<>();
+    
+    public static LinkedList<String> lista_comentarios = new LinkedList<>();
+    public int cont_variables_repetidas = 0;
+    public int cont_comment_repetido = 0;
     /**
      * Creates new form Ventana
      */
@@ -35,7 +43,134 @@ public class Ventana extends javax.swing.JFrame {
         initComponents();
     }
     
-
+    /**
+     * Metodo para generar el reporte de errores
+     */
+    ArrayList<String> variables = new ArrayList<String>();
+    
+    public void encontrar_variables(Nodo nodo){
+        
+        for(Nodo instruccion : nodo.hijos){
+            
+            if(instruccion.token == "DECLARACION"){
+                for(Nodo declaracion : instruccion.hijos){
+                    if(declaracion.token == "identificador"){
+                        variables.add(declaracion.lexema);
+                    }
+                }
+            }
+            
+            if(instruccion.lexema == "" ){
+                encontrar_variables(instruccion);
+            }
+        }
+    }
+    
+    public void imprimir_variables(){
+        for( String id: variables ){
+            jTextArea2.append("variable encontrada --> " + id + "\n");
+        }
+    }
+    public void ReporteErrores(){
+        
+        LinkedList<error> Reporte_errores = new LinkedList<>();
+        
+        for(Archivo archivo : datos_archivos){
+            Reporte_errores.addAll(archivo.lista_errores);
+        }
+        
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+                try {
+                    String path = "Reporteerrores.html";
+                    fichero = new FileWriter(path);
+                    pw = new PrintWriter(fichero); 
+                String Html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//ES\">\n\t"
+               + "<HTML>\n\t"
+               + "<HEAD>\n\t"
+               + "<TITLE>REPORTE DE ERRORES</TITLE>\n\t"
+               + "<style>\n\t"
+               + "body {\n\t"
+               + "background:#AAAA;\n\t"
+               +/* el fondo de todo el cuerpo*/ "padding: 20px;\n\t"
+               + /*el espacio entre el borde y su contenido*/ "}\n\t"
+               + "h2 {\n\t"
+               + "color: #5D6D7E;\n\t"
+               + "font-family: Calibri;\n\t"
+               + /*tipo de fuente*/ "}\n\t"
+               + ".articulo {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Calibri;\n\t"
+               + "background: #7FB3D5;\n\t"
+               + "border: 6px solid #2471A3;\n\t" //borde cuadro arriba
+               + "color: #AAAAAFF;\n\t"
+               + "padding: 13px;\n\t"
+               + "}\n\t"
+               + ".tabla {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Century Gothic;\n\t"
+               + "background: #AAAAA;\n\t"
+               + "border: 6px solid #5D6D7E;\n\t" //borde cuadro abajo
+               + "color: #000000;\n\t"
+               + "padding: 13px;\n\t"
+               + "}\n\t"
+               + ".fin {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Eras Light ITC;\n\t"
+               + "background: #7FB3D5;\n\t"
+               + "border: 6px solid #F74316;\n\t"
+               + "color: #000000;\n\t" +//2939B5
+               "padding: 13px;\n\t"
+               + "}\n\t"
+               + "</style>\n\t"
+               + "</HEAD>\n\t"
+               + "<BODY>\n\t"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Reporte de Errores</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1 [FIUSAC Copy Analyzer]<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
+               + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
+               "<table style= border=3>\n\t"
+               + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td>\n\t"
+               + "<table border=2>\n\t"
+               + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td><b>Tipo</b></td>\n\t"
+               + "<td><b>Descripcion</b></td>\n\t"
+               + "<td><b>Fila</b></td>\n\t"
+               +  "<td><b>Columna</b></td>\n\t"
+               +  "<td><b>Archivo</b></td>\n\t"
+               + "</tr>\n\t";
+               
+                for(error error : Reporte_errores){
+                    Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
+                    + "<td>" + error.tipo + "</td>"
+                    + "<td>" + error.valor + "</td>"
+                    + "<td>" + error.fila  + "</td>"
+                    +  "<td>" + error.columna + "</td>"
+                    +  "<td>" + error.archivo + "</td>"
+                    + "</tr>\n\t";
+                }  
+                Html += "</tr></table></tr></table></UL></div>\n\t"
+                +"</BODY>\n\t"
+                + "</HTML>";
+                pw.print(Html);
+                    
+                } catch (Exception e) {
+                }finally{
+                    if(null!=fichero){
+                        try {
+                            fichero.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteErrores.html");
+            //System.out.println("Final");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //fin reporte errores
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,6 +183,7 @@ public class Ventana extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -72,6 +208,10 @@ public class Ventana extends javax.swing.JFrame {
         jLabel1.setText("EDITOR");
 
         jLabel2.setText("CONSOLA");
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane2.setViewportView(jTextArea2);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -198,6 +338,7 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        Nodo raiz = null;
         /*
         try {
             Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
@@ -206,6 +347,7 @@ public class Ventana extends javax.swing.JFrame {
             System.out.println("Lectura del archivo AFC correcta");
              
         } catch (Exception e) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
         }
         */
         
@@ -216,7 +358,17 @@ public class Ventana extends javax.swing.JFrame {
             System.out.println("Lectura del archivo JS correcta");
              
         } catch (Exception e) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
         }
+        if(raiz != null){
+            
+            jTextArea2.setText("");
+            variables.clear();
+            encontrar_variables(raiz);
+            imprimir_variables();
+        }
+       
+        JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
          
             
             
@@ -283,5 +435,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }

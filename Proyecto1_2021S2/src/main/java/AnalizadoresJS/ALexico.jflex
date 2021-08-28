@@ -5,7 +5,8 @@
 //------> Paquetes,importaciones
 package AnalizadoresJS;
 import java_cup.runtime.*;
-
+import com.mycompany.proyecto1_2021s2.error;
+import com.mycompany.proyecto1_2021s2.Ventana;
 
 /*----------------------------------------------------------
   ------------  2da Area: Opciones y Declaraciones ---------
@@ -115,12 +116,17 @@ comentariodoble     = "\/*"[^]+ "\*/"{InputCharacter}* {LineTerminator}?
 {decimal}           { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
 
 //------> Espacios
-{comentariosimple}      {System.out.println("Comentario: "+yytext()); }
-{comentariodoble}       {System.out.println("Comentario doble: "+yytext()); }
+{comentariosimple}      {System.out.println("Comentario: "+yytext()); 
+                        Ventana.lista_comentarios.add(yytext());    
+                        }
+{comentariodoble}       {System.out.println("Comentario doble: "+yytext()); 
+                        Ventana.lista_comentarios.add(yytext()); 
+                        }
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
 
 //------> Errores Lexicos
 .                       { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn); 
-                           
+                            error nuevo = new error("Error Lexico", yytext(), yyline, yycolumn);
+                            Ventana.listaErrores.add(nuevo);
                         }
 

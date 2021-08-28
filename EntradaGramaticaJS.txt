@@ -1,4 +1,4 @@
-Class Car(){
+class Car(){
     const archivo1 = require("../Carpeta1/archivo1 ")
     var archivo2 = require("../controller/Carpeta2/archivo2")
     let archivo3 = require("../archivo3") 
@@ -53,7 +53,7 @@ Class Car(){
     var y=true 
 
     let x;
-    for(x = -3*n/2; x <= n; x++){//no me funciona ese -3*n/2, lo toma como comentario
+    for(x = -3*n/2; x <= n; x++){
         let edad = 18;
     }
 

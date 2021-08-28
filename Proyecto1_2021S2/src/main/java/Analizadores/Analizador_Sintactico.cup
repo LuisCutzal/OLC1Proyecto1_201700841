@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import java.util.LinkedList;
 
 import Reportes.Caracteristica;
-import Reportes.GBarras;
+import Reportes.GraficaBarras;
 import Reportes.Valor;
 
 //------> Codigo para el parser,variables, metodos
@@ -78,92 +78,92 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= GENERARREPORTE                                                                                {: :}
+INICIO::= GENERARREPORTE:a                                                                                {: :}
     ;
 
-GENERARREPORTE::= generarReporteEstadistico  llaveabre INSTRUCCIONES  llavecierra                       {: :}
+GENERARREPORTE::= generarReporteEstadistico:a  llaveabre:b INSTRUCCIONES:c  llavecierra:d                       {: :}
     ;
 
-INSTRUCCIONES::=INSTRUCCIONES INSTRUCCION                                                               {: :}
-    | INSTRUCCION                                                                                       {: :}
+INSTRUCCIONES::=INSTRUCCIONES:a INSTRUCCION:b                                                               {: :}
+    | INSTRUCCION:a                                                                                       {: :}
     ;
 
-INSTRUCCION::= COMPARE                                                                                  {: :}
-    |DEFINIRGLOBALES                                                                                    {: :}
-    |GRAFICABARRAS                                                                                      {: :}
-    |GRAFICAPIE                                                                                         {: :}
-    |GRAFICASLINEAS                                                                                     {: :}
+INSTRUCCION::= COMPARE:a                                                                                  {: :}
+    |DEFINIRGLOBALES:a                                                                                    {: :}
+    |GRAFICABARRAS:a                                                                                      {: :}
+    |GRAFICAPIE:a                                                                                         {: :}
+    |GRAFICASLINEAS:a                                                                                     {: :}
     ;
 
-COMPARE::= compare parentesisA  cadena  coma   cadena   parentesisC  puntoycoma                         {: :}
+COMPARE::= compare:a parentesisA:b  cadena:c  coma:d   cadena:e   parentesisC:f  puntoycoma:g                         {: :}
     ;
 
-DEFINIRGLOBALES::= DefinirGlobales llaveabre DEFINICIONVARIABLESG llavecierra                           {: :}
+DEFINIRGLOBALES::= DefinirGlobales:a llaveabre:b DEFINICIONVARIABLESG:c llavecierra:g                           {: :}
     ;
 
-DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG DEFINICIONVARIABLEG                                        {: :}
-    |DEFINICIONVARIABLEG                                                                                {: :}
+DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG:a DEFINICIONVARIABLEG:b                                        {: :}
+    |DEFINICIONVARIABLEG:a                                                                                {: :}
     ;
 
     
-DEFINICIONVARIABLEG::= TIPO id igual VALORTIPO puntoycoma                                               {: :}
+DEFINICIONVARIABLEG::= TIPO:a id:b igual:c VALORTIPO:d puntoycoma:e                                               {: :}
     ;
 
-TIPO::= string                                                                                          {: :}
-    | dou                                                                                               {: :}
+TIPO::= string:a                                                                                          {: :}
+    | dou:a                                                                                               {: :}
     ;
 
-VALORTIPO::= cadena                                                                                     {: :}
-    |numero                                                                                             {: :}
-    |decimal                                                                                            {: :}
-    |dolar llaveabre id coma  cadena  coma cadena coma cadena llavecierra                               {: :}
+VALORTIPO::= cadena:a                                                                                     {: :}
+    |numero:a                                                                                             {: :}
+    |decimal:a                                                                                            {: :}
+    |dolar:a llaveabre:b id:c coma:d  cadena:e  coma:f cadena:g coma:h cadena:i llavecierra:j                               {: :}
     ;
 
-GRAFICABARRAS::= graficaBarras llaveabre INFOSBARRAS llavecierra                                        {: :}
+GRAFICABARRAS::= graficaBarras:a llaveabre:b INFOSBARRAS:c llavecierra:d                                        {: :}
     ;
 
-GRAFICASLINEAS::= graficaLineas llaveabre INFOSLINEAS  llavecierra                                      {: :}
+GRAFICASLINEAS::= graficaLineas:a llaveabre:b INFOSLINEAS:c  llavecierra:d                                      {: :}
     ;
 
-GRAFICAPIE::= graficaPie llaveabre INFOS llavecierra                                                    {: :}
+GRAFICAPIE::= graficaPie:a llaveabre:b INFOS:c llavecierra:d                                                    {: :}
     ;
 
-INFOSBARRAS::=INFOSBARRAS titulo dospuntos id puntoycoma                                                {: :}
-    |INFOSBARRAS ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                   {: :}
-    |INFOSBARRAS VALORES                                                                                {: :}
-    |INFOSBARRAS tituloX dospuntos  cadena  puntoycoma                                                  {: :}
-    |INFOSBARRAS tituloY dospuntos  cadena  puntoycoma                                                  {: :}
-    |titulo dospuntos id puntoycoma                                                                     {: :}
-    |ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                               {: :}
-    |tituloX dospuntos  cadena  puntoycoma                                                              {: :}
-    |tituloY dospuntos  cadena  puntoycoma                                                              {: :}
-    |VALORES                                                                                            {: :}
+INFOSBARRAS::=INFOSBARRAS:a titulo:b dospuntos:c id:d puntoycoma:e                                                {: :}
+    |INFOSBARRAS:a ejeX:b dospuntos:c corcheteA:d DATOS:e  corcheteC:f puntoycoma:g                                   {: :}
+    |INFOSBARRAS:a VALORES:b                                                                                {: :}
+    |INFOSBARRAS:a tituloX:b dospuntos:c  cadena:d  puntoycoma:e                                                  {: :}
+    |INFOSBARRAS:a tituloY:b dospuntos:c  cadena:d  puntoycoma:e                                                  {: :}
+    |titulo:a dospuntos:b id:c puntoycoma:d                                                                     {: :}
+    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                               {: :}
+    |tituloX:a dospuntos:b  cadena:c  puntoycoma:d                                                              {: :}
+    |tituloY:a dospuntos:b  cadena:c  puntoycoma:d                                                              {: :}
+    |VALORES:a                                                                                            {: :}
     ;
 
-INFOSLINEAS::=INFOSLINEAS titulo dospuntos id puntoycoma                                                {: :}
-    |INFOSLINEAS ar dospuntos cadena puntoycoma                                                         {: :}
-    |titulo dospuntos id puntoycoma                                                                     {: :}
-    |ar dospuntos cadena puntoycoma                                                                     {: :}
+INFOSLINEAS::=INFOSLINEAS:a titulo:b dospuntos:c id:d puntoycoma:e                                                {: :}
+    |INFOSLINEAS:a ar:b dospuntos:c cadena:d puntoycoma:e                                                         {: :}
+    |titulo:a dospuntos:b id:c puntoycoma:d                                                                     {: :}
+    |ar:a dospuntos:b cadena:c puntoycoma:d                                                                     {: :}
     ;
 
-INFOS::=INFOS titulo dospuntos id puntoycoma                                                            {: :}
-    |INFOS ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                         {: :}
-    |INFOS VALORES                                                                                      {: :}
-    |titulo dospuntos id puntoycoma                                                                     {: :}
-    |ejeX dospuntos corcheteA DATOS  corcheteC puntoycoma                                               {: :}
-    |VALORES                                                                                            {: :}
+INFOS::=INFOS:a titulo:b dospuntos:c id:d puntoycoma:e                                                            {: :}
+    |INFOS:a ejeX:b dospuntos:c corcheteA:d DATOS:e  corcheteC:f puntoycoma:g                                         {: :}
+    |INFOS:a VALORES:b                                                                                      {: :}
+    |titulo:a dospuntos:b id:c puntoycoma:d                                                                     {: :}
+    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                               {: :}
+    |VALORES:a                                                                                            {: :}
     ;
 
-VALORES::= Valores dospuntos corcheteA DATOS  corcheteC puntoycoma                                      {: :}
+VALORES::= Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                      {: :}
     ;
 
-DATOS::= DATOS coma DATO                                                                                {: :}
-    |DATO                                                                                               {: :}
+DATOS::= DATOS:a coma:b DATO:c                                                                                {: :}
+    |DATO:a                                                                                               {: :}
     ;
 
-DATO::=decimal                                                                                          {: :}                                                                                         
-    |numero
-    |cadena                                                                                             {: :}
-    |id                                                                                                 {: :}
-    |dolar llaveabre id coma cadena coma cadena coma cadena llavecierra                                 {: :}
+DATO::=decimal:a                                                                                          {: :}                                                                                         
+    |numero:a
+    |cadena:a                                                                                             {: :}
+    |id:a                                                                                                 {: :}
+    |dolar:a llaveabre:b id:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j                                 {: :}
     ;

@@ -11,45 +11,39 @@ package com.mycompany.proyecto1_2021s2;
  */
 public class error {
     public String tipo;
-    public String descripcion;
+    public String valor;
+    public String archivo;
     public int fila;
     public int columna;
+
+    /**
+     * Constructor para agregar errores desde los archivos jflex y cup 
+     * @param tipo guarda el tiop de error (lexico o sintactico)
+     * @param valor guarda el valor que produjo el error 
+     * @param fila guarda la fila donde se produjo el error 
+     * @param columna guarda la columna donde se produjo el error 
+     */
     
-    public error(String tipo, String descripcion, int fila, int columna){
+    public error(String tipo, String valor, int fila, int columna) {
         this.tipo = tipo;
-        this.descripcion = descripcion;
+        this.valor = valor;
         this.fila = fila;
         this.columna = columna;
     }
     
-    public String getTipo(){
-        return tipo;
-    }
-    
-    public void setTipo(String tipo){
+    /**
+     * Constructor para agregar errores encontrados en analisis indicando el archivo
+     * @param tipo guarda el tiop de error (lexico o sintactico)
+     * @param valor guarda el valor que produjo el error 
+     * @param archivo guarda el archivo donde se econtro el error
+     * @param fila guarda la fila donde se produjo el error 
+     * @param columna guarda la columna donde se produjo el error 
+     */
+    public error(String tipo, String valor, String archivo, int fila, int columna) {
         this.tipo = tipo;
-    }
-    
-    public String getDescripcion(){
-        return descripcion;
-    }
-    
-    public void setDescripcion(String descripcion){
-        this.descripcion = descripcion;
-    }
-    public int getFila() {
-        return fila;
-    }
-
-    public void setFila(int fila) {
+        this.valor = valor;
+        this.archivo = archivo;
         this.fila = fila;
-    }
-
-    public int getColumna() {
-        return columna;
-    }
-
-    public void setColumna(int columna) {
         this.columna = columna;
     }
     

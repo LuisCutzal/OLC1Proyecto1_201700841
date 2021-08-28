@@ -3,26 +3,32 @@
 //-------> importaciones, paquetes
 package AnalizadoresJS;
 import java_cup.runtime.Symbol;
-
-import com.mycompany.proyecto1_2021s2.Ventana;
-import com.mycompany.proyecto1_2021s2.errorJS;
-
 import javax.swing.JOptionPane;
 import java.util.LinkedList;
+
+import com.mycompany.proyecto1_2021s2.Nodo;
+import com.mycompany.proyecto1_2021s2.error;
+import com.mycompany.proyecto1_2021s2.Ventana;
 //------> Codigo para el parser,variables, metodos
 parser code{:
+        public String resultado = "";
+        public static Nodo raiz; 
+        
+        public Nodo getRaiz(){
+            return raiz;
+        }
 
         public void syntax_error(Symbol s)
         {
             System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
-            errorJS nuevo = new errorJS("Error Sintactico (Recuperado)", s.value.toString(), s.right+1, s.left+1);
-            Ventana.listaErrores2.add(nuevo);
+            error nuevo = new error("Error Sintactico (Recuperado)", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
         }
         public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
         {
-            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
-            errorJS nuevo = new errorJS("Error Sintactico", s.value.toString(), s.right+1, s.left+1);
-            Ventana.listaErrores2.add(nuevo);
+            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido. No se Recupero");
+            error nuevo = new error("Error Sintactico", s.value.toString(), s.right+1, s.left+1);
+            Ventana.listaErrores.add(nuevo);
         }
 
  :}
@@ -54,28 +60,25 @@ terminal String console_js, log_js;
 
 terminal String var_js,let_js,const_js;
 
-terminal and, or, not,menorIgual,mayorIgual,diferente,incremento,decremento,potencia,igualacion;
+terminal String and, or, not,menorIgual,mayorIgual,diferente,incremento,decremento,potencia,igualacion;
 
 //------> declaracion de no terminales
 
-non terminal INICIO;
-non terminal CLASES,CLASE;
+non terminal Nodo INICIO;
+non terminal Nodo CLASES,CLASE;
 non terminal INSTRUCCION,INSTRUCCIONES;
 non terminal IMPORT,METODO,DECLARACIONVARIABLES,ASIGNACIONVARIABLES;
 non terminal SENTENCIAIF,SENTENCIAFOR,SENTENCIAWHILE,SENTENCIADOWHILE,SENTENCIASWITCH;
 non terminal CONSOLA,BREAK,LLAMADA;
-non terminal TIPO,EXPRESION,PARAMETROS;
+non terminal TIPO,PARAMETROS;
 non terminal DECLARACIONFOR,CONTADOR;
 non terminal CASOS,CASO;
-
+non terminal Nodo EXPRESION;
 //------> precedencia de menor a mayor
 
-precedence left menorque;
-precedence left mayorque;
-precedence left mas;
-precedence left menos;
-precedence left multiplicacion;
-precedence left division;
+precedence left menorque, mayorque;
+precedence left mas, menos;
+precedence left multiplicacion, division;
 precedence left modulo;
 precedence right unario;
 
@@ -94,136 +97,254 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= CLASES                                                                                {: :}
+INICIO::= CLASES:a                                                                                          {: parser.raiz = a;:}
+    | error INICIO
     ;
-CLASES::= CLASES CLASE
-    |CLASE
+CLASES::= CLASES:a CLASE:b                                                                                  {: :}
+    |CLASE:a                                                                                                {: :}
     ;
-CLASES::= class_js id parentesisA parentesisC llaveabre INSTRUCCIONES llavecierra                      {: :}
-    | class_js id llaveabre INSTRUCCIONES llavecierra
-    
-    ;
-
-
-INSTRUCCIONES::=INSTRUCCIONES INSTRUCCION
-    |INSTRUCCION
+CLASES::= class_js:a id:b parentesisA:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g             {: :}
+    | class_js:a id:b llaveabre:c INSTRUCCIONES:d llavecierra:e                                             {: :}
+    | Class_js:a id:b parentesisA:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g                 {: :}
+    | Class_js:a id:b llaveabre:c INSTRUCCIONES:d llavecierra:e                                             {: :}
     ;
 
 
-INSTRUCCION::=IMPORT
-    |METODO
-    |DECLARACIONVARIABLES
-    |ASIGNACIONVARIABLES
-    |SENTENCIAIF
-    |SENTENCIAFOR   
-    |SENTENCIAWHILE
-    |SENTENCIADOWHILE
-    |SENTENCIASWITCH
-    |CONSOLA
-    |BREAK
-    |LLAMADA
-    ;
-
-IMPORT::= TIPO id igual require parentesisA cadena parentesisC puntoycoma
-    | TIPO id igual require parentesisA cadena parentesisC
-    ;
-
-METODO::= id parentesisA PARAMETROS parentesisC llaveabre INSTRUCCIONES llavecierra
-    | id parentesisA  parentesisC llaveabre INSTRUCCIONES llavecierra
-    ;
-
-PARAMETROS::= PARAMETROS coma EXPRESION
-    |EXPRESION
+INSTRUCCIONES::=INSTRUCCIONES:a INSTRUCCION:b                                                               {: :}
+    |INSTRUCCION:a                                                                                          {: :}
     ;
 
 
-
-
-DECLARACIONVARIABLES::= TIPO id igual EXPRESION puntoycoma
-    |TIPO id igual EXPRESION
-    |TIPO id puntoycoma
-    |CONTADOR puntoycoma
-    |CONTADOR 
-    |TIPO id 
+INSTRUCCION::=IMPORT:a                                                                                      {: :}
+    |METODO:a                                                                                               {: :}
+    |DECLARACIONVARIABLES:a                                                                                 {: :}
+    |ASIGNACIONVARIABLES:a                                                                                  {: :}
+    |SENTENCIAIF:a                                                                                          {: :}
+    |SENTENCIAFOR:a     {: :}
+    |SENTENCIAWHILE:a  {: :}
+    |SENTENCIADOWHILE:a  {: :}
+    |SENTENCIASWITCH:a  {: :}
+    |CONSOLA:a  {: :}
+    |BREAK:a  {: :}
+    |LLAMADA:a  {: :}
+    |error
     ;
 
-    EXPRESION::= EXPRESION igualacion EXPRESION 
-        |EXPRESION diferente EXPRESION
-        |EXPRESION menorque EXPRESION
-        |EXPRESION mayorque EXPRESION
-        |EXPRESION menorIgual EXPRESION
-        |EXPRESION mayorIgual EXPRESION
-        |EXPRESION and EXPRESION
-        |EXPRESION or EXPRESION
-        |not EXPRESION
-        |EXPRESION mas EXPRESION
-        |EXPRESION menos EXPRESION
-        |EXPRESION multiplicacion EXPRESION
-        |EXPRESION division EXPRESION
-        |EXPRESION potencia EXPRESION
-        |EXPRESION modulo EXPRESION
-        |menos EXPRESION %prec unario
-        |true_js
-        |false_js
-        |cadena
-        |numero
-        |decimal
-        |id
+IMPORT::= TIPO:a id:b igual:c require:d parentesisA:e cadena:f parentesisC:g puntoycoma:h   {: :}
+    | TIPO:a id:b igual:c require:d parentesisA:e cadena:f parentesisC:g   {: :}
+    ;
+
+METODO::= id:a parentesisA:b PARAMETROS:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g  {: :}
+    | id:a parentesisA:b  parentesisC:c llaveabre:d INSTRUCCIONES:e llavecierra:f   {: :}
+    ;
+
+PARAMETROS::= PARAMETROS:a coma:b EXPRESION:c  {: :}
+    |EXPRESION:a   {: :}
     ;
 
 
-ASIGNACIONVARIABLES::= id igual EXPRESION puntoycoma
-    |id igual EXPRESION
+DECLARACIONVARIABLES::= TIPO:a id:b igual:c EXPRESION:d puntoycoma:e        {: 
+                                                                            :}
+    |TIPO:a id:b igual:c EXPRESION:d                                        {: 
+                                                                            :}
+    |TIPO:a id:b puntoycoma:c                                               {: 
+                                                                            :}
+    |CONTADOR:a puntoycoma:b                                                {: 
+                                                                            :}
+    |CONTADOR:a                                                             {: 
+                                                                            :} 
+    |TIPO:a id:b                                                            {: 
+                                                                            :} 
     ;
 
-SENTENCIAIF::= if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra
-    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra else_js SENTENCIAIF
-    | if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra else_js llaveabre INSTRUCCIONES llavecierra
+    EXPRESION::= EXPRESION:a igualacion:b EXPRESION:c                       {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("igualacion", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :} 
+        |EXPRESION:a diferente:b EXPRESION:c                                {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("diferente", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;                                         
+                                                                            :}
+        |EXPRESION:a menorque:b EXPRESION:c                                 {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("menorque", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;                                         
+                                                                            :}
+        |EXPRESION:a mayorque:b EXPRESION:c                                 {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("mayorque", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;                                           
+                                                                            :}
+        |EXPRESION:a menorIgual:b EXPRESION:c                               {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("menorIgual", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a mayorIgual:b EXPRESION:c                               {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("mayorIgual", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a and:b EXPRESION:c                                      {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("and", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a or:b EXPRESION:c                                       {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo("or", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |not:a EXPRESION:b                                                  {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(new Nodo("not", a, bright, bleft));
+                                                                                padre.AddHijo(b);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a mas:b EXPRESION:c                                      {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                padre.AddHijo(a);
+                                                                                Nodo hijo1 = new Nodo("mas", b, bright, bleft);
+                                                                                padre.AddHijo(hijo1);
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a menos:b EXPRESION:c                                    {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                padre.AddHijo(a);
+                                                                                Nodo hijo1 = new Nodo("menos", b, bright, bleft);
+                                                                                padre.AddHijo(hijo1);
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a multiplicacion:b EXPRESION:c                           {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                padre.AddHijo(a);
+                                                                                Nodo hijo1 = new Nodo("multiplicacion", b, bright, bleft);
+                                                                                padre.AddHijo(hijo1);
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a division:b EXPRESION:c                                 {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                padre.AddHijo(a);
+                                                                                Nodo hijo1 = new Nodo("division", b, bright, bleft);
+                                                                                padre.AddHijo(hijo1);
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a potencia:b EXPRESION:c                                 {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                padre.AddHijo(a);
+                                                                                Nodo hijo1 = new Nodo("potencia", b, bright, bleft);
+                                                                                padre.AddHijo(hijo1);
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |EXPRESION:a modulo:b EXPRESION:c                                   {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                padre.AddHijo(a);
+                                                                                Nodo hijo1 = new Nodo("modulo", b, bright, bleft);
+                                                                                padre.AddHijo(hijo1);
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
+        |menos:a EXPRESION:b                                                {:  Nodo padre = new Nodo("EXPRESION", "", 0,0); 
+                                                                                padre.AddHijo(new Nodo("menos", a, aright, aleft));
+                                                                                padre.AddHijo(b);
+                                                                                RESULT = padre;                                         
+                                                                            :} %prec unario
+        |true_js:a                                                          {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                Nodo hijo = new Nodo("true_js", a, aright, aleft);
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;            
+                                                                            :}
+        |false_js:a                                                         {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                Nodo hijo = new Nodo("false_js", a, aright, aleft);
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;            
+                                                                            :}
+        |cadena:a                                                           {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                Nodo hijo = new Nodo("cadena", a, aright, aleft);
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;            
+                                                                            :}
+        |numero:a                                                           {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                Nodo hijo = new Nodo("numero", a, aright, aleft);
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;            
+                                                                            :}
+        |decimal:a                                                          {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                Nodo hijo = new Nodo("id", a, aright, aleft);
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;            
+                                                                            :}
+        |id:a                                                               {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                Nodo hijo = new Nodo("id", a, aright, aleft);
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;            
+                                                                            :}
     ;
 
-SENTENCIAFOR::= for_js parentesisA DECLARACIONFOR puntoycoma EXPRESION puntoycoma CONTADOR parentesisC llaveabre INSTRUCCIONES llavecierra
+
+ASIGNACIONVARIABLES::= id:a igual:b EXPRESION:c puntoycoma:d  {: :}
+    |id:a igual:b EXPRESION:c  {: :}
+
     ;
 
-DECLARACIONFOR::= TIPO id igual EXPRESION
-    | id igual EXPRESION
+SENTENCIAIF::= if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g  {: :}
+    | if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g else_js:h SENTENCIAIF:i  {: :}
+    | if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g else_js:h llaveabre:i INSTRUCCIONES:j llavecierra:k  {: :}
     ;
 
-CONTADOR::= id incremento
-    | id decremento
+SENTENCIAFOR::= for_js:a parentesisA:b DECLARACIONFOR:c puntoycoma:d EXPRESION:e puntoycoma:f CONTADOR:g parentesisC:h llaveabre:i INSTRUCCIONES:j llavecierra:k  {: :}
     ;
 
-TIPO::= var_js
-    |let_js
-    |const_js
+DECLARACIONFOR::= TIPO:a id:b igual:c EXPRESION:d  {: :}
+    | id:a igual:b EXPRESION:c  {: :}
     ;
 
-SENTENCIAWHILE::= while_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra
+CONTADOR::= id:a incremento:b {: :}
+    | id:a decremento:b  {: :}
     ;
 
-SENTENCIADOWHILE::= do_js llaveabre INSTRUCCIONES llavecierra while_js parentesisA EXPRESION parentesisC puntoycoma
-    | do_js llaveabre INSTRUCCIONES llavecierra while_js parentesisA EXPRESION parentesisC
+TIPO::= var_js:a {: :}
+    |let_js:a {: :}
+    |const_js:a {: :}
+
     ;
 
-SENTENCIASWITCH::= switch_js parentesisA EXPRESION parentesisC llaveabre CASOS llavecierra
+
+SENTENCIAWHILE::= while_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g  {: :}
     ;
 
-CASOS::= CASOS CASO
-    |CASO
+SENTENCIADOWHILE::= do_js:a llaveabre:b INSTRUCCIONES:c llavecierra:d while_js:e parentesisA:f EXPRESION:g parentesisC:h puntoycoma:i  {: :}
+    | do_js:a llaveabre:b INSTRUCCIONES:c llavecierra:d while_js:e parentesisA:f EXPRESION:g parentesisC:h  {: :}
     ;
 
-CASO::= case_js EXPRESION dospuntos INSTRUCCIONES
-    |default_js dospuntos INSTRUCCIONES
+SENTENCIASWITCH::= switch_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e CASOS:f llavecierra:g  {: :}
     ;
 
-CONSOLA::=console_js punto log_js parentesisA EXPRESION parentesisC puntoycoma
+CASOS::= CASOS:a CASO:b  {: :}
+    |CASO:a  {: :}
     ;
 
-BREAK::= break_js puntoycoma
-    | break_js
+CASO::= case_js:a EXPRESION:b dospuntos:c INSTRUCCIONES:d  {: :}
+    |default_js:a dospuntos:b INSTRUCCIONES:c  {: :}
     ;
 
-LLAMADA::= id parentesisA parentesisC puntoycoma
-    |id parentesisA parentesisC
-    |id parentesisA PARAMETROS parentesisC puntoycoma
-    |id parentesisA PARAMETROS parentesisC 
+CONSOLA::=console_js:a punto:b log_js:c parentesisA:d EXPRESION:e parentesisC:f puntoycoma:g  {: :}
+    ;
+
+BREAK::= break_js:a puntoycoma:b  {: :}
+    | break_js:a  {: :}
+    ;
+
+LLAMADA::= id:a parentesisA:b parentesisC:c puntoycoma:d  {: :}
+    |id:a parentesisA:b parentesisC:c  {: :}
+    |id:a parentesisA:b PARAMETROS:c parentesisC:d puntoycoma:e  {: :}
+    |id:a parentesisA:b PARAMETROS:c parentesisC:d {: :} 
     ;
