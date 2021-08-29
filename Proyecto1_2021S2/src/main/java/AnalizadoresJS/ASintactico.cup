@@ -66,12 +66,14 @@ terminal String and, or, not,menorIgual,mayorIgual,diferente,incremento,decremen
 
 non terminal Nodo INICIO;
 non terminal Nodo CLASES,CLASE;
-non terminal INSTRUCCION,INSTRUCCIONES;
+non terminal INSTRUCCION;
+non terminal Nodo INSTRUCCIONES;
 non terminal IMPORT,METODO,DECLARACIONVARIABLES,ASIGNACIONVARIABLES;
-non terminal SENTENCIAIF,SENTENCIAFOR,SENTENCIAWHILE,SENTENCIADOWHILE,SENTENCIASWITCH;
+non terminal Nodo SENTENCIAIF,SENTENCIAFOR,SENTENCIAWHILE,SENTENCIADOWHILE,SENTENCIASWITCH;
 non terminal CONSOLA,BREAK,LLAMADA;
-non terminal TIPO,PARAMETROS;
-non terminal DECLARACIONFOR,CONTADOR;
+non terminal Nodo TIPO;
+non terminal PARAMETROS;
+non terminal Nodo DECLARACIONFOR,CONTADOR;
 non terminal CASOS,CASO;
 non terminal Nodo EXPRESION;
 //------> precedencia de menor a mayor
@@ -295,25 +297,102 @@ ASIGNACIONVARIABLES::= id:a igual:b EXPRESION:c puntoycoma:d  {: :}
 
     ;
 
-SENTENCIAIF::= if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g  {: :}
-    | if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g else_js:h SENTENCIAIF:i  {: :}
-    | if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g else_js:h llaveabre:i INSTRUCCIONES:j llavecierra:k  {: :}
+SENTENCIAIF::= if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g  {: Nodo padre= new Nodo("SENTENCIAIF","",0,0);
+                                                                                                             padre.AddHijo(new Nodo("if_js",a, aright, aleft));
+                                                                                                             padre.AddHijo(new Nodo("parentesisA",b, bright, bleft));
+                                                                                                             padre.AddHijo(c);
+                                                                                                             padre.AddHijo(new Nodo("parentesisC",d, dright, dleft));
+                                                                                                             padre.AddHijo(new Nodo("llaveabre",e, eright, eleft));
+                                                                                                             padre.AddHijo(f);
+                                                                                                             padre.AddHijo(new Nodo("llavecierra",g, gright, gleft));
+                                                                                                             RESULT= padre;
+                                                                                                          :}
+    | if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g else_js:h SENTENCIAIF:i  {: Nodo padre= new Nodo("SENTENCIAIF","",0,0);
+                                                                                                                            padre.AddHijo(new Nodo("if_js",a, aright, aleft));
+                                                                                                                            padre.AddHijo(new Nodo("parentesisA",b, bright, bleft));
+                                                                                                                            padre.AddHijo(c);
+                                                                                                                            padre.AddHijo(new Nodo("parentesisC",d, dright, dleft));
+                                                                                                                            padre.AddHijo(new Nodo("llaveabre",e, eright, eleft));
+                                                                                                                            padre.AddHijo(f);
+                                                                                                                            padre.AddHijo(new Nodo("llavecierra",g, gright, gleft));
+                                                                                                                            padre.AddHijo(new Nodo("else_js",h, hright, hleft));
+                                                                                                                            padre.AddHijo(i);
+                                                                                                                            RESULT=padre;
+                                                                                                                         :}
+    | if_js:a parentesisA:b EXPRESION:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g else_js:h llaveabre:i INSTRUCCIONES:j llavecierra:k  {: Nodo padre= new Nodo("SENTENCIAIF","",0,0);
+                                                                                                                                                        padre.AddHijo(new Nodo("if_js",a, aright, aleft));
+                                                                                                                                                        padre.AddHijo(new Nodo("parentesisA",b, bright, bleft));
+                                                                                                                                                        padre.AddHijo(c);
+                                                                                                                                                        padre.AddHijo(new Nodo("parentesisC",d, dright, dleft));
+                                                                                                                                                        padre.AddHijo(new Nodo("llaveabre",e, eright, eleft));
+                                                                                                                                                        padre.AddHijo(f);
+                                                                                                                                                        padre.AddHijo(new Nodo("llavecierra",g, gright, gleft));
+                                                                                                                                                        padre.AddHijo(new Nodo("else_js",h hright, hleft));
+                                                                                                                                                        padre.AddHijo(new Nodo("llaveabre",i, iright, ileft));
+                                                                                                                                                        padre.AddHijo(j);
+                                                                                                                                                        padre.AddHijo(new Nodo("llavecierra",k, kright, kleft));
+                                                                                                                                                        RESULT=padre;
+                                                                                                                                                     :}
     ;
 
-SENTENCIAFOR::= for_js:a parentesisA:b DECLARACIONFOR:c puntoycoma:d EXPRESION:e puntoycoma:f CONTADOR:g parentesisC:h llaveabre:i INSTRUCCIONES:j llavecierra:k  {: :}
+SENTENCIAFOR::= for_js:a parentesisA:b DECLARACIONFOR:c puntoycoma:d EXPRESION:e puntoycoma:f CONTADOR:g parentesisC:h llaveabre:i INSTRUCCIONES:j llavecierra:k  {: Nodo padre= new Nodo("SENTENCIAFOR","",0,0);
+                                                                                                                                                                  padre.AddHijo(new Nodo("for_js",a,aright, aleft));
+                                                                                                                                                                  padre.AddHijo(new Nodo ("parentesisA",b,bright, bleft));
+                                                                                                                                                                  padre.AddHijo(c);
+                                                                                                                                                                  padre.AddHijo(new Nodo ("puntoycoma",d,dright, dleft));
+                                                                                                                                                                  padre.AddHijo(e);
+                                                                                                                                                                  padre.AddHijo(new Nodo("puntoycoma",f, fright, fleft));
+                                                                                                                                                                  padre.AddHijo(g);
+                                                                                                                                                                  padre.AddHijo(new Nodo("parentesisC",h, hright, hleft));
+                                                                                                                                                                  padre.AddHijo(new Nodo ("llaveabre",i, iright, ileft));
+                                                                                                                                                                  padre.AddHijo(j);
+                                                                                                                                                                  padre.AddHijo(new Nodo ("llavecierra",k, kright, kleft));
+                                                                                                                                                                  RESULT = padre;
+                                                                                                                                                                    :}
     ;
 
-DECLARACIONFOR::= TIPO:a id:b igual:c EXPRESION:d  {: :}
-    | id:a igual:b EXPRESION:c  {: :}
+DECLARACIONFOR::= TIPO:a id:b igual:c EXPRESION:d                           {:  Nodo padre = new Nodo ("DECLARACIONFOR","",0,0);
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo ("id", b, bright, bleft));
+                                                                                padre.AddHijo(new Nodo ("igual", c, cright, cleft));
+                                                                                padre.AddHijo(d);
+                                                                                RESULT = padre;
+                                                                            :}
+    | id:a igual:b EXPRESION:c                                              {:  Nodo padre = new Nodo ("DECLARACIONFOR","",0,0);
+                                                                                padre.AddHijo(new Nodo ("id",a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo ("igual",b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            :}
     ;
 
-CONTADOR::= id:a incremento:b {: :}
-    | id:a decremento:b  {: :}
+CONTADOR::= id:a incremento:b                                               {:  Nodo padre = new Nodo ("CONTADOR","",0,0);
+                                                                                padre.AddHijo(new Nodo("id", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("incremento", b, bright, bleft));
+                                                                                RESULT = padre;
+                                                                            :}
+    | id:a decremento:b                                                     {:  Nodo padre = new Nodo ("CONTADOR","",0,0);
+                                                                                padre.AddHijo(new Nodo("id", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("decremento", b, bright, bleft));
+                                                                                RESULT = padre;
+                                                                            :}
     ;
 
-TIPO::= var_js:a {: :}
-    |let_js:a {: :}
-    |const_js:a {: :}
+TIPO::= var_js:a                                                            {:  Nodo padre = new Nodo("TIPO","",0,0);
+                                                                                Nodo hijo= new Nodo("var", a, aright, aleft); 
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;
+                                                                            :}
+    |let_js:a                                                               {:  Nodo padre = new Nodo("TIPO","",0,0);
+                                                                                Nodo hijo= new Nodo("let", a, aright, aleft); 
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;
+                                                                            :}
+    |const_js:a                                                             {:  Nodo padre = new Nodo("TIPO","",0,0);
+                                                                                Nodo hijo= new Nodo("const", a, aright, aleft); 
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;
+                                                                            :}
 
     ;
 

@@ -778,7 +778,7 @@ class CUP$SintacticoJS$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo f = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -802,7 +802,7 @@ class CUP$SintacticoJS$actions {
 		String c = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int dleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object d = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo d = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -832,7 +832,7 @@ class CUP$SintacticoJS$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo f = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -856,7 +856,7 @@ class CUP$SintacticoJS$actions {
 		String c = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int dleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object d = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo d = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -868,10 +868,10 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 9: // INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		Object b = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -883,7 +883,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 10: // INSTRUCCIONES ::= INSTRUCCION 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -946,7 +946,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("INSTRUCCION",3, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
@@ -958,7 +958,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("INSTRUCCION",3, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
@@ -970,7 +970,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("INSTRUCCION",3, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
@@ -982,7 +982,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("INSTRUCCION",3, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
@@ -994,7 +994,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("INSTRUCCION",3, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
@@ -1051,7 +1051,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
@@ -1084,7 +1084,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).value;
@@ -1129,7 +1129,7 @@ class CUP$SintacticoJS$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo f = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -1156,7 +1156,7 @@ class CUP$SintacticoJS$actions {
 		String d = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object e = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo e = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String f = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -1201,7 +1201,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
@@ -1226,7 +1226,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
@@ -1248,7 +1248,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
@@ -1267,7 +1267,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -1283,7 +1283,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
                                                                             
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("DECLARACIONVARIABLES",7, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
@@ -1296,7 +1296,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -1810,7 +1810,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 60: // SENTENCIAIF ::= if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
@@ -1828,11 +1828,20 @@ class CUP$SintacticoJS$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo f = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		 Nodo padre= new Nodo("SENTENCIAIF","",0,0);
+                                                                                                             padre.AddHijo(new Nodo("if_js",a, aright, aleft));
+                                                                                                             padre.AddHijo(new Nodo("parentesisA",b, bright, bleft));
+                                                                                                             padre.AddHijo(c);
+                                                                                                             padre.AddHijo(new Nodo("parentesisC",d, dright, dleft));
+                                                                                                             padre.AddHijo(new Nodo("llaveabre",e, eright, eleft));
+                                                                                                             padre.AddHijo(f);
+                                                                                                             padre.AddHijo(new Nodo("llavecierra",g, gright, gleft));
+                                                                                                             RESULT= padre;
+                                                                                                          
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("SENTENCIAIF",9, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -1840,7 +1849,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 61: // SENTENCIAIF ::= if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra else_js SENTENCIAIF 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).value;
@@ -1858,7 +1867,7 @@ class CUP$SintacticoJS$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
+		Nodo f = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
@@ -1867,8 +1876,19 @@ class CUP$SintacticoJS$actions {
 		String h = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int ileft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object i = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		Nodo i = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		 Nodo padre= new Nodo("SENTENCIAIF","",0,0);
+                                                                                                                            padre.AddHijo(new Nodo("if_js",a, aright, aleft));
+                                                                                                                            padre.AddHijo(new Nodo("parentesisA",b, bright, bleft));
+                                                                                                                            padre.AddHijo(c);
+                                                                                                                            padre.AddHijo(new Nodo("parentesisC",d, dright, dleft));
+                                                                                                                            padre.AddHijo(new Nodo("llaveabre",e, eright, eleft));
+                                                                                                                            padre.AddHijo(f);
+                                                                                                                            padre.AddHijo(new Nodo("llavecierra",g, gright, gleft));
+                                                                                                                            padre.AddHijo(new Nodo("else_js",h, hright, hleft));
+                                                                                                                            padre.AddHijo(i);
+                                                                                                                            RESULT=padre;
+                                                                                                                         
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("SENTENCIAIF",9, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -1876,7 +1896,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 62: // SENTENCIAIF ::= if_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra else_js llaveabre INSTRUCCIONES llavecierra 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-10)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-10)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-10)).value;
@@ -1894,7 +1914,7 @@ class CUP$SintacticoJS$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).value;
+		Nodo f = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).value;
@@ -1906,7 +1926,7 @@ class CUP$SintacticoJS$actions {
 		String i = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object j = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo j = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int kleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int kright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String k = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -1918,7 +1938,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 63: // SENTENCIAFOR ::= for_js parentesisA DECLARACIONFOR puntoycoma EXPRESION puntoycoma CONTADOR parentesisC llaveabre INSTRUCCIONES llavecierra 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-10)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-10)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-10)).value;
@@ -1927,7 +1947,7 @@ class CUP$SintacticoJS$actions {
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-9)).value;
 		int cleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).right;
-		Object c = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).value;
+		Nodo c = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).value;
 		int dleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).right;
 		String d = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).value;
@@ -1939,7 +1959,7 @@ class CUP$SintacticoJS$actions {
 		String f = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).right;
-		Object g = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).value;
+		Nodo g = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).value;
 		int hleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).left;
 		int hright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).right;
 		String h = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
@@ -1948,11 +1968,24 @@ class CUP$SintacticoJS$actions {
 		String i = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object j = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo j = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int kleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int kright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String k = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		 Nodo padre= new Nodo("SENTENCIAFOR","",0,0);
+                                                                                                                                                                  padre.AddHijo(new Nodo("for_js",a,aright, aleft));
+                                                                                                                                                                  padre.AddHijo(new Nodo ("parentesisA",b,bright, bleft));
+                                                                                                                                                                  padre.AddHijo(c);
+                                                                                                                                                                  padre.AddHijo(new Nodo ("puntoycoma",d,dright, dleft));
+                                                                                                                                                                  padre.AddHijo(e);
+                                                                                                                                                                  padre.AddHijo(new Nodo("puntoycoma",f, fright, fleft));
+                                                                                                                                                                  padre.AddHijo(g);
+                                                                                                                                                                  padre.AddHijo(new Nodo("parentesisC",h, hright, hleft));
+                                                                                                                                                                  padre.AddHijo(new Nodo ("llaveabre",i, iright, ileft));
+                                                                                                                                                                  padre.AddHijo(j);
+                                                                                                                                                                  padre.AddHijo(new Nodo ("llavecierra",k, kright, kleft));
+                                                                                                                                                                  RESULT = padre;
+                                                                                                                                                                    
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("SENTENCIAFOR",10, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-10)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -1960,10 +1993,10 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 64: // DECLARACIONFOR ::= TIPO id igual EXPRESION 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
+		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
@@ -1973,7 +2006,13 @@ class CUP$SintacticoJS$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		Nodo d = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		  Nodo padre = new Nodo ("DECLARACIONFOR","",0,0);
+                                                                                padre.AddHijo(a);
+                                                                                padre.AddHijo(new Nodo ("id", b, bright, bleft));
+                                                                                padre.AddHijo(new Nodo ("igual", c, cright, cleft));
+                                                                                padre.AddHijo(d);
+                                                                                RESULT = padre;
+                                                                            
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("DECLARACIONFOR",19, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -1981,7 +2020,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 65: // DECLARACIONFOR ::= id igual EXPRESION 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
@@ -1991,7 +2030,12 @@ class CUP$SintacticoJS$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		Nodo c = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		  Nodo padre = new Nodo ("DECLARACIONFOR","",0,0);
+                                                                                padre.AddHijo(new Nodo ("id",a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo ("igual",b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                RESULT = padre;
+                                                                            
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("DECLARACIONFOR",19, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -1999,14 +2043,18 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 66: // CONTADOR ::= id incremento 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		  Nodo padre = new Nodo ("CONTADOR","",0,0);
+                                                                                padre.AddHijo(new Nodo("id", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("incremento", b, bright, bleft));
+                                                                                RESULT = padre;
+                                                                            
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("CONTADOR",20, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -2014,14 +2062,18 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 67: // CONTADOR ::= id decremento 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int bleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		  Nodo padre = new Nodo ("CONTADOR","",0,0);
+                                                                                padre.AddHijo(new Nodo("id", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("decremento", b, bright, bleft));
+                                                                                RESULT = padre;
+                                                                            
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("CONTADOR",20, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -2029,11 +2081,15 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 68: // TIPO ::= var_js 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		  Nodo padre = new Nodo("TIPO","",0,0);
+                                                                                Nodo hijo= new Nodo("var", a, aright, aleft); 
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;
+                                                                            
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("TIPO",17, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -2041,11 +2097,15 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 69: // TIPO ::= let_js 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		  Nodo padre = new Nodo("TIPO","",0,0);
+                                                                                Nodo hijo= new Nodo("let", a, aright, aleft); 
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;
+                                                                            
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("TIPO",17, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -2053,11 +2113,15 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 70: // TIPO ::= const_js 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
-		 
+		  Nodo padre = new Nodo("TIPO","",0,0);
+                                                                                Nodo hijo= new Nodo("const", a, aright, aleft); 
+                                                                                padre.AddHijo(hijo);
+                                                                                RESULT = padre;
+                                                                            
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("TIPO",17, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
           return CUP$SintacticoJS$result;
@@ -2065,7 +2129,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 71: // SENTENCIAWHILE ::= while_js parentesisA EXPRESION parentesisC llaveabre INSTRUCCIONES llavecierra 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
@@ -2083,7 +2147,7 @@ class CUP$SintacticoJS$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo f = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int gleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int gright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -2095,7 +2159,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 72: // SENTENCIADOWHILE ::= do_js llaveabre INSTRUCCIONES llavecierra while_js parentesisA EXPRESION parentesisC puntoycoma 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-8)).value;
@@ -2104,7 +2168,7 @@ class CUP$SintacticoJS$actions {
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).value;
 		int cleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).right;
-		Object c = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
+		Nodo c = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
 		int dleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).right;
 		String d = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).value;
@@ -2131,7 +2195,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 73: // SENTENCIADOWHILE ::= do_js llaveabre INSTRUCCIONES llavecierra while_js parentesisA EXPRESION parentesisC 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-7)).value;
@@ -2140,7 +2204,7 @@ class CUP$SintacticoJS$actions {
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
 		int cleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).right;
-		Object c = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).value;
+		Nodo c = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-5)).value;
 		int dleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).right;
 		String d = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-4)).value;
@@ -2164,7 +2228,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 74: // SENTENCIASWITCH ::= switch_js parentesisA EXPRESION parentesisC llaveabre CASOS llavecierra 
             {
-              Object RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-6)).value;
@@ -2233,7 +2297,7 @@ class CUP$SintacticoJS$actions {
 		String c = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int dleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object d = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo d = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("CASO",22, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-3)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
@@ -2251,7 +2315,7 @@ class CUP$SintacticoJS$actions {
 		String b = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		int cleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
-		Object c = (Object)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
+		Nodo c = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
 		 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("CASO",22, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-2)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
