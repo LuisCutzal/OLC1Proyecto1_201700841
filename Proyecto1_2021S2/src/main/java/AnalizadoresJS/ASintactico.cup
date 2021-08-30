@@ -4,7 +4,6 @@
 package AnalizadoresJS;
 import java_cup.runtime.Symbol;
 import javax.swing.JOptionPane;
-import java.util.LinkedList;
 
 import com.mycompany.proyecto1_2021s2.Nodo;
 import com.mycompany.proyecto1_2021s2.error;
@@ -64,7 +63,7 @@ terminal String and, or, not,menorIgual,mayorIgual,diferente,incremento,decremen
 
 //------> declaracion de no terminales
 
-non terminal String INICIO;
+non terminal Nodo INICIO;
 non terminal Nodo CLASES,CLASE;
 non terminal Nodo INSTRUCCION;
 non terminal Nodo INSTRUCCIONES;

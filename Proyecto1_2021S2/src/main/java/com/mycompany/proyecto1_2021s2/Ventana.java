@@ -46,12 +46,39 @@ public class Ventana extends javax.swing.JFrame {
     /**
      * Metodo para generar el reporte de errores
      */
-    ArrayList<String> variables = new ArrayList<String>();
+    ArrayList<String> variables = new ArrayList<String>();//funciona
+    ArrayList<String> clases = new ArrayList<String>();//funciona
+    ArrayList<String> importaciones = new ArrayList<String>();//funciona
+    ArrayList<String> metodos = new ArrayList<String>();//funciona
+    ArrayList<String> asignaciones = new ArrayList<String>();//funciona
+    ArrayList<String> sentenciasIf = new ArrayList<String>();//funciona pero aun tengo que ver validaciones
+    //ArrayList<String> elses = new ArrayList<String>();//aun no se si tengo que agregar una lista para else, else if
+    ArrayList<String> sentenciasFor = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
+    ArrayList<String> sentenciasWhile = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
+    ArrayList<String> sentenciasDo = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
+    ArrayList<String> sentenciasSwhitch = new ArrayList<String>();//funciona pero aun tengo q ver validaciones de los casos y el default
+    ArrayList<String> consolas = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
+    ArrayList<String> breaks = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
+    ArrayList<String> llamadas = new ArrayList<String>();//funciona
+    ArrayList<String> contadores = new ArrayList<String>();
     
-    public void encontrar_variables(Nodo nodo){
-        
+    
+    public void encontrar(Nodo nodo){
         for(Nodo instruccion : nodo.hijos){
-            
+            if (instruccion.token=="CLASE") {
+                for (Nodo clase : instruccion.hijos) {
+                    if (clase.token=="id") {//si encuentra la clase con el nombre que se le da, ejemplo class hola(){}  aparece el nombre de la clase
+                        clases.add(clase.lexema);
+                    }
+                }
+            }
+            if(instruccion.token=="IMPORT"){
+                for(Nodo importacion : instruccion.hijos){
+                    if(importacion.token == "id"){
+                        importaciones.add(importacion.lexema);
+                    }
+                }
+            }
             if(instruccion.token == "DECLARACIONVARIABLES"){
                 for(Nodo declaracion : instruccion.hijos){
                     if(declaracion.token == "id"){
@@ -60,15 +87,156 @@ public class Ventana extends javax.swing.JFrame {
                 }
             }
             
+            if(instruccion.token == "METODO"){
+                for(Nodo metodo : instruccion.hijos){
+                    if(metodo.token == "id"){
+                        metodos.add(metodo.lexema);
+                    }
+                }
+            }
+            
+            if(instruccion.token == "ASIGNACIONVARIABLES"){
+                for(Nodo asignacion : instruccion.hijos){
+                    if(asignacion.token == "id"){
+                        asignaciones.add(asignacion.lexema);
+                    }
+                }
+            }
+            
+            if(instruccion.token == "SENTENCIAIF"){//en esta parte tengo dudas respecto a el if, else if y else ver despues, por el momento funciona
+                for(Nodo sentenciaif : instruccion.hijos){
+                    if(sentenciaif.token == "if_js"){
+                        sentenciasIf.add(sentenciaif.lexema);
+                    }
+                }
+            }
+            
+            if(instruccion.token == "SENTENCIAFOR"){
+                for(Nodo sentenciafor : instruccion.hijos){
+                    if(sentenciafor.token == "for_js"){
+                        sentenciasFor.add(sentenciafor.lexema);
+                    }
+                }
+            }
+            
+            if(instruccion.token == "SENTENCIAWHILE"){
+                for(Nodo sentenciawhile : instruccion.hijos){
+                    if(sentenciawhile.token == "while_js"){
+                        sentenciasWhile.add(sentenciawhile.lexema);
+                    }
+                }
+            }
+            
+            if(instruccion.token == "SENTENCIADOWHILE"){
+                for(Nodo sentenciaDowhile : instruccion.hijos){
+                    if(sentenciaDowhile.token == "do_js"){
+                        sentenciasDo.add(sentenciaDowhile.lexema);
+                    }
+                }
+            }
+            
+            if(instruccion.token == "SENTENCIASWITCH"){
+                for(Nodo sentenciaSwitch : instruccion.hijos){
+                    if(sentenciaSwitch.token == "switch_js"){
+                        sentenciasSwhitch.add(sentenciaSwitch.lexema);
+                    }
+                    
+                }
+            }
+            
+            if(instruccion.token == "CONSOLA"){
+                for(Nodo consola : instruccion.hijos){
+                    if(consola.token == "console_js"){
+                        consolas.add(consola.lexema);
+                    }
+                    
+                }
+            }
+            
+            if(instruccion.token == "BREAK"){
+                for(Nodo breack : instruccion.hijos){
+                    if(breack.token == "break_js"){
+                        breaks.add(breack.lexema);
+                    }
+                    
+                }
+            }
+            if(instruccion.token == "LLAMADA"){
+                for(Nodo llamada : instruccion.hijos){
+                    if(llamada.token == "id"){
+                        llamadas.add(llamada.lexema);
+                    }
+                    
+                }
+            }
+            
+            if(instruccion.token == "CONTADOR"){
+                for(Nodo contador : instruccion.hijos){
+                    if(contador.token == "id"){
+                        contadores.add(contador.lexema);
+                    }
+                }
+            }
+            
             if(instruccion.lexema == "" ){
-                encontrar_variables(instruccion);
+                encontrar(instruccion);
             }
         }
     }
     
-    public void imprimir_variables(){
+    public void imprimir(){
+        for (String cla:clases){
+            jTextArea2.append("Clase encontrada --> " + cla + "\n");
+        }
+        for(String importacion:importaciones){
+            jTextArea2.append("Import encontrada --> " + importacion + "\n");
+        }
+        for(String metodo:metodos){
+            jTextArea2.append("Metodo encontrado --> " + metodo + "\n");
+        }
         for( String id: variables ){
-            jTextArea2.append("variable encontrada --> " + id + "\n");
+            jTextArea2.append("Variable encontrada --> " + id + "\n");
+        }
+        for( String asignacion: asignaciones ){
+            jTextArea2.append("Asignacion encontrada --> " + asignacion + "\n");
+        }
+        for( String sentenciaif: sentenciasIf ){ //tengo mis dudas respecto al if, else if y else, ver despues
+            //System.out.println("sentenciaif: "+sentenciaif);
+            jTextArea2.append("Sentencia IF encontrada --> " + sentenciaif + "\n");
+        }
+        /*
+        for( String el: elses ){
+            jTextArea2.append("Sentencia ELSE encontrada --> " + el + "\n");
+        }
+        */
+        
+        for( String senFor: sentenciasFor ){
+            jTextArea2.append("Sentencia For encontrada --> " + senFor + "\n");
+        }
+        
+        for( String senwhile: sentenciasWhile ){
+            jTextArea2.append("Sentencia WHILE encontrada --> " + senwhile + "\n");
+        }
+        for( String senDowhile: sentenciasDo ){
+            jTextArea2.append("Sentencia DO-WHILE encontrada --> " + senDowhile + "\n");
+        }
+        for( String senSwhitch: sentenciasSwhitch ){
+            jTextArea2.append("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
+        }
+        
+        for( String consola: consolas ){
+            jTextArea2.append("Consola encontrada --> " + consola + "\n");
+        }
+        
+        for( String breack: breaks ){
+            jTextArea2.append("Break encontrada --> " + breack + "\n");
+        }
+        for( String llamada: llamadas ){
+            jTextArea2.append("La Llamada es --> " + llamada + "\n");
+        }
+        
+        for( String contador: contadores ){
+            jTextArea2.append("El contador es --> " + contador + "\n");
         }
     }
     public void ReporteErrores(){
@@ -82,7 +250,7 @@ public class Ventana extends javax.swing.JFrame {
         FileWriter fichero = null;
         PrintWriter pw = null;
                 try {
-                    String path = "Reporteerrores.html";
+                    String path = "ReporteErrores.html";
                     fichero = new FileWriter(path);
                     pw = new PrintWriter(fichero); 
                 String Html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//ES\">\n\t"
@@ -354,8 +522,8 @@ public class Ventana extends javax.swing.JFrame {
             
             jTextArea2.setText("");
             variables.clear();
-            encontrar_variables(raiz);
-            imprimir_variables();
+            encontrar(raiz);
+            imprimir();
         }
        
         JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);

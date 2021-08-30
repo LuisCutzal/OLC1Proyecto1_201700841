@@ -4,6 +4,11 @@ class Car(){
     let archivo3 = require("../archivo3") 
     var Variable1 = 5; 
     
+    myFunction(p1,p2){
+        var si =0;
+    } 
+
+
     if(x<60 && y!=true){
         Variable1 = "hola mundo if "
     }else if(j != 0){

@@ -7,7 +7,6 @@ package AnalizadoresJS;
 
 import java_cup.runtime.Symbol;
 import javax.swing.JOptionPane;
-import java.util.LinkedList;
 import com.mycompany.proyecto1_2021s2.Nodo;
 import com.mycompany.proyecto1_2021s2.error;
 import com.mycompany.proyecto1_2021s2.Ventana;
@@ -703,7 +702,7 @@ class CUP$SintacticoJS$actions {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).left;
 		int start_valright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).right;
-		String start_val = (String)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
+		Nodo start_val = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)).value;
 		RESULT = start_val;
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("$START",0, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }
@@ -714,7 +713,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 1: // INICIO ::= CLASES 
             {
-              String RESULT =null;
+              Nodo RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()).right;
 		Nodo a = (Nodo)((java_cup.runtime.Symbol) CUP$SintacticoJS$stack.peek()).value;
@@ -726,7 +725,7 @@ class CUP$SintacticoJS$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 2: // INICIO ::= error INICIO 
             {
-              String RESULT =null;
+              Nodo RESULT =null;
 
               CUP$SintacticoJS$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.elementAt(CUP$SintacticoJS$top-1)), ((java_cup.runtime.Symbol)CUP$SintacticoJS$stack.peek()), RESULT);
             }

@@ -6,6 +6,7 @@ import java_cup.runtime.Symbol;
 
 import com.mycompany.proyecto1_2021s2.Ventana;
 import com.mycompany.proyecto1_2021s2.error;
+import com.mycompany.proyecto1_2021s2.Comparar;
 
 import javax.swing.JOptionPane;
 import java.util.LinkedList;
@@ -14,9 +15,13 @@ import Reportes.Caracteristica;
 import Reportes.GraficaBarras;
 import Reportes.Valor;
 
+import Reportes.GraficaLineas;
+import Reportes.GraficaPie;
+
 //------> Codigo para el parser,variables, metodos
 parser code{:
-
+        public String resultado = "";
+        public static LinkedList<Object> instrucciones;
         public void syntax_error(Symbol s)
         {
             System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
@@ -62,13 +67,20 @@ terminal String DefinirGlobales,string,dou;
 
 //------> declaracion de no terminales
 
-non terminal  INICIO, GENERARREPORTE;
-non terminal  INSTRUCCIONES,INSTRUCCION;
-non terminal  COMPARE,DEFINIRGLOBALES,GRAFICABARRAS,GRAFICAPIE,GRAFICASLINEAS;
+non terminal INICIO;
+non terminal LinkedList<Object> INSTRUCCIONES, GENERARREPORTE;
+non terminal Object INSTRUCCION;
+non terminal Comparar COMPARE;
+non terminal DEFINIRGLOBALES;
+non terminal GraficaBarras GRAFICABARRAS;
+non terminal GraficaPie GRAFICAPIE;
+non terminal GraficaLineas GRAFICASLINEAS;
 non terminal  DEFINICIONVARIABLESG,DEFINICIONVARIABLEG,TIPO,VALORTIPO;
-non terminal  INFOSBARRAS;
+non terminal Caracteristica INFOSBARRAS;
 non terminal  INFOSLINEAS;
-non terminal  INFOS,DATOS,VALORES,DATO;
+non terminal  INFOS;
+non terminal Valor DATO;
+non terminal LinkedList<Valor> DATOS,VALORES;
 
 //------> precedencia de menor a mayor
 
@@ -78,27 +90,27 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= GENERARREPORTE:a                                                                                {: :}
+INICIO::= GENERARREPORTE:a                                                                                {: instrucciones = a; :}
     ;
 
-GENERARREPORTE::= generarReporteEstadistico:a  llaveabre:b INSTRUCCIONES:c  llavecierra:d                       {: :}
+GENERARREPORTE::= generarReporteEstadistico:a  llaveabre:b INSTRUCCIONES:c  llavecierra:d                 {: RESULT= c; :}
     ;
 
-INSTRUCCIONES::=INSTRUCCIONES:a INSTRUCCION:b                                                               {: :}
-    | INSTRUCCION:a                                                                                       {: :}
+INSTRUCCIONES::=INSTRUCCIONES:a INSTRUCCION:b                                                             {: RESULT = a; RESULT.add(b); :}
+    | INSTRUCCION:a                                                                                       {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-INSTRUCCION::= COMPARE:a                                                                                  {: :}
-    |DEFINIRGLOBALES:a                                                                                    {: :}
-    |GRAFICABARRAS:a                                                                                      {: :}
-    |GRAFICAPIE:a                                                                                         {: :}
-    |GRAFICASLINEAS:a                                                                                     {: :}
+INSTRUCCION::= COMPARE:a                                                                                  {: RESULT = a; :}
+    |DEFINIRGLOBALES:a                                                                                    {: RESULT = a; :}
+    |GRAFICABARRAS:a                                                                                      {: RESULT = a; :}
+    |GRAFICAPIE:a                                                                                         {: RESULT = a; :}
+    |GRAFICASLINEAS:a                                                                                     {: RESULT = a; :}
     ;
 
-COMPARE::= compare:a parentesisA:b  cadena:c  coma:d   cadena:e   parentesisC:f  puntoycoma:g                         {: :}
+COMPARE::= compare:a parentesisA:b  cadena:c  coma:d   cadena:e   parentesisC:f  puntoycoma:g             {: RESULT = new Comparar(c.substring(1,c.length()-1),e.substring(1,e.length()-1)); :}
     ;
 
-DEFINIRGLOBALES::= DefinirGlobales:a llaveabre:b DEFINICIONVARIABLESG:c llavecierra:g                           {: :}
+DEFINIRGLOBALES::= DefinirGlobales:a llaveabre:b DEFINICIONVARIABLESG:c llavecierra:g                     {: :}
     ;
 
 DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG:a DEFINICIONVARIABLEG:b                                        {: :}
@@ -119,7 +131,7 @@ VALORTIPO::= cadena:a                                                           
     |dolar:a llaveabre:b id:c coma:d  cadena:e  coma:f cadena:g coma:h cadena:i llavecierra:j                               {: :}
     ;
 
-GRAFICABARRAS::= graficaBarras:a llaveabre:b INFOSBARRAS:c llavecierra:d                                        {: :}
+GRAFICABARRAS::= graficaBarras:a llaveabre:b INFOSBARRAS:c llavecierra:d                                  {:  :}
     ;
 
 GRAFICASLINEAS::= graficaLineas:a llaveabre:b INFOSLINEAS:c  llavecierra:d                                      {: :}
@@ -133,7 +145,7 @@ INFOSBARRAS::=INFOSBARRAS:a titulo:b dospuntos:c id:d puntoycoma:e              
     |INFOSBARRAS:a VALORES:b                                                                                {: :}
     |INFOSBARRAS:a tituloX:b dospuntos:c  cadena:d  puntoycoma:e                                                  {: :}
     |INFOSBARRAS:a tituloY:b dospuntos:c  cadena:d  puntoycoma:e                                                  {: :}
-    |titulo:a dospuntos:b id:c puntoycoma:d                                                                     {: :}
+    |titulo:a dospuntos:b id:c puntoycoma:d                                                                {:  :}
     |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                               {: :}
     |tituloX:a dospuntos:b  cadena:c  puntoycoma:d                                                              {: :}
     |tituloY:a dospuntos:b  cadena:c  puntoycoma:d                                                              {: :}
@@ -154,16 +166,16 @@ INFOS::=INFOS:a titulo:b dospuntos:c id:d puntoycoma:e                          
     |VALORES:a                                                                                            {: :}
     ;
 
-VALORES::= Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                      {: :}
+VALORES::= Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                            {: :}
     ;
 
-DATOS::= DATOS:a coma:b DATO:c                                                                                {: :}
-    |DATO:a                                                                                               {: :}
+DATOS::= DATOS:a coma:b DATO:c                                                                            {: RESULT = a; RESULT.add(c); :}
+    |DATO:a                                                                                               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-DATO::=decimal:a                                                                                          {: :}                                                                                         
-    |numero:a
-    |cadena:a                                                                                             {: :}
-    |id:a                                                                                                 {: :}
-    |dolar:a llaveabre:b id:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j                                 {: :}
+DATO::=decimal:a                                                                                          {: RESULT= new Valor(1, new Double(a)); :}
+    |numero:a                                                                                             {: RESULT= new Valor(2, new Integer(a)); :}
+    |id:a                                                                                                 {: RESULT= new Valor(3, a); :}
+    |cadena:a                                                                                             {: RESULT= new Valor(4, a.substring(1,a.length()-1)); :}
+    |dolar:a llaveabre:b id:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j               {:  :}
     ;
