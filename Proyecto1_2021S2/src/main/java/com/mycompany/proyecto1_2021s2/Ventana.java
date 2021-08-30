@@ -52,9 +52,9 @@ public class Ventana extends javax.swing.JFrame {
         
         for(Nodo instruccion : nodo.hijos){
             
-            if(instruccion.token == "DECLARACION"){
+            if(instruccion.token == "DECLARACIONVARIABLES"){
                 for(Nodo declaracion : instruccion.hijos){
-                    if(declaracion.token == "identificador"){
+                    if(declaracion.token == "id"){
                         variables.add(declaracion.lexema);
                     }
                 }
@@ -339,22 +339,12 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         Nodo raiz = null;
-        /*
-        try {
-            Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
-            
-            sint.parse();
-            System.out.println("Lectura del archivo AFC correcta");
-             
-        } catch (Exception e) {
-            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
-        }
-        */
         
         try {
             SintacticoJS sint=new SintacticoJS(new ALexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             
             sint.parse();
+            raiz = sint.getRaiz();
             System.out.println("Lectura del archivo JS correcta");
              
         } catch (Exception e) {
@@ -369,6 +359,21 @@ public class Ventana extends javax.swing.JFrame {
         }
        
         JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        
+        
+        /*
+        try {
+            Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
+            
+            sint.parse();
+            System.out.println("Lectura del archivo AFC correcta");
+             
+        } catch (Exception e) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
+        }
+        */
+        
+        
          
             
             
