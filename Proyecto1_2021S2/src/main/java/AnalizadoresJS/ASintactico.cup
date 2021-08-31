@@ -77,19 +77,18 @@ non terminal Nodo CASOS,CASO;
 non terminal Nodo EXPRESION;
 //------> precedencia de menor a mayor
 
-precedence left menorque, mayorque;
+precedence left or;
+precedence left and;
+precedence left igualacion,diferente;
+precedence left mayorque,menorque, mayorIgual,menorIgual;
 precedence left mas, menos;
-precedence left multiplicacion, division;
-precedence left modulo;
+precedence left multiplicacion, division, modulo;
+precedence left potencia;
 precedence right unario;
 
-precedence left igualacion;
-precedence left diferente;
-precedence left menorIgual;
-precedence left mayorIgual;
-precedence left and;
-precedence left or;
-precedence left potencia;
+
+
+
 
 
 
@@ -127,6 +126,7 @@ CLASE::= class_js:a id:b parentesisA:c parentesisC:d llaveabre:e INSTRUCCIONES:f
                                                                                                               padre.AddHijo(new Nodo("llaveabre",c, cright, cleft));
                                                                                                               padre.AddHijo(d);
                                                                                                               padre.AddHijo(new Nodo("llavecierra",e, eright, eleft));
+                                                                                                              RESULT = padre;
                                                                                                             :}
     | Class_js:a id:b parentesisA:c parentesisC:d llaveabre:e INSTRUCCIONES:f llavecierra:g                 {: Nodo padre = new Nodo("CLASE","",0,0);
                                                                                                               padre.AddHijo(new Nodo("Class_js",a, aright, aleft));
@@ -144,6 +144,7 @@ CLASE::= class_js:a id:b parentesisA:c parentesisC:d llaveabre:e INSTRUCCIONES:f
                                                                                                               padre.AddHijo(new Nodo("llaveabre",c, cright, cleft));
                                                                                                               padre.AddHijo(d);
                                                                                                               padre.AddHijo(new Nodo("llavecierra",e, eright, eleft));
+                                                                                                              RESULT = padre;
                                                                                                             :}
     ;
 
@@ -369,6 +370,12 @@ DECLARACIONVARIABLES::= TIPO:a id:b igual:c EXPRESION:d puntoycoma:e        {:  
                                                                                 padre.AddHijo(b);
                                                                                 RESULT = padre;                                         
                                                                             :} %prec unario
+        |parentesisA:a EXPRESION:b parentesisC:c                            {:  Nodo padre = new Nodo("EXPRESION", "", 0,0);
+                                                                                padre.AddHijo(new Nodo("parentesisA",a, aright, aleft));
+                                                                                padre.AddHijo(b);
+                                                                                padre.AddHijo(new Nodo("parentesisC",c, cright, cleft));
+                                                                                RESULT = padre;
+                                                                            :}
         |true_js:a                                                          {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
                                                                                 Nodo hijo = new Nodo("true_js", a, aright, aleft);
                                                                                 padre.AddHijo(hijo);
@@ -390,7 +397,7 @@ DECLARACIONVARIABLES::= TIPO:a id:b igual:c EXPRESION:d puntoycoma:e        {:  
                                                                                 RESULT = padre;            
                                                                             :}
         |decimal:a                                                          {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
-                                                                                Nodo hijo = new Nodo("id", a, aright, aleft);
+                                                                                Nodo hijo = new Nodo("decimal", a, aright, aleft);
                                                                                 padre.AddHijo(hijo);
                                                                                 RESULT = padre;            
                                                                             :}

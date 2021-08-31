@@ -22,10 +22,8 @@ public class Nodo {
     public String lexema;//lo que viene, si es ID que lexema lo representa
     public int linea;
     public int column;
-    public Nodo HijoIzquierdo;
-    public Nodo HijoDerecho;
 
-    public ArrayList<Nodo> hijos = new ArrayList<Nodo>(); //sirve para graficarlo
+    public ArrayList<Nodo> hijos = new ArrayList<Nodo>(); //sirve para el nodo
     
     //constructor para la clase nodo, se puede extender con mas componentes que necesitemos para el proyecto
     public Nodo(String token, String lexema, int linea, int column){

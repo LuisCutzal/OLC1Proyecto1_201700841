@@ -11,10 +11,17 @@ import AnalizadoresJS.ALexico;
 import AnalizadoresJS.SintacticoJS;
 import java.awt.Panel;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -32,7 +39,7 @@ import javax.swing.JTextArea;
 public class Ventana extends javax.swing.JFrame {
     public static ArrayList<error> listaErrores = new ArrayList<error>();
     LinkedList<Archivo> datos_archivos = new LinkedList<>();
-    
+    static LinkedList<Object> instrucciones = new LinkedList<Object>();
     public static LinkedList<String> lista_comentarios = new LinkedList<>();
     public int cont_variables_repetidas = 0;
     public int cont_comment_repetido = 0;
@@ -61,14 +68,20 @@ public class Ventana extends javax.swing.JFrame {
     ArrayList<String> breaks = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
     ArrayList<String> llamadas = new ArrayList<String>();//funciona
     ArrayList<String> contadores = new ArrayList<String>();
-    
+    ArrayList<String> parametros = new ArrayList<String>();
+    ArrayList<String> expresiones = new ArrayList<String>();
     
     public void encontrar(Nodo nodo){
+        int lineaM1=0,lineaM2=0;
         for(Nodo instruccion : nodo.hijos){
+            //System.out.println("Nodos "+ instruccion.lexema);
             if (instruccion.token=="CLASE") {
                 for (Nodo clase : instruccion.hijos) {
                     if (clase.token=="id") {//si encuentra la clase con el nombre que se le da, ejemplo class hola(){}  aparece el nombre de la clase
                         clases.add(clase.lexema);
+                    }
+                    if(clase.token=="llavecierra"){
+                        System.out.println("llavecierra: " + clase.linea );//para saber cuantas lineas tiene el archivo js
                     }
                 }
             }
@@ -92,7 +105,17 @@ public class Ventana extends javax.swing.JFrame {
                     if(metodo.token == "id"){
                         metodos.add(metodo.lexema);
                     }
+                    if(metodo.token=="llaveabre"){
+                        //System.out.println("linea inicio metodo: "+metodo.linea);
+                        lineaM1=metodo.linea;
+                    }
+                    if(metodo.token=="llavecierra"){
+                        //System.out.println("linea fin metodo:" +metodo.linea);
+                        lineaM2=metodo.linea;
+                    }
                 }
+                    int fin=lineaM2-lineaM1;
+                    System.out.println("total de Lineas Metodo: " + (fin+1));
             }
             
             if(instruccion.token == "ASIGNACIONVARIABLES"){
@@ -140,25 +163,23 @@ public class Ventana extends javax.swing.JFrame {
                     if(sentenciaSwitch.token == "switch_js"){
                         sentenciasSwhitch.add(sentenciaSwitch.lexema);
                     }
-                    
                 }
             }
-            
             if(instruccion.token == "CONSOLA"){
                 for(Nodo consola : instruccion.hijos){
                     if(consola.token == "console_js"){
                         consolas.add(consola.lexema);
                     }
-                    
                 }
             }
             
-            if(instruccion.token == "BREAK"){
-                for(Nodo breack : instruccion.hijos){
-                    if(breack.token == "break_js"){
-                        breaks.add(breack.lexema);
-                    }
-                    
+            if(instruccion.token == "PARAMETROS"){//queda pendiente
+                Nodo prueba=null;
+                for(Nodo breacks : instruccion.hijos){
+                    prueba=breacks;
+                }
+                if(prueba.lexema==""){
+                    encontrar(prueba);
                 }
             }
             if(instruccion.token == "LLAMADA"){
@@ -166,10 +187,8 @@ public class Ventana extends javax.swing.JFrame {
                     if(llamada.token == "id"){
                         llamadas.add(llamada.lexema);
                     }
-                    
                 }
             }
-            
             if(instruccion.token == "CONTADOR"){
                 for(Nodo contador : instruccion.hijos){
                     if(contador.token == "id"){
@@ -177,7 +196,28 @@ public class Ventana extends javax.swing.JFrame {
                     }
                 }
             }
-            
+            if(instruccion.token=="EXPRESION"){
+                for(Nodo exp : instruccion.hijos){
+                    if (exp.token=="id") {
+                        expresiones.add(exp.lexema);
+                    }
+                    else if(exp.token=="true_js"){
+                        expresiones.add(exp.lexema);
+                    }
+                    else if(exp.token=="false_js"){
+                        expresiones.add(exp.lexema);
+                    }
+                    else if(exp.token=="numero"){
+                        expresiones.add(exp.lexema);
+                    }
+                    else if(exp.token=="decimal"){
+                        expresiones.add(exp.lexema);
+                    }
+                    else if(exp.token=="cadena"){
+                        expresiones.add(exp.lexema);
+                    }
+                }
+            }
             if(instruccion.lexema == "" ){
                 encontrar(instruccion);
             }
@@ -186,23 +226,29 @@ public class Ventana extends javax.swing.JFrame {
     
     public void imprimir(){
         for (String cla:clases){
-            jTextArea2.append("Clase encontrada --> " + cla + "\n");
+            //jTextArea2.append("Clase encontrada --> " + cla + "\n");
+            System.out.println("Clase encontrada --> " + cla + "\n");
         }
         for(String importacion:importaciones){
-            jTextArea2.append("Import encontrada --> " + importacion + "\n");
+            //jTextArea2.append("Import encontrada --> " + importacion + "\n");
+            System.out.println("Import encontrada --> " + importacion + "\n");
         }
         for(String metodo:metodos){
-            jTextArea2.append("Metodo encontrado --> " + metodo + "\n");
+            //jTextArea2.append("Metodo encontrado --> " + metodo + "\n");
+            System.out.println("Metodo encontrado --> " + metodo + "\n");
+
         }
         for( String id: variables ){
-            jTextArea2.append("Variable encontrada --> " + id + "\n");
+            //jTextArea2.append("Declaracion encontrada --> " + id + "\n");
+            System.out.println("Declaracion encontrada --> " + id + "\n");
         }
         for( String asignacion: asignaciones ){
-            jTextArea2.append("Asignacion encontrada --> " + asignacion + "\n");
+            //jTextArea2.append("Asignacion encontrada --> " + asignacion + "\n");
+            System.out.println("Asignacion encontrada --> " + asignacion + "\n");
         }
         for( String sentenciaif: sentenciasIf ){ //tengo mis dudas respecto al if, else if y else, ver despues
-            //System.out.println("sentenciaif: "+sentenciaif);
-            jTextArea2.append("Sentencia IF encontrada --> " + sentenciaif + "\n");
+            //jTextArea2.append("Sentencia IF encontrada --> " + sentenciaif + "\n");
+            System.out.println("Sentencia IF encontrada --> " + sentenciaif + "\n");
         }
         /*
         for( String el: elses ){
@@ -211,33 +257,51 @@ public class Ventana extends javax.swing.JFrame {
         */
         
         for( String senFor: sentenciasFor ){
-            jTextArea2.append("Sentencia For encontrada --> " + senFor + "\n");
+            //jTextArea2.append("Sentencia For encontrada --> " + senFor + "\n");
+            System.out.println("Sentencia For encontrada --> " + senFor + "\n");
         }
         
         for( String senwhile: sentenciasWhile ){
-            jTextArea2.append("Sentencia WHILE encontrada --> " + senwhile + "\n");
+            //jTextArea2.append("Sentencia WHILE encontrada --> " + senwhile + "\n");
+            System.out.println("Sentencia WHILE encontrada --> " + senwhile + "\n");
         }
         for( String senDowhile: sentenciasDo ){
-            jTextArea2.append("Sentencia DO-WHILE encontrada --> " + senDowhile + "\n");
+            //jTextArea2.append("Sentencia DO-WHILE encontrada --> " + senDowhile + "\n");
+            System.out.println("Sentencia DO-WHILE encontrada --> " + senDowhile + "\n");
         }
         for( String senSwhitch: sentenciasSwhitch ){
-            jTextArea2.append("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
+            //jTextArea2.append("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
+            System.out.println("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
         }
         
         for( String consola: consolas ){
-            jTextArea2.append("Consola encontrada --> " + consola + "\n");
+           //jTextArea2.append("Consola encontrada --> " + consola + "\n");
+            System.out.println("Consola encontrada --> " + consola + "\n");
         }
         
-        for( String breack: breaks ){
-            jTextArea2.append("Break encontrada --> " + breack + "\n");
+        for( String params: parametros ){
+            //jTextArea2.append("Parametro encontrado --> " + params + "\n");
+            System.out.println("Parametro encontrado --> " + params + "\n");
         }
+        
+        for(String exp:expresiones){
+            //jTextArea2.append("Valor --> " + exp + "\n");
+            System.out.println("Valor --> " + exp + "\n");
+        }
+        
         for( String llamada: llamadas ){
-            jTextArea2.append("La Llamada es --> " + llamada + "\n");
+            //jTextArea2.append("La Llamada es --> " + llamada + "\n");
+            System.out.println("La Llamada es --> " + llamada + "\n");
         }
         
         for( String contador: contadores ){
-            jTextArea2.append("El contador es --> " + contador + "\n");
+            //jTextArea2.append("El contador es --> " + contador + "\n");
+            System.out.println("El contador es --> " + contador + "\n");
         }
+        for(String comenta:lista_comentarios){
+            System.out.println("Comentarios --> " + comenta);
+        }
+        
     }
     public void ReporteErrores(){
         
@@ -519,9 +583,22 @@ public class Ventana extends javax.swing.JFrame {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
         }
         if(raiz != null){
-            
             jTextArea2.setText("");
             variables.clear();
+            clases.clear();
+            importaciones.clear();
+            metodos.clear();
+            asignaciones.clear();
+            sentenciasIf.clear();
+            sentenciasFor.clear();
+            sentenciasWhile.clear();
+            sentenciasDo.clear();
+            sentenciasSwhitch.clear();
+            consolas.clear();
+            breaks.clear();
+            llamadas.clear();
+            contadores.clear();
+            expresiones.clear();
             encontrar(raiz);
             imprimir();
         }
@@ -534,7 +611,8 @@ public class Ventana extends javax.swing.JFrame {
             Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             
             sint.parse();
-            System.out.println("Lectura del archivo AFC correcta");
+            //System.out.println("Lectura del archivo AFC correcta");
+            
              
         } catch (Exception e) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
