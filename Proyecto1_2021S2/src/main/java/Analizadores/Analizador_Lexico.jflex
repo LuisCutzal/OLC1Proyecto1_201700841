@@ -5,8 +5,8 @@
 //------> Paquetes,importaciones
 package Analizadores;
 import java_cup.runtime.*;
-
-
+import com.mycompany.proyecto1_2021s2.error;
+import com.mycompany.proyecto1_2021s2.Ventana;
 /*----------------------------------------------------------
   ------------  2da Area: Opciones y Declaraciones ---------
   ----------------------------------------------------------*/
@@ -103,5 +103,6 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 
 //------> Errores Lexicos
 .                       { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn); 
-                           
+                            error nuevo = new error("Error Lexico", yytext(), yyline, yycolumn);
+                            Ventana.listaErrores.add(nuevo);
                         }

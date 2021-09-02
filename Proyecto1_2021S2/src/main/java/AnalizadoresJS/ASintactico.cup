@@ -173,7 +173,7 @@ INSTRUCCION::=IMPORT:a                                                      {:  
     |CONSOLA:a                                                              {:  RESULT = a; :}
     |BREAK:a                                                                {:  RESULT = a; :}
     |LLAMADA:a                                                              {:  RESULT = a; :}
-    |error
+    |error INSTRUCCION
     ;
 
 IMPORT::= TIPO:a id:b igual:c require:d parentesisA:e cadena:f parentesisC:g puntoycoma:h                   {: Nodo padre = new Nodo("IMPORT","",0,0);

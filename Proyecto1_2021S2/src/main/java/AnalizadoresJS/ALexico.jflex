@@ -117,10 +117,10 @@ comentariodoble     = "\/*"[^]+ "\*/"{InputCharacter}* {LineTerminator}?
 
 //------> Espacios
 {comentariosimple}      {System.out.println("Comentario: "+yytext()); 
-                        Ventana.lista_comentarios.add(yytext());    
+                        Ventana.listacomentarios.add(yytext());    
                         }
 {comentariodoble}       {System.out.println("Comentario doble: "+yytext()); 
-                        Ventana.lista_comentarios.add(yytext()); 
+                        Ventana.listacomentarios.add(yytext()); 
                         }
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
 

@@ -841,7 +841,7 @@ public class ALexico implements java_cup.runtime.Scanner {
           case 78: break;
           case 24: 
             { System.out.println("Comentario: "+yytext()); 
-                        Ventana.lista_comentarios.add(yytext());
+                        Ventana.listacomentarios.add(yytext());
             }
           case 79: break;
           case 25: 
@@ -926,7 +926,7 @@ public class ALexico implements java_cup.runtime.Scanner {
           case 99: break;
           case 45: 
             { System.out.println("Comentario doble: "+yytext()); 
-                        Ventana.lista_comentarios.add(yytext());
+                        Ventana.listacomentarios.add(yytext());
             }
           case 100: break;
           case 46: 

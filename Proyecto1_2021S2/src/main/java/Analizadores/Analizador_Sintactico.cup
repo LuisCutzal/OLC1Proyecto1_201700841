@@ -6,9 +6,8 @@ import java_cup.runtime.Symbol;
 
 import com.mycompany.proyecto1_2021s2.Ventana;
 import com.mycompany.proyecto1_2021s2.error;
-import com.mycompany.proyecto1_2021s2.Nodo;
 import com.mycompany.proyecto1_2021s2.Comparar;
-
+import com.mycompany.proyecto1_2021s2.Nodo;
 import javax.swing.JOptionPane;
 import java.util.LinkedList;
 
@@ -27,6 +26,7 @@ parser code{:
         public Nodo getRaiz(){
             return raiz;
         }
+        public static LinkedList<Object> instrucciones;
         public void syntax_error(Symbol s)
         {
             System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
@@ -73,19 +73,19 @@ terminal String DefinirGlobales,string,dou;
 //------> declaracion de no terminales
 
 non terminal INICIO;
-non terminal Nodo INSTRUCCIONES, GENERARREPORTE;
-non terminal Nodo  INSTRUCCION;
-non terminal Nodo  COMPARE;
-non terminal Nodo DEFINIRGLOBALES;
-non terminal Nodo GRAFICABARRAS;
-non terminal Nodo  GRAFICAPIE;
-non terminal Nodo  GRAFICASLINEAS;
-non terminal  Nodo DEFINICIONVARIABLESG,DEFINICIONVARIABLEG,TIPO,VALORTIPO;
-non terminal Nodo  INFOBARRA,INFO,INFOLINEA;
-non terminal Nodo  INFOSBARRAS,INFOS,INFOSLINEAS;
+non terminal LinkedList<Object> INSTRUCCIONES, GENERARREPORTE;
+non terminal Object INSTRUCCION;
+non terminal Comparar COMPARE;
+non terminal DEFINIRGLOBALES;
+non terminal GraficaBarras GRAFICABARRAS;
+non terminal GraficaPie GRAFICAPIE;
+non terminal GraficaLineas GRAFICASLINEAS;
+non terminal  DEFINICIONVARIABLESG,DEFINICIONVARIABLEG,TIPO,VALORTIPO;
+non terminal Caracteristica INFOBARRA,INFO,INFOLINEA;
+non terminal LinkedList<Caracteristica> INFOSBARRAS,INFOS,INFOSLINEAS;
 
-non terminal Nodo  DATO;
-non terminal Nodo  DATOS,VALORES;
+non terminal Valor DATO;
+non terminal LinkedList<Valor> DATOS,VALORES;
 
 //------> precedencia de menor a mayor
 
@@ -95,158 +95,93 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= GENERARREPORTE:a                                                                                {: parser.raiz = a; :}
+INICIO::= GENERARREPORTE:a                                                                                {: instrucciones = a; :}
     ;
 
-GENERARREPORTE::= generarReporteEstadistico:a  llaveabre:b INSTRUCCIONES:c  llavecierra:d                 {: Nodo padre = new Nodo("GENERARREPORTE","",0,0);
-                                                                                                             padre.AddHijo(new Nodo("generarReporteEstadistico",a, aright, aleft));
-                                                                                                             padre.AddHijo(new Nodo("llaveabre",b, bright, bleft));
-                                                                                                             padre.AddHijo(c);
-                                                                                                             padre.AddHijo(new Nodo("llavecierra",d, dright, dleft));
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+GENERARREPORTE::= generarReporteEstadistico:a  llaveabre:b INSTRUCCIONES:c  llavecierra:d                 {: RESULT= c; :}
     ;
 
-INSTRUCCIONES::=INSTRUCCIONES:a INSTRUCCION:b                                                             {: Nodo padre = new Nodo("INSTRUCCIONES","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             padre.AddHijo(b);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
-    | INSTRUCCION:a                                                                                       {: Nodo padre = new Nodo("INSTRUCCIONES","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+INSTRUCCIONES::=INSTRUCCIONES:a INSTRUCCION:b                                                             {: RESULT = a; RESULT.add(b); :}
+    | INSTRUCCION:a                                                                                       {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-INSTRUCCION::= COMPARE:a                                                                                  {: Nodo padre = new Nodo("INSTRUCCION","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
-    |DEFINIRGLOBALES:a                                                                                    {: Nodo padre = new Nodo("INSTRUCCION","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
-    |GRAFICABARRAS:a                                                                                      {: Nodo padre = new Nodo("INSTRUCCION","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
-    |GRAFICAPIE:a                                                                                         {: Nodo padre = new Nodo("INSTRUCCION","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
-    |GRAFICASLINEAS:a                                                                                     {: Nodo padre = new Nodo("INSTRUCCION","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+INSTRUCCION::= COMPARE:a                                                                                  {: RESULT = a; :}
+    |DEFINIRGLOBALES:a                                                                                    {: RESULT = a; :}
+    |GRAFICABARRAS:a                                                                                      {: RESULT = a; :}
+    |GRAFICAPIE:a                                                                                         {: RESULT = a; :}
+    |GRAFICASLINEAS:a                                                                                     {: RESULT = a; :}
     ;
 
-COMPARE::= compare:a parentesisA:b  cadena:c  coma:d   cadena:e   parentesisC:f  puntoycoma:g             {: Nodo padre = new Nodo("INSTRUCCION","",0,0);
-                                                                                                             padre.AddHijo(new Nodo("compare",a, aright, aleft));
-                                                                                                             padre.AddHijo(new Nodo("parentesisA",b, bright, bleft));
-                                                                                                             padre.AddHijo(new Nodo("cadena",c, cright, cleft));
-                                                                                                             padre.AddHijo(new Nodo("coma",d, dright, dleft));
-                                                                                                             padre.AddHijo(new Nodo("cadena",e, eright, eleft));
-                                                                                                             padre.AddHijo(new Nodo("parentesisC",f, fright, fleft));
-                                                                                                             padre.AddHijo(new Nodo("puntoycoma",g, gright, gleft));
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+COMPARE::= compare:a parentesisA:b  cadena:c  coma:d   cadena:e   parentesisC:f  puntoycoma:g             {: RESULT = new Comparar(c.substring(1,c.length()-1),e.substring(1,e.length()-1)); :}
     ;
 
-DEFINIRGLOBALES::= DefinirGlobales:a llaveabre:b DEFINICIONVARIABLESG:c llavecierra:d                     {: Nodo padre = new Nodo("INSTRUCCION","",0,0);
-                                                                                                             padre.AddHijo(new Nodo("DefinirGlobales",a, aright, aleft));
-                                                                                                             padre.AddHijo(new Nodo("llaveabre",b, bright, bleft));
-                                                                                                             padre.AddHijo(c);
-                                                                                                             padre.AddHijo(new Nodo("llavecierra",d, dright, dleft));
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+DEFINIRGLOBALES::= DefinirGlobales:a llaveabre:b DEFINICIONVARIABLESG:c llavecierra:g                     {: :}
     ;
 
-DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG:a DEFINICIONVARIABLEG:b                                      {: Nodo padre = new Nodo("DEFINICIONVARIABLESG","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             padre.AddHijo(b);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
-    |DEFINICIONVARIABLEG:a                                                                                {: Nodo padre = new Nodo("DEFINICIONVARIABLESG","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG:a DEFINICIONVARIABLEG:b                                      {: :}
+    |DEFINICIONVARIABLEG:a                                                                                {: :}
     ;
 
     
-DEFINICIONVARIABLEG::= TIPO:a id:b igual:c VALORTIPO:d puntoycoma:e                                       {: Nodo padre = new Nodo("DEFINICIONVARIABLEG","",0,0);
-                                                                                                             padre.AddHijo(a);
-                                                                                                             padre.AddHijo(new Nodo("id",b, bright, bleft));
-                                                                                                             padre.AddHijo(new Nodo("igual",c, cright, cleft));
-                                                                                                             padre.AddHijo(d);
-                                                                                                             padre.AddHijo(new Nodo("puntoycoma",e, eright, eleft));
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+DEFINICIONVARIABLEG::= TIPO:a id:b igual:c VALORTIPO:d puntoycoma:e                                       {: :}
     ;
 
-TIPO::= string:a                                                                                          {: Nodo padre = new Nodo("TIPO","",0,0);
-                                                                                                             padre.AddHijo(new Nodo("string",a, aright, aleft));
-                                                                                                             RESULT = padre;
-                                                                                                          :}
-    | dou:a                                                                                               {: Nodo padre = new Nodo("TIPO","",0,0);
-                                                                                                             padre.AddHijo(new Nodo("dou",a, aright, aleft));
-                                                                                                             RESULT = padre;
-                                                                                                          :}
+TIPO::= string:a                                                                                          {: :}
+    | dou:a                                                                                               {: :}
     ;
 
-VALORTIPO::= cadena:a                                                                                     {: Nodo padre = new Nodo("VALORTIPO","",0,0); 
-                                                                                                             
-                                                                                                          :}
-    |numero:a                                                                                             {:  :}
-    |decimal:a                                                                                            {:  :}
+VALORTIPO::= cadena:a                                                                                     {: RESULT= new Valor(4, a.substring(1,a.length()-1)); :}
+    |numero:a                                                                                             {: RESULT= new Valor(2, new Integer(a)); :}
+    |decimal:a                                                                                            {: RESULT= new Valor(1, new Double(a)); :}
     |dolar:a llaveabre:b id:c coma:d  cadena:e  coma:f cadena:g coma:h cadena:i llavecierra:j             {: :}
     ;
 
-GRAFICABARRAS::= graficaBarras:a llaveabre:b INFOSBARRAS:c llavecierra:d                                  {:  :}
+GRAFICABARRAS::= graficaBarras:a llaveabre:b INFOSBARRAS:c llavecierra:d                                  {: RESULT = new GraficaBarras(c); :}
     ;
 
-GRAFICASLINEAS::= graficaLineas:a llaveabre:b INFOSLINEAS:c  llavecierra:d                                {:  :}
+GRAFICASLINEAS::= graficaLineas:a llaveabre:b INFOSLINEAS:c  llavecierra:d                                {: RESULT = new GraficaLineas(c); :}
     ;
 
-GRAFICAPIE::= graficaPie:a llaveabre:b INFOS:c llavecierra:d                                              {:  :}
+GRAFICAPIE::= graficaPie:a llaveabre:b INFOS:c llavecierra:d                                              {: RESULT = new GraficaPie(c); :}
     ;
 
-INFOSBARRAS::=INFOSBARRAS:a INFOBARRA:b                                                                   {:  :}
-    |INFOBARRA:a                                                                                          {:  :}
+INFOSBARRAS::=INFOSBARRAS:a INFOBARRA:b                                                                   {: RESULT = a; RESULT.add(b); :}
+    |INFOBARRA:a                                                                                          {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
-INFOBARRA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {:  :}
-    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {:  :}
-    |tituloX:a dospuntos:b  DATO:c  puntoycoma:d                                                          {:  :}
-    |tituloY:a dospuntos:b  DATO:c  puntoycoma:d                                                          {:  :}
-    |VALORES:a                                                                                            {:  :}
-    ;
-
-INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {:  :}
-    |INFOLINEA:a                                                                                          {:  :}
+INFOBARRA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {: RESULT = new Caracteristica(0,c); :}
+    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
+    |tituloX:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(3,c); :}
+    |tituloY:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(4,c); :}
+    |VALORES:a                                                                                            {: RESULT = new Caracteristica(2,a);:}
     ;
 
-INFOLINEA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {:  :}
-    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {:  :}
+INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {: RESULT = a; RESULT.add(b); :}
+    |INFOLINEA:a                                                                                          {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-INFOS::=INFOS:a INFO:b                                                                                    {:  :}
-    |INFO:a                                                                                               {:  :}
+INFOLINEA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {: RESULT = new Caracteristica(0,c); :}
+    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {: /*no se que puede venir aca*/:}
     ;
 
-INFO::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                           {:  :}
-    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {:  :}
-    |VALORES:a                                                                                            {:  :}
+INFOS::=INFOS:a INFO:b                                                                                    {: RESULT = a; RESULT.add(b); :}
+    |INFO:a                                                                                               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-VALORES::= Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                            {:  :}
+INFO::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                           {: RESULT = new Caracteristica(0,c); :}
+    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
+    |VALORES:a                                                                                            {: RESULT = new Caracteristica(2,a);:}
     ;
 
-DATOS::= DATOS:a coma:b DATO:c                                                                            {:  :}
-    |DATO:a                                                                                               {:  :}
+VALORES::= Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                            {: RESULT = d; /*esto no se si funciona*/:}
     ;
 
-DATO::=decimal:a                                                                                          {:  :}
-    |numero:a                                                                                             {:  :}
-    |id:a                                                                                                 {:  :}
-    |cadena:a                                                                                             {:  :}
+DATOS::= DATOS:a coma:b DATO:c                                                                            {: RESULT = a; RESULT.add(c); :}
+    |DATO:a                                                                                               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+    ;
+
+DATO::=decimal:a                                                                                          {: RESULT= new Valor(1, new Double(a)); :}
+    |numero:a                                                                                             {: RESULT= new Valor(2, new Integer(a)); :}
+    |id:a                                                                                                 {: RESULT= new Valor(3, a); :}
+    |cadena:a                                                                                             {: RESULT= new Valor(4, a.substring(1,a.length()-1)); :}
     |dolar:a llaveabre:b id:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j               {:  :}
     ;

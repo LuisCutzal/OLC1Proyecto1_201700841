@@ -40,7 +40,7 @@ public class Ventana extends javax.swing.JFrame {
     public static ArrayList<error> listaErrores = new ArrayList<error>();
     LinkedList<Archivo> datos_archivos = new LinkedList<>();
     static LinkedList<Object> instrucciones = new LinkedList<Object>();
-    public static LinkedList<String> lista_comentarios = new LinkedList<>();
+    public static LinkedList<String> listacomentarios = new LinkedList<>();
     public int cont_variables_repetidas = 0;
     public int cont_comment_repetido = 0;
     /**
@@ -71,7 +71,7 @@ public class Ventana extends javax.swing.JFrame {
     ArrayList<String> parametros = new ArrayList<String>();
     ArrayList<String> expresiones = new ArrayList<String>();
     
-    public void encontrar(Nodo nodo){
+    public void encontrar(Nodo nodo,ArrayList<String> variables){
         int lineaM1=0,lineaM2=0;
         for(Nodo instruccion : nodo.hijos){
             //System.out.println("Nodos "+ instruccion.lexema);
@@ -179,7 +179,7 @@ public class Ventana extends javax.swing.JFrame {
                     prueba=breacks;
                 }
                 if(prueba.lexema==""){
-                    encontrar(prueba);
+                    encontrar(prueba,variables);
                 }
             }
             if(instruccion.token == "LLAMADA"){
@@ -219,7 +219,7 @@ public class Ventana extends javax.swing.JFrame {
                 }
             }
             if(instruccion.lexema == "" ){
-                encontrar(instruccion);
+                encontrar(instruccion,variables);
             }
         }
     }
@@ -298,19 +298,168 @@ public class Ventana extends javax.swing.JFrame {
             //jTextArea2.append("El contador es --> " + contador + "\n");
             System.out.println("El contador es --> " + contador + "\n");
         }
-        for(String comenta:lista_comentarios){
-            System.out.println("Comentarios --> " + comenta);
-        }
         
     }
+    /**
+     * Metodo para verificar los archivos dentro de una carpeta 
+     * @param ruta_proy1 indica la ruta donde se encuentra la carpeta del proyecto 1
+     * @param ruta_proy2 indica la ruta donde se encuentra la carpeta del proyecto 2
+     */
+    
+    
+    public void archivos_carpetas(String ruta_proy1, String ruta_proy2){
+        try{
+            DirectoryStream<Path> stream_p1 = Files.newDirectoryStream(Paths.get(ruta_proy1), "*.js");
+            
+           //Recorremos los archivos del proyecto 1
+            for (Path file_p1: stream_p1) {
+                DirectoryStream<Path> stream_p2 = Files.newDirectoryStream(Paths.get(ruta_proy2), "*.js");
+                
+                String nombre_archivo1 = file_p1.getFileName().toString(); 
+                File archivo = new File (file_p1.toString());
+                FileReader fr = new FileReader (archivo);
+                Archivo nuevo_archivo1 = null;
+                Archivo nuevo_archivo2 = null;
+                //Vamos a comparar el archivo del proyecto1 con los archivos de la carpeta2 para saber si se llaman igual 
+                for(Path file_p2 : stream_p2){
+                    String nombre_archivo2 = file_p2.getFileName().toString();
+                    File archivo2 = new File (file_p2.toString());
+                    FileReader fr2 = new FileReader (archivo2);
+                    //Si se llaman igual se comienza el proceso para analizar copias
+                    if(nombre_archivo1.equals(nombre_archivo2)){
+                        System.out.println("Los nombres son iguales, vamos a comparar --> " + file_p1.getFileName());
+                        //--> 1ero vamos a analizar el archivo1 del proyecto 1
+                        try{
+                            
+                            System.out.println("----------- " + nombre_archivo1 + " ----------- ");
+                            Nodo raiz = null;
+                            //Mandamos a analizar el archivo del proyecto 1 
+                            SintacticoJS parse=new SintacticoJS(new ALexico(new BufferedReader(fr)));
+                            parse.parse();
+
+                            raiz = parse.getRaiz();
+                            if(raiz == null){
+                                System.out.println("No se genero bien el arbol");
+                            }else{
+                                
+                                nuevo_archivo1 = new Archivo(nombre_archivo1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                                //--> vamos a guardar las variables encontradas en el archivo
+                                encontrar(raiz,nuevo_archivo1.variables ); 
+                                //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
+                                for(String comment : listacomentarios){
+                                    nuevo_archivo1.comentarios.add(comment);
+                                }
+                                //-->agregamos los errores encontrados (la lista se lleno en los archivos A_Lexico_FCA.jflex y A_sintacticos_FCA.cup)
+                                for(error errores : listaErrores){
+                                    //--> guardamos los errore indicando el nombre del archivo
+                                    error nuevo_error = new error(errores.tipo, errores.valor, nuevo_archivo1.nombre_archivo, errores.fila, errores.columna);
+                                    nuevo_archivo1.lista_errores.add(nuevo_error);
+                                }
+                                //Arbol arbol = new Arbol(raiz);
+                                //arbol.GraficarSintactico();
+                                
+                                //-->guardamos el archivo en una lista
+                                this.datos_archivos.add(nuevo_archivo1);
+                                //-->limpiamos variables
+                                listaErrores.clear();
+                                listacomentarios.clear();
+                                
+                            }
+                        }catch(Exception ex){
+                            System.out.println("Error en analizar el archivo del proyecto.");
+                            System.out.println("Causa: "+ex.getCause());
+                        }
+                        //--> 2do vamos a analizar el archivo2
+                        try{
+                            
+                            System.out.println("----------- " + nombre_archivo2 + " en PROYECTO 2----------- ");
+                            Nodo raiz = null;
+                            //Mandamos a analizar el archivo del proyecto 2
+                            SintacticoJS parse=new SintacticoJS(new ALexico(new BufferedReader(fr2)));
+                            parse.parse();
+
+                            raiz = parse.getRaiz();
+                            if(raiz == null){
+                                System.out.println("No se genero bien el arbol");
+                            }else{
+                                
+                                nuevo_archivo2 = new Archivo(nombre_archivo2, new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
+                                //--> vamos a guardar las variables encontradas en el archivo
+                                encontrar(raiz, nuevo_archivo2.variables); 
+                                //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
+                                for(String comment : listacomentarios){
+                                    nuevo_archivo2.comentarios.add(comment);
+                                }
+                                //-->agregamos los errores encontrados (la lista se lleno en los archivos A_Lexico_FCA.jflex y A_sintacticos_FCA.cup)
+                                for(error errores : listaErrores){
+                                    //--> guardamos los errore indicando el nombre del archivo
+                                    error nuevo_error = new error(errores.tipo, errores.valor, nuevo_archivo2.nombre_archivo, errores.fila, errores.columna);
+                                    nuevo_archivo2.lista_errores.add(nuevo_error);
+                                }
+                                //Arbol arbol = new Arbol(raiz);
+                                //arbol.GraficarSintactico();
+                                //-->guardamos el archivo en una lista
+                                this.datos_archivos.add(nuevo_archivo2);
+                                //-->limpiamos variables
+                                listaErrores.clear();
+                                listacomentarios.clear();
+                                
+                            }
+                        }catch(Exception ex){
+                            System.out.println("Error en analizar el archivo del proyecto.");
+                            System.out.println("Causa: "+ex.getCause());
+                        }
+                        
+                        //--> detectamos copias entre estos dos archivos 
+                        if(nuevo_archivo1 != null && nuevo_archivo2 != null){
+                            variables_repetidas(nuevo_archivo1, nuevo_archivo2);
+                            comentariosrepetidos(nuevo_archivo1, nuevo_archivo2);
+                        }
+                    }
+                }
+            }
+        } catch (IOException | DirectoryIteratorException ex) {
+		    System.err.println(ex);
+		}
+    }    
+    /**
+     * Metodo para verificar las variables repetidas en ambos archivos
+     * @param archivo1 recibe el archivo del proyecto 1 con toda su informacion
+     * @param archivo2 recibe el archivo del proyecto 2 con toda su informacion
+     */
+    public void variables_repetidas(Archivo archivo1, Archivo archivo2){
+        //dar el punteo. 
+        for(String id_variable_arch1 : archivo1.variables){
+            for(String id_variable_arch2 : archivo2.variables){
+                if(id_variable_arch1.equals(id_variable_arch2)){
+                    jTextArea2.append("Variable repetida \"" + id_variable_arch1 +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                    this.cont_variables_repetidas++;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Metodo para verificar los comentarios repetidos en ambos archivos
+     * @param archivo1 recibe el archivo del proyecto 1 con toda su informacion
+     * @param archivo2 recibe el archivo del proyecto 2 con toda su informacion
+     */
+    public void comentariosrepetidos(Archivo archivo1, Archivo archivo2){
+        for(String comment : archivo1.comentarios){
+            for(String comment2 : archivo2.comentarios){
+                if(comment.equalsIgnoreCase(comment2)){
+                    //jTextArea2.append("Comentario repetido: \"" + comment +"\" en archivos " + archivo2.nombre_archivo + "\n");
+                    jTextArea2.append("Comentario repetido: " + comment +" en archivos " + archivo2.nombre_archivo+" y " +archivo1.nombre_archivo+ "\n");
+                    this.cont_comment_repetido++;
+                }
+            }
+        }
+    }    
     public void ReporteErrores(){
-        
         LinkedList<error> Reporte_errores = new LinkedList<>();
-        
         for(Archivo archivo : datos_archivos){
             Reporte_errores.addAll(archivo.lista_errores);
         }
-        
         FileWriter fichero = null;
         PrintWriter pw = null;
                 try {
@@ -357,12 +506,12 @@ public class Ventana extends javax.swing.JFrame {
                + "</style>\n\t"
                + "</HEAD>\n\t"
                + "<BODY>\n\t"
-               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Reporte de Errores</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1 [FIUSAC Copy Analyzer]<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carné: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
                + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
-               "<table style= border=3>\n\t"
+               "<table style=\"margin:0 auto; \"border=3>\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
                + "<td>\n\t"
-               + "<table border=2>\n\t"
+               + "<table style =\"border: 1px solid black;\">\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
                + "<td><b>Tipo</b></td>\n\t"
                + "<td><b>Descripcion</b></td>\n\t"
@@ -447,6 +596,7 @@ public class Ventana extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setText("GernerarReporteEstadistico{\n    compare(\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto1\",\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto2\");\n}");
         jScrollPane1.setViewportView(jTextArea1);
 
         jMenu1.setText("Archivo");
@@ -528,18 +678,18 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(212, 212, 212)
+                        .addGap(229, 229, 229)
                         .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(165, 165, 165))))
+                        .addGap(171, 171, 171))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -548,14 +698,11 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -571,7 +718,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         Nodo raiz = null;
-        
+        /*
         try {
             SintacticoJS sint=new SintacticoJS(new ALexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             
@@ -599,25 +746,32 @@ public class Ventana extends javax.swing.JFrame {
             llamadas.clear();
             contadores.clear();
             expresiones.clear();
-            encontrar(raiz);
+            encontrar(raiz,variables);
             imprimir();
         }
        
         JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        */
         
-        
-        /*
+       
         try {
             Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
-            
             sint.parse();
-            //System.out.println("Lectura del archivo AFC correcta");
-            
+            instrucciones=sint.instrucciones;
+            for(Object ins : instrucciones){
+                if(ins instanceof Comparar){
+                    Comparar comp = (Comparar)ins;
+                    archivos_carpetas(comp.getRuta1(), comp.getRuta2());
+                    this.ReporteErrores();
+                }
+            }
+            //comienza el analizador del fca
              
         } catch (Exception e) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
         }
-        */
+        
+        
         
         
          

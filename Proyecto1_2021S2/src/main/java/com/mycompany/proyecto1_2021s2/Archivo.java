@@ -5,6 +5,7 @@
  */
 package com.mycompany.proyecto1_2021s2;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -13,11 +14,11 @@ import java.util.LinkedList;
  */
 public class Archivo {
     String nombre_archivo = "";
-    LinkedList<String> variables;
-    LinkedList<String> comentarios;
-    LinkedList<error> lista_errores;
+    ArrayList<String> variables;
+    ArrayList<String> comentarios;
+    ArrayList<error> lista_errores;
     
-    public Archivo(String nombre_archivo, LinkedList<String> variables, LinkedList<String> comentarios, LinkedList<error> lista_errores){
+    public Archivo(String nombre_archivo, ArrayList<String> variables, ArrayList<String> comentarios, ArrayList<error>lista_errores){
         this.nombre_archivo = nombre_archivo;
         this.variables = variables;
         this.comentarios = comentarios;

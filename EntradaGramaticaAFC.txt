@@ -1,5 +1,5 @@
 GernerarReporteEstadistico{
-    compare("Ruta1","ruta2");
+    compare("C:\Users\Domingo\Desktop\USAC\Segundo Semestre 2021\Compi1\lab\Poyecto1\Entrada\proyecto1","C:\Users\Domingo\Desktop\USAC\Segundo Semestre 2021\Compi1\lab\Poyecto1\Entrada\proyecto2");
 
 
     GraficaBarras{
