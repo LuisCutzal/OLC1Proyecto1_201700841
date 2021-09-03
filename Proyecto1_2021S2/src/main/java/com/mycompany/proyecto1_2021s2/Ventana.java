@@ -9,6 +9,7 @@ import Analizadores.Analizador_Lexico;
 import Analizadores.Sintactico;
 import AnalizadoresJS.ALexico;
 import AnalizadoresJS.SintacticoJS;
+import Reportes.GraficaBarras;
 import java.awt.Panel;
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,6 +44,8 @@ public class Ventana extends javax.swing.JFrame {
     public static LinkedList<String> listacomentarios = new LinkedList<>();
     public int cont_variables_repetidas = 0;
     public int cont_comment_repetido = 0;
+    public static LinkedList<Variables> variables_FCA = new LinkedList<>();
+    public static LinkedList<Puntajes> lista_puntajesEspecificos = new LinkedList<>();
     /**
      * Creates new form Ventana
      */
@@ -596,7 +599,7 @@ public class Ventana extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("GernerarReporteEstadistico{\n    compare(\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto1\",\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto2\");\n}");
+        jTextArea1.setText("GernerarReporteEstadistico{\n    compare(\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto1\",\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto2\");\n    DefinirGlobales{\n        string reporte1 = \"Probabilidades esperadas para Variables archivo archivo2vars.js\";\n        string reporte2 = \"Probabilidades obtenidos para Variables archivo archivo2vars.js\";\n\n        double pe1 = 0;\n        double pe2 = 1;\n        double pe3 = 0;\n        double pe4 = 1;\n        double pe5 = 0;\n        double pe6 = 1;\n        double pe7 = 1;\n\n        double po1 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"punteo\"};\n        double po2 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"validacion\"};\n        double po3 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"aritmetica\"};\n        double po4 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"punteo2\"};\n        double po5 = ${PuntajeEspecifico,\"variables.js\",\"variable\",\"A\"};\n        double po6 = ${PuntajeEspecifico,\"variables.js\",\"variable\",\"variable\"};\n        double po7 = ${PuntajeEspecifico,\"variables.js\",\"variable\",\"compi1\"};\n        \n    }\n\n    GraficaBarras{\n        Titulo: reporte1;\n        Ejex: [ \"punteo\", \"validacion\" , \"aritmetica\", \"punteo2\" ];\n        Valores: [ pe1, pe2, pe3, pe4 ];\n        Titulox: \"Nombre de las variables\";\n        Tituloy: \"Puntaje\";\n    }\n\n    GraficaBarras{\n        Titulo: reporte2;\n        Ejex: [ \"punteo\", \"validacion\" , \"aritmetica\", \"punteo2\" ];\n        Valores: [ po1, po2, po3, po4 ];\n        Titulox: \"Nombre de las variables\";\n        Tituloy: \"Puntaje\";\n    }\n}");
         jScrollPane1.setViewportView(jTextArea1);
 
         jMenu1.setText("Archivo");
@@ -765,7 +768,19 @@ public class Ventana extends javax.swing.JFrame {
                     this.ReporteErrores();
                 }
             }
-            //comienza el analizador del fca
+            //comienza el analizador del fca, las graficas
+            //comienza grafica barras
+            for(Object ins : instrucciones){
+                 if(ins instanceof GraficaBarras){
+                    GraficaBarras grafica_barras = (GraficaBarras)ins;
+                    grafica_barras.valores();
+                    grafica_barras.generar_graficaBarras();
+                }else if(ins instanceof LinkedList){
+                    //En este caso como lo trabajo se que sera una lista de variables 
+                    this.variables_FCA = (LinkedList<Variables>)ins;
+                }
+            }
+            //termina grafica barras
              
         } catch (Exception e) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);

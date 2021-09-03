@@ -7,15 +7,13 @@ import java_cup.runtime.Symbol;
 import com.mycompany.proyecto1_2021s2.Ventana;
 import com.mycompany.proyecto1_2021s2.error;
 import com.mycompany.proyecto1_2021s2.Comparar;
-
+import com.mycompany.proyecto1_2021s2.Nodo;
 import javax.swing.JOptionPane;
 import java.util.LinkedList;
 
 import Reportes.Caracteristica;
 import Reportes.GraficaBarras;
-
 import Reportes.Valor;
-import com.mycompany.proyecto1_2021s2.Variables;
 
 import Reportes.GraficaLineas;
 import Reportes.GraficaPie;
@@ -23,8 +21,12 @@ import Reportes.GraficaPie;
 //------> Codigo para el parser,variables, metodos
 parser code{:
         public String resultado = "";
+        public static Nodo raiz; 
+        
+        public Nodo getRaiz(){
+            return raiz;
+        }
         public static LinkedList<Object> instrucciones;
-
         public void syntax_error(Symbol s)
         {
             System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
@@ -66,7 +68,7 @@ terminal String graficaLineas, ar;
 
 terminal String DefinirGlobales,string,dou;
 
-terminal String PuntajeEspecifico,PuntajeGeneral;
+
 
 //------> declaracion de no terminales
 
@@ -74,11 +76,11 @@ non terminal INICIO;
 non terminal LinkedList<Object> INSTRUCCIONES, GENERARREPORTE;
 non terminal Object INSTRUCCION;
 non terminal Comparar COMPARE;
-non terminal LinkedList<Variables> DEFINIRGLOBALES;
+non terminal DEFINIRGLOBALES;
 non terminal GraficaBarras GRAFICABARRAS;
 non terminal GraficaPie GRAFICAPIE;
 non terminal GraficaLineas GRAFICASLINEAS;
-non terminal LinkedList<Variables> DEFINICIONVARIABLESG;
+non terminal  DEFINICIONVARIABLESG,DEFINICIONVARIABLEG,TIPO,VALORTIPO;
 non terminal Caracteristica INFOBARRA,INFO,INFOLINEA;
 non terminal LinkedList<Caracteristica> INFOSBARRAS,INFOS,INFOSLINEAS;
 
@@ -113,19 +115,26 @@ INSTRUCCION::= COMPARE:a                                                        
 COMPARE::= compare:a parentesisA:b  cadena:c  coma:d   cadena:e   parentesisC:f  puntoycoma:g             {: RESULT = new Comparar(c.substring(1,c.length()-1),e.substring(1,e.length()-1)); :}
     ;
 
-
-
-DEFINIRGLOBALES::= DefinirGlobales:a llaveabre:b DEFINICIONVARIABLESG:c llavecierra:g                     {: RESULT = c; :}
+DEFINIRGLOBALES::= DefinirGlobales:a llaveabre:b DEFINICIONVARIABLESG:c llavecierra:g                     {: :}
     ;
 
-DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG:a string:b id:c igual:d DATO:e puntoycoma:f                  {: RESULT = a; RESULT.add(new Variables(1, c, e)); :}
-    |DEFINICIONVARIABLESG:a dou:b id:c igual:d DATO:e puntoycoma:f                                        {: RESULT = a; RESULT.add(new Variables(2, c, e)); :}
-    |string:a id:b igual:c DATO:d puntoycoma:e                                                            {: RESULT = new LinkedList<>(); RESULT.add(new Variables(1, b, d)); :}
-    |dou:a id:b igual:c DATO:d puntoycoma:e                                                               {: RESULT = new LinkedList<>(); RESULT.add(new Variables(2, b, d)); :}
+DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG:a DEFINICIONVARIABLEG:b                                      {: :}
+    |DEFINICIONVARIABLEG:a                                                                                {: :}
     ;
 
+    
+DEFINICIONVARIABLEG::= TIPO:a id:b igual:c VALORTIPO:d puntoycoma:e                                       {: :}
+    ;
 
+TIPO::= string:a                                                                                          {: :}
+    | dou:a                                                                                               {: :}
+    ;
 
+VALORTIPO::= cadena:a                                                                                     {: RESULT= new Valor(4, a.substring(1,a.length()-1)); :}
+    |numero:a                                                                                             {: RESULT= new Valor(2, new Integer(a)); :}
+    |decimal:a                                                                                            {: RESULT= new Valor(1, new Double(a)); :}
+    |dolar:a llaveabre:b id:c coma:d  cadena:e  coma:f cadena:g coma:h cadena:i llavecierra:j             {: :}
+    ;
 
 GRAFICABARRAS::= graficaBarras:a llaveabre:b INFOSBARRAS:c llavecierra:d                                  {: RESULT = new GraficaBarras(c); :}
     ;
@@ -139,9 +148,6 @@ GRAFICAPIE::= graficaPie:a llaveabre:b INFOS:c llavecierra:d                    
 INFOSBARRAS::=INFOSBARRAS:a INFOBARRA:b                                                                   {: RESULT = a; RESULT.add(b); :}
     |INFOBARRA:a                                                                                          {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
-
-
-
 INFOBARRA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {: RESULT = new Caracteristica(0,c); :}
     |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
     |tituloX:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(3,c); :}
@@ -173,11 +179,9 @@ DATOS::= DATOS:a coma:b DATO:c                                                  
     |DATO:a                                                                                               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-DATO::=decimal:a                                                                                          {: RESULT = new Valor(1, new Double(a)); :}
-    |numero:a                                                                                             {: RESULT = new Valor(2, new Integer(a)); :}
-    |id:a                                                                                                 {: RESULT = new Valor(3, a); :}
-    |cadena:a                                                                                             {: RESULT = new Valor(4, a.substring(1,a.length()-1)); :}
-    |dolar:a llaveabre:b PuntajeEspecifico:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j{: RESULT = new Valor(5, e.substring(1,e.length()-1), g.substring(1,g.length()-1), i.substring(1,i.length()-1) ); :}
-    |PuntajeEspecifico:a                                                                                  {: RESULT = new Valor(3, a); :}
-    |PuntajeGeneral:a                                                                                     {: RESULT = new Valor(3, a); :}
+DATO::=decimal:a                                                                                          {: RESULT= new Valor(1, new Double(a)); :}
+    |numero:a                                                                                             {: RESULT= new Valor(2, new Integer(a)); :}
+    |id:a                                                                                                 {: RESULT= new Valor(3, a); :}
+    |cadena:a                                                                                             {: RESULT= new Valor(4, a.substring(1,a.length()-1)); :}
+    |dolar:a llaveabre:b id:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j               {:  :}
     ;

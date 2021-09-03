@@ -14,6 +14,7 @@ public class Simbolos {
   public static final int graficaBarras = 22;
   public static final int ar = 32;
   public static final int corcheteC = 20;
+  public static final int PuntajeGeneral = 37;
   public static final int DefinirGlobales = 33;
   public static final int llaveabre = 2;
   public static final int corcheteA = 21;
@@ -31,6 +32,7 @@ public class Simbolos {
   public static final int EOF = 0;
   public static final int comilladoble = 8;
   public static final int error = 1;
+  public static final int PuntajeEspecifico = 36;
   public static final int guionBajo = 16;
   public static final int dospuntos = 4;
   public static final int id = 12;
@@ -80,7 +82,9 @@ public class Simbolos {
   "ar",
   "DefinirGlobales",
   "string",
-  "dou"
+  "dou",
+  "PuntajeEspecifico",
+  "PuntajeGeneral"
   };
 }
 

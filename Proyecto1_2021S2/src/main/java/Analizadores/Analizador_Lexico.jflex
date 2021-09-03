@@ -88,6 +88,8 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 
 
 
+"PuntajeEspecifico"         { System.out.println("Reconocio "+yytext()+" PuntajeEspecifico"); return new Symbol(Simbolos.PuntajeEspecifico, yycolumn, yyline, yytext()); }
+"PuntajeGeneral"            { System.out.println("Reconocio "+yytext()+" PuntajeGeneral"); return new Symbol(Simbolos.PuntajeGeneral, yycolumn, yyline, yytext()); }
 
 //-------> Simbolos ER
 {numero}            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext()); }
