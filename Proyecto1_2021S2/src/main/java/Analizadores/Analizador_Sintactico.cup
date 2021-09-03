@@ -83,7 +83,7 @@ non terminal Caracteristica INFOBARRA,INFO,INFOLINEA;
 non terminal LinkedList<Caracteristica> INFOSBARRAS,INFOS,INFOSLINEAS;
 
 non terminal Valor DATO;
-non terminal LinkedList<Valor> DATOS,VALORES;
+non terminal LinkedList<Valor> DATOS;
 
 //------> precedencia de menor a mayor
 
@@ -141,32 +141,29 @@ INFOSBARRAS::=INFOSBARRAS:a INFOBARRA:b                                         
     ;
 
 
-
 INFOBARRA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {: RESULT = new Caracteristica(0,c); :}
     |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
+    |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {: RESULT = new Caracteristica(2,d); :}
     |tituloX:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(3,c); :}
     |tituloY:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(4,c); :}
-    |VALORES:a                                                                                            {: RESULT = new Caracteristica(2,a);:}
+    
     ;
 
-INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {: RESULT = a; RESULT.add(b); :}
-    |INFOLINEA:a                                                                                          {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {:  :}
+    |INFOLINEA:a                                                                                          {:  :}
     ;
 
-INFOLINEA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {: RESULT = new Caracteristica(0,c); :}
-    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {: /*no se que puede venir aca*/:}
+INFOLINEA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {:  :}
+    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {: :}
     ;
 
-INFOS::=INFOS:a INFO:b                                                                                    {: RESULT = a; RESULT.add(b); :}
-    |INFO:a                                                                                               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+INFOS::=INFOS:a INFO:b                                                                                    {:  :}
+    |INFO:a                                                                                               {:  :}
     ;
 
-INFO::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                           {: RESULT = new Caracteristica(0,c); :}
-    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
-    |VALORES:a                                                                                            {: RESULT = new Caracteristica(2,a);:}
-    ;
-
-VALORES::= Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                            {: RESULT = d; /*esto no se si funciona*/:}
+INFO::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                           {:  :}
+    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {:  :}
+    |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {:  :}
     ;
 
 DATOS::= DATOS:a coma:b DATO:c                                                                            {: RESULT = a; RESULT.add(c); :}
@@ -177,7 +174,8 @@ DATO::=decimal:a                                                                
     |numero:a                                                                                             {: RESULT = new Valor(2, new Integer(a)); :}
     |id:a                                                                                                 {: RESULT = new Valor(3, a); :}
     |cadena:a                                                                                             {: RESULT = new Valor(4, a.substring(1,a.length()-1)); :}
-    |dolar:a llaveabre:b PuntajeEspecifico:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j{: RESULT = new Valor(5, e.substring(1,e.length()-1), g.substring(1,g.length()-1), i.substring(1,i.length()-1) ); :}
+    |dolar:a llaveabre:b PuntajeEspecifico:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j
+{: RESULT = new Valor(5, e.substring(1,e.length()-1), g.substring(1,g.length()-1), i.substring(1,i.length()-1) ); :}
     |PuntajeEspecifico:a                                                                                  {: RESULT = new Valor(3, a); :}
     |PuntajeGeneral:a                                                                                     {: RESULT = new Valor(3, a); :}
     ;
