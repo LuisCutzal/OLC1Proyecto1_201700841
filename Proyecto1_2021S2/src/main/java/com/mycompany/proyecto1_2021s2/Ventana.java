@@ -13,6 +13,8 @@ import Reportes.GraficaBarras;
 import java.awt.Panel;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -46,13 +49,48 @@ public class Ventana extends javax.swing.JFrame {
     public int cont_comment_repetido = 0;
     public static LinkedList<Variables> variables_FCA = new LinkedList<>();
     public static LinkedList<Puntajes> lista_puntajesEspecificos = new LinkedList<>();
-    /**
-     * Creates new form Ventana
-     */
+    JFileChooser seleccionar = new JFileChooser();
+
     public Ventana() {
         initComponents();
     }
+       
+        
+        File archivo;
+        FileInputStream entrada;
+        FileOutputStream salida;
     
+    public String Abr (File archivo){
+        String documento ="";
+        try {
+            entrada= new FileInputStream(archivo);
+            int contador;
+            while((contador=entrada.read())!=-1){
+                char caracter=(char)contador;
+                documento+=caracter;
+            }
+        } catch (Exception e) {
+            }
+        return  documento;
+        }
+        public String Guardar(File archivo,String documento){
+        String mensaje=null;
+        try {
+            salida=new FileOutputStream(archivo);
+            byte[] bit=documento.getBytes();
+            salida.write(bit);
+            mensaje="Archivo Guardado";
+        } catch (Exception e) {
+        }
+        return mensaje;
+        }
+    
+    
+
+        
+        
+        
+        
     /**
      * Metodo para generar el reporte de errores
      */
@@ -580,7 +618,6 @@ public class Ventana extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -613,9 +650,19 @@ public class Ventana extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Guardar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Guardar como...");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -650,20 +697,27 @@ public class Ventana extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem6);
 
-        jMenuItem7.setText("Consola");
-        jMenu3.add(jMenuItem7);
-
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Reportes");
 
         jMenuItem8.setText("Reporte de Errores");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem8);
 
         jMenuItem9.setText("Reporte Estadístico");
         jMenu4.add(jMenuItem9);
 
         jMenuItem10.setText("Reporte de Tokens");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem10);
 
         jMenuItem11.setText("Reporte JSON");
@@ -678,21 +732,17 @@ public class Ventana extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(171, 171, 171))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))))
+                .addGap(56, 56, 56)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(229, 229, 229)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(273, 273, 273))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -701,11 +751,11 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(43, 43, 43)
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -713,6 +763,33 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        /*JFileChooser VentText =new JFileChooser();
+        VentText.showOpenDialog(null);
+        File archivo= VentText.getSelectedFile();
+        try{
+            FileReader Abrir = new FileReader(archivo);
+            BufferedReader leer= new BufferedReader(Abrir);
+            String text="";
+            String linea="";
+            while(((linea=leer.readLine())!=null)){
+                text+=linea+"\n";
+            }
+            jTextArea1.setText(text);
+            JOptionPane.showMessageDialog(null,"Archivo cargado Correctamente");
+        }
+        catch(Exception e){}*/
+        if(seleccionar.showDialog(null,"Abrir")==JFileChooser.APPROVE_OPTION){
+            archivo=seleccionar.getSelectedFile();
+            if(archivo.canRead()){
+                if(archivo.getName().endsWith("js")){ //tengo que cambiar la extencion del archivo
+                    String documento = Abr(archivo);
+                    jTextArea1.setText(documento);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Error");
+                }
+            }
+        }
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
@@ -765,7 +842,7 @@ public class Ventana extends javax.swing.JFrame {
                 if(ins instanceof Comparar){
                     Comparar comp = (Comparar)ins;
                     archivos_carpetas(comp.getRuta1(), comp.getRuta2());
-                    this.ReporteErrores();
+                    //this.ReporteErrores();
                 }
             }
             //comienza el analizador del fca, las graficas
@@ -797,6 +874,52 @@ public class Ventana extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
             
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        
+
+        //****************GUARDAR***********
+        String documento = jTextArea1.getText();
+        String mensaje=Guardar(archivo, documento);    
+        
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        
+
+        //***************GUARDAR COMO*************
+        if(seleccionar.showDialog(null, "Guardar")==JFileChooser.APPROVE_OPTION){
+            archivo=seleccionar.getSelectedFile();
+            if(archivo.getName().endsWith("txt")){
+                String documento = jTextArea1.getText();
+                String mensaje=Guardar(archivo, documento);
+                if(mensaje!=null){
+                    JOptionPane.showMessageDialog(null,mensaje);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Archivo no compatible");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Guardar ");
+            }
+        }  
+        
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        
+        //*************REPORTE DE ERRORES************
+        this.ReporteErrores();
+        
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        
+        //***************REPORTE DE TOKENS***********
+        
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -849,7 +972,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
