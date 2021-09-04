@@ -13,15 +13,25 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
 
+import com.mycompany.proyecto1_2021s2.Ventana;
+import com.mycompany.proyecto1_2021s2.Variables;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author sandr
+ */
 import org.jfree.chart.JFreeChart; 
 import org.jfree.chart.plot.PlotOrientation; 
 import org.jfree.data.category.DefaultCategoryDataset;
-/**
- *
- * @author Domingo
- */
-public class GraficaPie {
 
+
+public class GraficaPie {
+    
     public LinkedList<Caracteristica> lista_caracteristica;
     String etiqueta_eje_X ;
     String etiqueta_eje_Y ;
@@ -35,12 +45,23 @@ public class GraficaPie {
     
     public void valores(){
         for(Caracteristica caract : this.lista_caracteristica){
+            
+            
             switch(caract.tipo){
                 case 0: //titulo  
                     System.out.println("titulo -> " + caract.valor.valor);
-                    if(caract.valor.valor instanceof String){
+                    if(caract.valor.tipo == 4){
                         titulo_grafica = caract.valor.valor.toString();
+                    }else if(caract.valor.tipo == 3){
+                        for(Variables var : Ventana.variables_FCA){
+                            if(var.getIdentificador().equalsIgnoreCase(caract.valor.valor.toString())){
+                                Valor val = (Valor)var.valor;
+                                titulo_grafica = val.valor.toString();
+                            }
+                        }
+                     
                     }
+                    
                     break;
                 case 1: //ejex
                     System.out.println("ejex -> ");
@@ -49,6 +70,11 @@ public class GraficaPie {
                             this.ejex.add(val.valor.toString());
                         }else if(val.tipo == 3){ //id
                             //se recomienda tener una lista de variables donde se guarde su nombre y valor 
+                            for(Variables variable: Ventana.variables_FCA){
+                                if(variable.getIdentificador().equalsIgnoreCase(val.valor.toString())){
+                                    this.ejex.add(variable.getValor().toString());
+                                }
+                            }
                         }
                         System.out.println("val: " + val.valor);
                     }
@@ -56,11 +82,33 @@ public class GraficaPie {
                 case 2: //valores
                     System.out.println("valores -> ");
                     for(Valor val : caract.lista_valores){
-                        System.out.println("val: " + val.valor);
-                        this.valores.add(val.valor);
+                       
+                        if(val.tipo == 1 || val.tipo == 2 || val.tipo == 4){ 
+                            this.valores.add(val.valor);
+                        }else if(val.tipo == 3){ //id
+                            //se recomienda tener una lista de variables donde se guarde su nombre y valor 
+                            for(Variables variable: Ventana.variables_FCA){
+                                if(variable.getIdentificador().equalsIgnoreCase(val.valor.toString())){
+                                    this.valores.add(variable.getValor());
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 3: //titulox
+                    System.out.println("titulox -> " + caract.valor.valor);
+                    if(caract.valor.tipo == 4){
+                        etiqueta_eje_X = caract.valor.valor.toString();
+                    }
+                    break;
+                case 4: //tituloy
+                    System.out.println("tituloy -> " + caract.valor.valor);
+                    if(caract.valor.valor instanceof String){
+                        etiqueta_eje_Y = caract.valor.valor.toString();
                     }
                     break;
             }
+            
         }
     }
     
@@ -79,6 +127,7 @@ public class GraficaPie {
                     true,  
                     false,  
                     false
+                   
            );
             
            //recorro la lista de "ejex" y "valores"
@@ -89,10 +138,24 @@ public class GraficaPie {
                    dataset.setValue((double)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
                }
            }
+           
             ChartFrame frame = new ChartFrame("Grafica de Barras", chart);
             frame.pack();
             frame.setVisible(true);
+            
+          /*  
+            GENERAR IMAGEN
+            int width = 640;   
+            int height = 480;
+        
+            File barChart = new File( "BarChart"+".jpeg" ); 
+            try {
+                ChartUtilities.saveChartAsJPEG( barChart , chart , width , height );    //se utilizo jfreechart-1.0.1
+            
+            } catch (IOException ex) {
+                Logger.getLogger(GBarras.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           */ 
     }
     
 }
-

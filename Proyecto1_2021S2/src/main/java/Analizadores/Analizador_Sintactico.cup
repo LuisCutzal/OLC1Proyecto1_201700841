@@ -149,21 +149,22 @@ INFOBARRA::=titulo:a dospuntos:b DATO:c puntoycoma:d                            
     
     ;
 
-INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {:  :}
-    |INFOLINEA:a                                                                                          {:  :}
+INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {: RESULT = a; RESULT.add(b); :}
+    |INFOLINEA:a                                                                                          {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-INFOLINEA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {:  :}
-    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {: :}
+INFOLINEA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {: RESULT = new Caracteristica(0,c); :}
+    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {: RESULT = new Caracteristica(5,c);/*este id 5 es para el archivo de la grafica de lineas*/:}
+    |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {: RESULT = new Caracteristica(2,d); :}
     ;
 
-INFOS::=INFOS:a INFO:b                                                                                    {:  :}
-    |INFO:a                                                                                               {:  :}
+INFOS::=INFOS:a INFO:b                                                                                    {: RESULT = a; RESULT.add(b); :}
+    |INFO:a                                                                                               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-INFO::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                           {:  :}
-    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {:  :}
-    |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {:  :}
+INFO::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                           {: RESULT = new Caracteristica(0,c); :}
+    |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
+    |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {: RESULT = new Caracteristica(2,d); :}
     ;
 
 DATOS::= DATOS:a coma:b DATO:c                                                                            {: RESULT = a; RESULT.add(c); :}
@@ -174,8 +175,7 @@ DATO::=decimal:a                                                                
     |numero:a                                                                                             {: RESULT = new Valor(2, new Integer(a)); :}
     |id:a                                                                                                 {: RESULT = new Valor(3, a); :}
     |cadena:a                                                                                             {: RESULT = new Valor(4, a.substring(1,a.length()-1)); :}
-    |dolar:a llaveabre:b PuntajeEspecifico:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j
-{: RESULT = new Valor(5, e.substring(1,e.length()-1), g.substring(1,g.length()-1), i.substring(1,i.length()-1) ); :}
+    |dolar:a llaveabre:b PuntajeEspecifico:c coma:d cadena:e coma:f cadena:g coma:h cadena:i llavecierra:j{: RESULT = new Valor(5, e.substring(1,e.length()-1), g.substring(1,g.length()-1), i.substring(1,i.length()-1) ); :}
     |PuntajeEspecifico:a                                                                                  {: RESULT = new Valor(3, a); :}
     |PuntajeGeneral:a                                                                                     {: RESULT = new Valor(3, a); :}
     ;
