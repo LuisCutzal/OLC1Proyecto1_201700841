@@ -84,6 +84,7 @@ precedence left mayorque,menorque, mayorIgual,menorIgual;
 precedence left mas, menos;
 precedence left multiplicacion, division, modulo;
 precedence left potencia;
+precedence right not;
 precedence right unario;
 
 

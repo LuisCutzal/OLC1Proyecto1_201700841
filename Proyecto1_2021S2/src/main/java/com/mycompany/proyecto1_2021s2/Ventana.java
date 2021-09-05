@@ -47,6 +47,8 @@ public class Ventana extends javax.swing.JFrame {
     public static LinkedList<String> listacomentarios = new LinkedList<>();
     public int cont_variables_repetidas = 0;
     public int cont_comment_repetido = 0;
+    public int cont_clases_repetidas=0;
+    public int cont_metodos_repetidos=0;
     public static LinkedList<Variables> variables_FCA = new LinkedList<>();
     public static LinkedList<Puntajes> lista_puntajesEspecificos = new LinkedList<>();
     JFileChooser seleccionar = new JFileChooser();
@@ -87,7 +89,7 @@ public class Ventana extends javax.swing.JFrame {
     /**
      * Metodo para generar el reporte de errores
      */
-    LinkedList<String> variables = new LinkedList<String>();//funciona
+
     LinkedList<String> clases = new LinkedList<String>();//funciona
     LinkedList<String> importaciones = new LinkedList<String>();//funciona
     LinkedList<String> metodos = new LinkedList<String>();//funciona
@@ -104,21 +106,51 @@ public class Ventana extends javax.swing.JFrame {
     LinkedList<String> contadores = new LinkedList<String>();
     LinkedList<String> parametros = new LinkedList<String>();
     LinkedList<String> expresiones = new LinkedList<String>();
-    
-    public void encontrar(Nodo nodo,LinkedList<String> variables){
+    int tamañoClase=0;
+    int tamañoMetodo=0;
+    int tamañoParametros=0;
+    String nombreMetodo="",nombreClase="";
+    public void encontrar(Nodo nodo,LinkedList<String> variables,LinkedList<ClasesRepetidas> clases,LinkedList<MetodosRepetidos> metodos){
         int lineaM1=0,lineaM2=0;
         for(Nodo instruccion : nodo.hijos){
             //System.out.println("Nodos "+ instruccion.lexema);
             if (instruccion.token=="CLASE") {
                 for (Nodo clase : instruccion.hijos) {
                     if (clase.token=="id") {//si encuentra la clase con el nombre que se le da, ejemplo class hola(){}  aparece el nombre de la clase
-                        clases.add(clase.lexema);
+                        //clases.add(clase.lexema);
+                        nombreClase=clase.lexema;
                     }
                     if(clase.token=="llavecierra"){
-                        System.out.println("llavecierra: " + clase.linea );//para saber cuantas lineas tiene el archivo js
+                        tamañoClase=clase.linea;
+                        System.out.println("llavecierra: " + tamañoClase );//para saber cuantas lineas tiene el archivo js
+                        clases.add(new ClasesRepetidas(tamañoClase,nombreClase));
                     }
                 }
             }
+
+            if(instruccion.token == "METODO"){
+                for(Nodo metodo : instruccion.hijos){
+                    if(metodo.token == "id"){
+                        //metodos.add(metodo.lexema);
+                        nombreMetodo=metodo.lexema;
+                    }
+                    if(metodo.token=="llaveabre"){
+                        //System.out.println("linea inicio metodo: "+metodo.linea);
+                        lineaM1=metodo.linea;
+                    }
+                    if(metodo.token=="llavecierra"){
+                        //System.out.println("linea fin metodo:" +metodo.linea);
+                        lineaM2=metodo.linea;
+                    }
+                    if(metodo.token=="PARAMETROS"){
+                        tamañoParametros=instruccion.hijos.get(2).hijos.size();
+                    }
+                }
+                    tamañoMetodo=lineaM2-lineaM1;
+                    System.out.println("total de Lineas Metodo: " + (tamañoMetodo+1));
+                    metodos.add(new MetodosRepetidos(tamañoMetodo,tamañoParametros,nombreMetodo));
+            }
+            
             if(instruccion.token=="IMPORT"){
                 for(Nodo importacion : instruccion.hijos){
                     if(importacion.token == "id"){
@@ -133,25 +165,6 @@ public class Ventana extends javax.swing.JFrame {
                     }
                 }
             }
-            
-            if(instruccion.token == "METODO"){
-                for(Nodo metodo : instruccion.hijos){
-                    if(metodo.token == "id"){
-                        metodos.add(metodo.lexema);
-                    }
-                    if(metodo.token=="llaveabre"){
-                        //System.out.println("linea inicio metodo: "+metodo.linea);
-                        lineaM1=metodo.linea;
-                    }
-                    if(metodo.token=="llavecierra"){
-                        //System.out.println("linea fin metodo:" +metodo.linea);
-                        lineaM2=metodo.linea;
-                    }
-                }
-                    int fin=lineaM2-lineaM1;
-                    System.out.println("total de Lineas Metodo: " + (fin+1));
-            }
-            
             if(instruccion.token == "ASIGNACIONVARIABLES"){
                 for(Nodo asignacion : instruccion.hijos){
                     if(asignacion.token == "id"){
@@ -214,7 +227,7 @@ public class Ventana extends javax.swing.JFrame {
                     prueba=breacks;
                 }
                 if(prueba.lexema==""){
-                    encontrar(prueba,variables);
+                    encontrar(prueba,variables,clases,metodos);
                 }
             }
             if(instruccion.token == "LLAMADA"){
@@ -254,82 +267,11 @@ public class Ventana extends javax.swing.JFrame {
                 }
             }
             if(instruccion.lexema == "" ){
-                encontrar(instruccion,variables);
+                encontrar(instruccion,variables,clases,metodos);
             }
         }
     }
-    
-    public void imprimir(){
-        /*for (String cla:clases){
-            //jTextArea2.append("Clase encontrada --> " + cla + "\n");
-            System.out.println("Clase encontrada --> " + cla + "\n");
-        }
-        for(String importacion:importaciones){
-            //jTextArea2.append("Import encontrada --> " + importacion + "\n");
-            System.out.println("Import encontrada --> " + importacion + "\n");
-        }
-        for(String metodo:metodos){
-            //jTextArea2.append("Metodo encontrado --> " + metodo + "\n");
-            System.out.println("Metodo encontrado --> " + metodo + "\n");
 
-        }*/
-        for( String id: variables ){
-            //jTextArea2.append("Declaracion encontrada --> " + id + "\n");
-            System.out.println("Declaracion encontrada --> " + id + "\n");
-        }/*
-        for( String asignacion: asignaciones ){
-            //jTextArea2.append("Asignacion encontrada --> " + asignacion + "\n");
-            System.out.println("Asignacion encontrada --> " + asignacion + "\n");
-        }*/
-        /*
-        for( String sentenciaif: sentenciasIf ){ //tengo mis dudas respecto al if, else if y else, ver despues
-            //jTextArea2.append("Sentencia IF encontrada --> " + sentenciaif + "\n");
-            System.out.println("Sentencia IF encontrada --> " + sentenciaif + "\n");
-        }       */ 
-        for( String senFor: sentenciasFor ){
-            //jTextArea2.append("Sentencia For encontrada --> " + senFor + "\n");
-            System.out.println("Sentencia For encontrada --> " + senFor + "\n");
-        }
-        /*
-        for( String senwhile: sentenciasWhile ){
-            //jTextArea2.append("Sentencia WHILE encontrada --> " + senwhile + "\n");
-            System.out.println("Sentencia WHILE encontrada --> " + senwhile + "\n");
-        }
-        for( String senDowhile: sentenciasDo ){
-            //jTextArea2.append("Sentencia DO-WHILE encontrada --> " + senDowhile + "\n");
-            System.out.println("Sentencia DO-WHILE encontrada --> " + senDowhile + "\n");
-        }
-        for( String senSwhitch: sentenciasSwhitch ){
-            //jTextArea2.append("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
-            System.out.println("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
-        }*/
-        /*
-        for( String consola: consolas ){
-           //jTextArea2.append("Consola encontrada --> " + consola + "\n");
-            System.out.println("Consola encontrada --> " + consola + "\n");
-        }
-        
-        for( String params: parametros ){
-            //jTextArea2.append("Parametro encontrado --> " + params + "\n");
-            System.out.println("Parametro encontrado --> " + params + "\n");
-        }
-        
-        for(String exp:expresiones){
-            //jTextArea2.append("Valor --> " + exp + "\n");
-            System.out.println("Valor --> " + exp + "\n");
-        }
-        
-        for( String llamada: llamadas ){
-            //jTextArea2.append("La Llamada es --> " + llamada + "\n");
-            System.out.println("La Llamada es --> " + llamada + "\n");
-        }
-        
-        for( String contador: contadores ){
-            //jTextArea2.append("El contador es --> " + contador + "\n");
-            System.out.println("El contador es --> " + contador + "\n");
-        }*/
-
-    }
     /**
      * Metodo para verificar los archivos dentro de una carpeta 
      * @param ruta_proy1 indica la ruta donde se encuentra la carpeta del proyecto 1
@@ -337,14 +279,11 @@ public class Ventana extends javax.swing.JFrame {
      */
     
     public void Comparamos(String ruta_proy1, String ruta_proy2){
-        
         try{
             DirectoryStream<Path> stream_p1 = Files.newDirectoryStream(Paths.get(ruta_proy1), "*.js");
-            
            //Recorremos los archivos del proyecto 1
             for (Path file_p1: stream_p1) {
                 DirectoryStream<Path> stream_p2 = Files.newDirectoryStream(Paths.get(ruta_proy2), "*.js");
-                
                 String nombre_archivo1 = file_p1.getFileName().toString(); 
                 File archivo = new File (file_p1.toString());
                 FileReader fr = new FileReader (archivo);
@@ -372,10 +311,9 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
-                                //--> vamos a guardar las variables encontradas en el archivo
-                                encontrar(raiz,nuevo_archivo1.variables ); 
-                                
+                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
+                                //--> vamos a guardar las variables encontradas en el archivo,
+                                encontrar(raiz,nuevo_archivo1.variables,nuevo_archivo1.clases,nuevo_archivo1.metodos);
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : listacomentarios){
                                     nuevo_archivo1.comentarios.add(comment);
@@ -385,7 +323,7 @@ public class Ventana extends javax.swing.JFrame {
                                     //--> guardamos los errore indicando el nombre del archivo
                                     error nuevo_error = new error(errors.tipo, errors.valor, nuevo_archivo1.nombre_archivo, errors.fila, errors.columna);
                                     nuevo_archivo1.lista_errores.add(nuevo_error);
-                                }
+                                }                                
                                 //Arbol arbol = new Arbol(raiz);
                                 //arbol.GraficarSintactico();
                                 
@@ -414,9 +352,9 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
+                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
                                 //--> vamos a guardar las variables encontradas en el archivo
-                                encontrar(raiz, nuevo_archivo2.variables); 
+                                encontrar(raiz, nuevo_archivo2.variables,nuevo_archivo2.clases,nuevo_archivo2.metodos);
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : listacomentarios){
                                     nuevo_archivo2.comentarios.add(comment);
@@ -475,11 +413,6 @@ public class Ventana extends javax.swing.JFrame {
         }
     }
     
-    /**
-     * Metodo para verificar los comentarios repetidos en ambos archivos
-     * @param archivo1 recibe el archivo del proyecto 1 con toda su informacion
-     * @param archivo2 recibe el archivo del proyecto 2 con toda su informacion
-     */
     public void comentariosrepetidos(Archivo archivo1, Archivo archivo2){
         for(String comment : archivo1.comentarios){
             for(String comment2 : archivo2.comentarios){
@@ -487,10 +420,74 @@ public class Ventana extends javax.swing.JFrame {
                     //jTextArea2.append("Comentario repetido: \"" + comment +"\" en archivos " + archivo2.nombre_archivo + "\n");
                     jTextArea2.append("Comentario repetido: " + comment +" en archivos " + archivo2.nombre_archivo+" y " +archivo1.nombre_archivo+ "\n");
                     this.cont_comment_repetido++;
+                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Comentario",comment,  1));
                 }
             }
         }
     }
+    
+    public void ClasesRepetidas(Archivo archivo1,Archivo archivo2){
+        for(ClasesRepetidas clases : archivo1.clases){
+            for(ClasesRepetidas clases2: archivo2.clases){
+                //repitencia de identificador
+                if(clases.getId().equals(clases2.getId())){
+                    if(clases.getLineas()==clases2.getLineas()){
+                        this.cont_clases_repetidas++;
+                        this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Clases",clases.getId(),  0.2));
+                        this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"Lineas",String.valueOf(clases.getLineas()),0.4));
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    public void MetodosRepetidos(Archivo archivo1,Archivo archivo2){
+        for(MetodosRepetidos metodos : archivo1.metodos){
+            for(MetodosRepetidos metodos2: archivo2.metodos){
+                //repitencia de identificador
+                if(metodos.getIdMetodo().equals(metodos2.getIdMetodo())){//id
+                    if(metodos.getLineas()==metodos2.getLineas()){//lineas
+                        if(metodos.getParametros()==metodos2.getParametros()){//parametros
+                            this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  1));//si id, parametos y lineas son iguales
+                        }
+                    }else if(metodos.getLineas()==metodos2.getLineas()){
+                        if(metodos.getParametros()!=metodos2.getParametros()){
+                            this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.7));//si id y lineas son iguales pero parametros no
+                        }
+                    }else if(metodos.getLineas()!=metodos2.getLineas()){
+                        if(metodos.getParametros()==metodos2.getParametros()){
+                            this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.7));//si id y parametros son iguales pero lineas no
+                        }
+                    }
+                    this.cont_metodos_repetidos++;
+                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.4));// si id es igual pero parametros y lineas no
+                }else {
+                    if(metodos.getLineas()==metodos2.getLineas()){//lineas
+                        if(metodos.getParametros()==metodos2.getParametros()){//parametros
+                            this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.6));//si lineas y parametros son iguales pero id no
+                        }
+                    }else if(metodos.getLineas()==metodos2.getLineas()){
+                        if(metodos.getParametros()!=metodos2.getParametros()){
+                            this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.3));//si lineas son iguales pero id y parametros no
+                        }
+                    }
+                    else if(metodos.getLineas()!=metodos2.getLineas()){
+                        if(metodos.getParametros()==metodos2.getParametros()){//parametros
+                            this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.3));//si parametros son iguales pero id y lineas no
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     //inicio de reporte de errores
     public void ReporteErrores(){
         LinkedList<error> Reporte_errores = new LinkedList<>();

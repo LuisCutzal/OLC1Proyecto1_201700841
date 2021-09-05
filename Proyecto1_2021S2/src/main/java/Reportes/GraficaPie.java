@@ -106,7 +106,8 @@ public class GraficaPie {
         /*
             SE PROCEDE A GRAFICAR 
         */
-            DefaultCategoryDataset dataset = new DefaultCategoryDataset(); //se utilizo la libreria jfreechart-1.5.3
+            /*
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset(); //se utilizo la libreria jfreechart-1.5.3
             JFreeChart chart= ChartFactory.createBarChart(
                     titulo_grafica,      
                     etiqueta_eje_X,
@@ -128,7 +129,7 @@ public class GraficaPie {
             ChartFrame frame = new ChartFrame("Grafica de Barras", chart);
             frame.pack();
             frame.setVisible(true);
-            
+            */
             //comienza
             
             DefaultPieDataset datos= new DefaultPieDataset();
