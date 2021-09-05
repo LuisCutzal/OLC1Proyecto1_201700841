@@ -28,6 +28,7 @@ import com.mycompany.proyecto1_2021s2.Variables;
 import org.jfree.chart.JFreeChart; 
 import org.jfree.chart.plot.PlotOrientation; 
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 
 public class GraficaPie {
@@ -95,18 +96,6 @@ public class GraficaPie {
                         }
                     }
                     break;
-                case 3: //titulox
-                    System.out.println("titulox -> " + caract.valor.valor);
-                    if(caract.valor.tipo == 4){
-                        etiqueta_eje_X = caract.valor.valor.toString();
-                    }
-                    break;
-                case 4: //tituloy
-                    System.out.println("tituloy -> " + caract.valor.valor);
-                    if(caract.valor.valor instanceof String){
-                        etiqueta_eje_Y = caract.valor.valor.toString();
-                    }
-                    break;
             }
             
         }
@@ -127,9 +116,7 @@ public class GraficaPie {
                     true,  
                     false,  
                     false
-                   
            );
-            
            //recorro la lista de "ejex" y "valores"
            for(int i=0; i < this.ejex.size(); i++){
                if(this.valores.get(i) instanceof Integer){
@@ -138,24 +125,32 @@ public class GraficaPie {
                    dataset.setValue((double)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
                }
            }
-           
             ChartFrame frame = new ChartFrame("Grafica de Barras", chart);
             frame.pack();
             frame.setVisible(true);
             
-          /*  
-            GENERAR IMAGEN
-            int width = 640;   
-            int height = 480;
-        
-            File barChart = new File( "BarChart"+".jpeg" ); 
-            try {
-                ChartUtilities.saveChartAsJPEG( barChart , chart , width , height );    //se utilizo jfreechart-1.0.1
+            //comienza
             
-            } catch (IOException ex) {
-                Logger.getLogger(GBarras.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           */ 
+            DefaultPieDataset datos= new DefaultPieDataset();
+            JFreeChart grafico= ChartFactory.createPieChart(
+                    titulo_grafica,//nombre grafico
+                    datos,//datos
+                    true,
+                    true,
+                    false
+                    
+            );
+            //recorro la lista de "ejex" y "valores"
+            for(int i=0; i < this.ejex.size(); i++){
+               if(this.valores.get(i) instanceof Integer){
+                    //datos.setValue((int)this.valores.get(i), this.ejex.get(i));
+                    datos.setValue(this.ejex.get(i), (int)this.valores.get(i));
+               }else if(this.valores.get(i) instanceof Double){
+                   //datos.setValue((double)this.valores.get(i), this.ejex.get(i));
+                   datos.setValue(this.ejex.get(i), (int)this.valores.get(i));
+               }
+           }
+            
     }
     
 }

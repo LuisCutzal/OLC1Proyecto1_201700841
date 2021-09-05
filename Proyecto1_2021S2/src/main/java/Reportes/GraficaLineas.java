@@ -120,11 +120,12 @@ public class GraficaLineas {
                     false
                    
            );*/
+            /*
             XYSeriesCollection dataset= new XYSeriesCollection();
             JFreeChart chart = ChartFactory.createXYLineChart(
                     titulo_grafica,//titulo de la grafica
                     etiqueta_archivo, //nombre del archivo
-                    ,//putnuaciones
+                    ,//puntuacion
                     dataset,
                     PlotOrientation.VERTICAL,
                     true,  
@@ -146,21 +147,8 @@ public class GraficaLineas {
            
             ChartFrame frame = new ChartFrame("Grafica de Lineas", chart);
             frame.pack();
-            frame.setVisible(true);
+            frame.setVisible(true);*/
             
-          /*  
-            GENERAR IMAGEN
-            int width = 640;   
-            int height = 480;
-        
-            File barChart = new File( "BarChart"+".jpeg" ); 
-            try {
-                ChartUtilities.saveChartAsJPEG( barChart , chart , width , height );    //se utilizo jfreechart-1.0.1
-            
-            } catch (IOException ex) {
-                Logger.getLogger(GBarras.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           */ 
     }
     
 }

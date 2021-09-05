@@ -90,6 +90,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reporte Estad&#xed;stico"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem9ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem10">
               <Properties>
@@ -133,35 +136,35 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="431" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="481" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="594" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="394" max="-2" attributes="0"/>
               <EmptySpace pref="36" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="229" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="238" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="273" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="205" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jScrollPane1" pref="376" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" pref="404" max="32767" attributes="0"/>
                   <Component id="jScrollPane2" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -197,7 +200,7 @@
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="GernerarReporteEstadistico{&#xa;    compare(&quot;C:\u005cUsers\u005cDomingo\u005cDesktop\u005cUSAC\u005cSegundo Semestre 2021\u005cCompi1\u005clab\u005cPoyecto1\u005cEntrada\u005cproyecto1&quot;,&quot;C:\u005cUsers\u005cDomingo\u005cDesktop\u005cUSAC\u005cSegundo Semestre 2021\u005cCompi1\u005clab\u005cPoyecto1\u005cEntrada\u005cproyecto2&quot;);&#xa;    DefinirGlobales{&#xa;        string reporte1 = &quot;Probabilidades esperadas para Variables archivo archivo2vars.js&quot;;&#xa;        string reporte2 = &quot;Probabilidades obtenidos para Variables archivo archivo2vars.js&quot;;&#xa;&#xa;        double pe1 = 0;&#xa;        double pe2 = 1;&#xa;        double pe3 = 0;&#xa;        double pe4 = 1;&#xa;        double pe5 = 0;&#xa;        double pe6 = 1;&#xa;        double pe7 = 1;&#xa;&#xa;        double po1 = ${PuntajeEspecifico,&quot;archivo2vars.js&quot;,&quot;variable&quot;,&quot;punteo&quot;};&#xa;        double po2 = ${PuntajeEspecifico,&quot;archivo2vars.js&quot;,&quot;variable&quot;,&quot;validacion&quot;};&#xa;        double po3 = ${PuntajeEspecifico,&quot;archivo2vars.js&quot;,&quot;variable&quot;,&quot;aritmetica&quot;};&#xa;        double po4 = ${PuntajeEspecifico,&quot;archivo2vars.js&quot;,&quot;variable&quot;,&quot;punteo2&quot;};&#xa;        double po5 = ${PuntajeEspecifico,&quot;variables.js&quot;,&quot;variable&quot;,&quot;A&quot;};&#xa;        double po6 = ${PuntajeEspecifico,&quot;variables.js&quot;,&quot;variable&quot;,&quot;variable&quot;};&#xa;        double po7 = ${PuntajeEspecifico,&quot;variables.js&quot;,&quot;variable&quot;,&quot;compi1&quot;};&#xa;        &#xa;    }&#xa;&#xa;    GraficaBarras{&#xa;        Titulo: reporte1;&#xa;        Ejex: [ &quot;punteo&quot;, &quot;validacion&quot; , &quot;aritmetica&quot;, &quot;punteo2&quot; ];&#xa;        Valores: [ pe1, pe2, pe3, pe4 ];&#xa;        Titulox: &quot;Nombre de las variables&quot;;&#xa;        Tituloy: &quot;Puntaje&quot;;&#xa;    }&#xa;&#xa;    GraficaBarras{&#xa;        Titulo: reporte2;&#xa;        Ejex: [ &quot;punteo&quot;, &quot;validacion&quot; , &quot;aritmetica&quot;, &quot;punteo2&quot; ];&#xa;        Valores: [ po1, po2, po3, po4 ];&#xa;        Titulox: &quot;Nombre de las variables&quot;;&#xa;        Tituloy: &quot;Puntaje&quot;;&#xa;    }&#xa;}" containsInvalidXMLChars="true"/>
+            <Property name="text" type="java.lang.String" value="GenerarReporteEstadistico{&#xa;    definirglobales{&#xa;        string reporteResumen = &quot;Reporte de Archivo file_1.js de los proyectos&quot;;&#xa;&#xa;        ## variables para Reportes de Barras&#xa;&#xa;        Double pr1 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;triangle_draw&quot;};&#xa;        Double pr2 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;draw_triangle_i&quot;};&#xa;        Double pr3 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;sq_draw&quot;};&#xa;        Double pr4 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;draw_square_i&quot;};&#xa;        Double pr5 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;draw_square_j&quot;};&#xa;        Double pr6 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;draw_triangle_j&quot;};&#xa;        Double pr9 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;draw_triangle_draw&quot;};&#xa;        Double pr12 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;draw_square_draw&quot;};&#xa;        Double pr15 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;x&quot;};&#xa;        Double pr16 = ${PuntajeEspecifico,&quot;file_1.js&quot;,&quot;variable&quot;,&quot;a&quot;};&#xa;&#xa;        Double pe1 = 0;&#xa;        Double pe2 = 1;&#xa;        Double pe3 = 0;&#xa;        Double pe4 = 1;&#xa;        Double pe5 = 1;&#xa;        Double pe6 = 1;&#xa;        Double pe9 = 0;&#xa;        Double pe12 = 0;&#xa;        Double pe15 = 0;&#xa;        Double pe16 = 0;&#xa;&#xa;        String titulobarrasesperada = &quot;Probabilidades esperadas para variables archivo file_1.js&quot;;&#xa;        String titulobarrasreal = &quot;Probabilidades obtenidas para variables archivo file_1.js&quot;;&#xa;    }&#xa;&#xa;    #*&#xa;    Este comentario deber&#xed;a ser ignorado 189214&apos;!&quot;&quot;$%$&amp;&quot;#$&quot;#&quot;#4&#xa;    *#&#xa;&#xa;    ##Cargamos los proyectos correspondientes&#xa;    COMPARE(&quot;C:\u005cUsers\u005cDomingo\u005cDesktop\u005cUSAC\u005cSegundo Semestre 2021\u005cCompi1\u005clab\u005cPoyecto1\u005cEntrada\u005cProyectoA&quot;, &quot;C:\u005cUsers\u005cDomingo\u005cDesktop\u005cUSAC\u005cSegundo Semestre 2021\u005cCompi1\u005clab\u005cPoyecto1\u005cEntrada\u005cProyectoB&quot;);&#xa;&#xa;    GraficaLineas{&#xa;        TiTulO: reporteResumen; &#xa;        ArChIvO: &quot;file_1.js&quot;;&#xa;    }&#xa;&#xa;    graficalineas{&#xa;        titulo: &quot;Reporte file_2&quot;; &#xa;        archivo: &quot;file_2.js&quot;;&#xa;    }&#xa;&#xa;    ## Agregamos las graficas de barras&#xa;&#xa;    GraficaBarras {&#xa;        Titulo: titulobarrasreal;&#xa;        EjeX: [ &quot;triangle_draw&quot;, &quot;draw_triangle_i&quot;, &quot;sq_draw&quot;, &quot;draw_square_i&quot;, &quot;draw_square_j&quot;, &quot;draw_triangle_j&quot;, &quot;draw_triangle_draw&quot;, &quot;draw_square_draw&quot;, &quot;x&quot;, &quot;a&quot; ];&#xa;        Valores: [ pr1, pr2, pr3, pr4, pr5, pr6, pr9, pr12, pr15, pr16 ];&#xa;        TituloX: &quot;Nombre de las variables&quot;;&#xa;        TituloY: &quot;Puntaje&quot;;&#xa;    }&#xa;&#xa;    GraficaBarras {&#xa;        Titulo: titulobarrasesperada;&#xa;        EjeX: [ &quot;triangle_draw&quot;, &quot;draw_triangle_i&quot;, &quot;sq_draw&quot;, &quot;draw_square_i&quot;, &quot;draw_square_j&quot;, &quot;draw_triangle_j&quot;, &quot;draw_triangle_draw&quot;, &quot;draw_square_draw&quot;, &quot;x&quot;, &quot;a&quot; ];&#xa;        Valores: [ pe1, pe2, pe3, pe4, pe5, pe6, pe9, pe12, pe15, pe16 ];&#xa;        TituloX: &quot;Nombre de las variables&quot;;&#xa;        TituloY: &quot;Puntaje&quot;;&#xa;    }&#xa;&#xa;}" containsInvalidXMLChars="true"/>
           </Properties>
         </Component>
       </SubComponents>

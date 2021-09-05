@@ -39,7 +39,7 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
 comentariosimple    = "##" {InputCharacter}* {LineTerminator}?
-comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
+comentariodoble     = "#*"[^]+ "*#"{InputCharacter}* {LineTerminator}?
 //------> Estados
 
 %%
@@ -74,7 +74,7 @@ comentariodoble     = [\#*][^]+[\*#] {InputCharacter}* {LineTerminator}?
 "TituloX"           { System.out.println("Reconocio "+yytext()+" tituloX"); return new Symbol(Simbolos.tituloX, yycolumn, yyline, yytext()); }
 "TituloY"           { System.out.println("Reconocio "+yytext()+" tituloY"); return new Symbol(Simbolos.tituloY, yycolumn, yyline, yytext()); }
 
-"GernerarReporteEstadistico"        { System.out.println("Reconocio "+yytext()+" generarReporteEstadistico"); return new Symbol(Simbolos.generarReporteEstadistico, yycolumn, yyline, yytext()); }
+"GenerarReporteEstadistico"        { System.out.println("Reconocio "+yytext()+" generarReporteEstadistico"); return new Symbol(Simbolos.generarReporteEstadistico, yycolumn, yyline, yytext()); }
 "compare"           { System.out.println("Reconocio "+yytext()+" compare"); return new Symbol(Simbolos.compare, yycolumn, yyline, yytext()); }
 
 "GraficaPie"        { System.out.println("Reconocio "+yytext()+" graficaPie"); return new Symbol(Simbolos.graficaPie, yycolumn, yyline, yytext()); }

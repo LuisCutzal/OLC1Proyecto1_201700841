@@ -14,15 +14,29 @@ import java.util.LinkedList;
  */
 public class Archivo {
     String nombre_archivo = "";
-    ArrayList<String> variables;
-    ArrayList<String> comentarios;
-    ArrayList<error> lista_errores;
+    LinkedList<String> variables;
+    LinkedList<String> comentarios;
+    LinkedList<error> lista_errores;
     
-    public Archivo(String nombre_archivo, ArrayList<String> variables, ArrayList<String> comentarios, ArrayList<error>lista_errores){
+    public Archivo(String nombre_archivo, LinkedList<String> variables, LinkedList<String> comentarios, LinkedList<error>lista_errores){
         this.nombre_archivo = nombre_archivo;
         this.variables = variables;
         this.comentarios = comentarios;
         this.lista_errores = lista_errores;
     }
+    public String getNombreArchivo(){
+        return this.nombre_archivo;
+    }
     
+    public LinkedList<String> getListaVariables(){
+        return this.variables;
+    }
+    
+    public LinkedList<String> getListaComentarios(){
+        return this.comentarios;
+    }
+    
+    public LinkedList<error> getListaErrores(){
+        return this.lista_errores;
+    }
 }

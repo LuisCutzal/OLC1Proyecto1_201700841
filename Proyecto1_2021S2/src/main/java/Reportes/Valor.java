@@ -57,7 +57,7 @@ public class Valor {
                if(this.nombrearchivo.equalsIgnoreCase(puntaje.getNombreArchivo())){
                    if(this.caracteristica.equalsIgnoreCase(puntaje.getCaracteristica())){
                        if(this.identificador.equalsIgnoreCase(puntaje.id)){
-                            return puntaje.getValor();
+                           return puntaje.getValor();
                        }
                    }
                }

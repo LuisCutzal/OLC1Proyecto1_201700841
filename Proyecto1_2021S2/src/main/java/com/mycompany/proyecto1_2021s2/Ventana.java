@@ -41,7 +41,7 @@ import javax.swing.JTextArea;
  * @author Domingo
  */
 public class Ventana extends javax.swing.JFrame {
-    public static ArrayList<error> listaErrores = new ArrayList<error>();
+    public static LinkedList<error> listaErrores = new LinkedList<error>();
     LinkedList<Archivo> datos_archivos = new LinkedList<>();
     static LinkedList<Object> instrucciones = new LinkedList<Object>();
     public static LinkedList<String> listacomentarios = new LinkedList<>();
@@ -84,35 +84,28 @@ public class Ventana extends javax.swing.JFrame {
         }
         return mensaje;
         }
-    
-    
-
-        
-        
-        
-        
     /**
      * Metodo para generar el reporte de errores
      */
-    ArrayList<String> variables = new ArrayList<String>();//funciona
-    ArrayList<String> clases = new ArrayList<String>();//funciona
-    ArrayList<String> importaciones = new ArrayList<String>();//funciona
-    ArrayList<String> metodos = new ArrayList<String>();//funciona
-    ArrayList<String> asignaciones = new ArrayList<String>();//funciona
-    ArrayList<String> sentenciasIf = new ArrayList<String>();//funciona pero aun tengo que ver validaciones
+    LinkedList<String> variables = new LinkedList<String>();//funciona
+    LinkedList<String> clases = new LinkedList<String>();//funciona
+    LinkedList<String> importaciones = new LinkedList<String>();//funciona
+    LinkedList<String> metodos = new LinkedList<String>();//funciona
+    LinkedList<String> asignaciones = new LinkedList<String>();//funciona
+    LinkedList<String> sentenciasIf = new LinkedList<String>();//funciona pero aun tengo que ver validaciones
     //ArrayList<String> elses = new ArrayList<String>();//aun no se si tengo que agregar una lista para else, else if
-    ArrayList<String> sentenciasFor = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
-    ArrayList<String> sentenciasWhile = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
-    ArrayList<String> sentenciasDo = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
-    ArrayList<String> sentenciasSwhitch = new ArrayList<String>();//funciona pero aun tengo q ver validaciones de los casos y el default
-    ArrayList<String> consolas = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
-    ArrayList<String> breaks = new ArrayList<String>();//funciona pero aun tengo q ver validaciones
-    ArrayList<String> llamadas = new ArrayList<String>();//funciona
-    ArrayList<String> contadores = new ArrayList<String>();
-    ArrayList<String> parametros = new ArrayList<String>();
-    ArrayList<String> expresiones = new ArrayList<String>();
+    LinkedList<String> sentenciasFor = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
+    LinkedList<String> sentenciasWhile = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
+    LinkedList<String> sentenciasDo = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
+    LinkedList<String> sentenciasSwhitch = new LinkedList<String>();//funciona pero aun tengo q ver validaciones de los casos y el default
+    LinkedList<String> consolas = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
+    LinkedList<String> breaks = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
+    LinkedList<String> llamadas = new LinkedList<String>();//funciona
+    LinkedList<String> contadores = new LinkedList<String>();
+    LinkedList<String> parametros = new LinkedList<String>();
+    LinkedList<String> expresiones = new LinkedList<String>();
     
-    public void encontrar(Nodo nodo,ArrayList<String> variables){
+    public void encontrar(Nodo nodo,LinkedList<String> variables){
         int lineaM1=0,lineaM2=0;
         for(Nodo instruccion : nodo.hijos){
             //System.out.println("Nodos "+ instruccion.lexema);
@@ -177,12 +170,13 @@ public class Ventana extends javax.swing.JFrame {
             
             if(instruccion.token == "SENTENCIAFOR"){
                 for(Nodo sentenciafor : instruccion.hijos){
-                    if(sentenciafor.token == "for_js"){
-                        sentenciasFor.add(sentenciafor.lexema);
+                    if(sentenciafor.token=="DECLARACIONFOR"){
+                        if(sentenciafor.hijos.get(0).token.equals("TIPO") && sentenciafor.hijos.get(1).token.equals("id") ){
+                            variables.add(sentenciafor.hijos.get(1).lexema);
+                        }
                     }
                 }
-            }
-            
+            }       
             if(instruccion.token == "SENTENCIAWHILE"){
                 for(Nodo sentenciawhile : instruccion.hijos){
                     if(sentenciawhile.token == "while_js"){
@@ -266,7 +260,7 @@ public class Ventana extends javax.swing.JFrame {
     }
     
     public void imprimir(){
-        for (String cla:clases){
+        /*for (String cla:clases){
             //jTextArea2.append("Clase encontrada --> " + cla + "\n");
             System.out.println("Clase encontrada --> " + cla + "\n");
         }
@@ -278,30 +272,25 @@ public class Ventana extends javax.swing.JFrame {
             //jTextArea2.append("Metodo encontrado --> " + metodo + "\n");
             System.out.println("Metodo encontrado --> " + metodo + "\n");
 
-        }
+        }*/
         for( String id: variables ){
             //jTextArea2.append("Declaracion encontrada --> " + id + "\n");
             System.out.println("Declaracion encontrada --> " + id + "\n");
-        }
+        }/*
         for( String asignacion: asignaciones ){
             //jTextArea2.append("Asignacion encontrada --> " + asignacion + "\n");
             System.out.println("Asignacion encontrada --> " + asignacion + "\n");
-        }
+        }*/
+        /*
         for( String sentenciaif: sentenciasIf ){ //tengo mis dudas respecto al if, else if y else, ver despues
             //jTextArea2.append("Sentencia IF encontrada --> " + sentenciaif + "\n");
             System.out.println("Sentencia IF encontrada --> " + sentenciaif + "\n");
-        }
-        /*
-        for( String el: elses ){
-            jTextArea2.append("Sentencia ELSE encontrada --> " + el + "\n");
-        }
-        */
-        
+        }       */ 
         for( String senFor: sentenciasFor ){
             //jTextArea2.append("Sentencia For encontrada --> " + senFor + "\n");
             System.out.println("Sentencia For encontrada --> " + senFor + "\n");
         }
-        
+        /*
         for( String senwhile: sentenciasWhile ){
             //jTextArea2.append("Sentencia WHILE encontrada --> " + senwhile + "\n");
             System.out.println("Sentencia WHILE encontrada --> " + senwhile + "\n");
@@ -313,8 +302,8 @@ public class Ventana extends javax.swing.JFrame {
         for( String senSwhitch: sentenciasSwhitch ){
             //jTextArea2.append("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
             System.out.println("Sentencia SWITHC encontrada --> " + senSwhitch + "\n");
-        }
-        
+        }*/
+        /*
         for( String consola: consolas ){
            //jTextArea2.append("Consola encontrada --> " + consola + "\n");
             System.out.println("Consola encontrada --> " + consola + "\n");
@@ -338,8 +327,8 @@ public class Ventana extends javax.swing.JFrame {
         for( String contador: contadores ){
             //jTextArea2.append("El contador es --> " + contador + "\n");
             System.out.println("El contador es --> " + contador + "\n");
-        }
-        
+        }*/
+
     }
     /**
      * Metodo para verificar los archivos dentro de una carpeta 
@@ -347,8 +336,8 @@ public class Ventana extends javax.swing.JFrame {
      * @param ruta_proy2 indica la ruta donde se encuentra la carpeta del proyecto 2
      */
     
-    
-    public void archivos_carpetas(String ruta_proy1, String ruta_proy2){
+    public void Comparamos(String ruta_proy1, String ruta_proy2){
+        
         try{
             DirectoryStream<Path> stream_p1 = Files.newDirectoryStream(Paths.get(ruta_proy1), "*.js");
             
@@ -372,7 +361,7 @@ public class Ventana extends javax.swing.JFrame {
                         //--> 1ero vamos a analizar el archivo1 del proyecto 1
                         try{
                             
-                            System.out.println("----------- " + nombre_archivo1 + " ----------- ");
+                            System.out.println("----------- " + nombre_archivo1 + " en PROYECTO 1 ----------- ");
                             Nodo raiz = null;
                             //Mandamos a analizar el archivo del proyecto 1 
                             SintacticoJS parse=new SintacticoJS(new ALexico(new BufferedReader(fr)));
@@ -383,17 +372,18 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo1 = new Archivo(nombre_archivo1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
                                 //--> vamos a guardar las variables encontradas en el archivo
                                 encontrar(raiz,nuevo_archivo1.variables ); 
+                                
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : listacomentarios){
                                     nuevo_archivo1.comentarios.add(comment);
                                 }
                                 //-->agregamos los errores encontrados (la lista se lleno en los archivos A_Lexico_FCA.jflex y A_sintacticos_FCA.cup)
-                                for(error errores : listaErrores){
+                                for(error errors : listaErrores){
                                     //--> guardamos los errore indicando el nombre del archivo
-                                    error nuevo_error = new error(errores.tipo, errores.valor, nuevo_archivo1.nombre_archivo, errores.fila, errores.columna);
+                                    error nuevo_error = new error(errors.tipo, errors.valor, nuevo_archivo1.nombre_archivo, errors.fila, errors.columna);
                                     nuevo_archivo1.lista_errores.add(nuevo_error);
                                 }
                                 //Arbol arbol = new Arbol(raiz);
@@ -416,7 +406,7 @@ public class Ventana extends javax.swing.JFrame {
                             System.out.println("----------- " + nombre_archivo2 + " en PROYECTO 2----------- ");
                             Nodo raiz = null;
                             //Mandamos a analizar el archivo del proyecto 2
-                            SintacticoJS parse=new SintacticoJS(new ALexico(new BufferedReader(fr2)));
+                            SintacticoJS parse = new SintacticoJS(new ALexico(new BufferedReader(fr2)));
                             parse.parse();
 
                             raiz = parse.getRaiz();
@@ -424,7 +414,7 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo2 = new Archivo(nombre_archivo2, new ArrayList<>(), new ArrayList<>(),new ArrayList<>());
+                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
                                 //--> vamos a guardar las variables encontradas en el archivo
                                 encontrar(raiz, nuevo_archivo2.variables); 
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
@@ -432,9 +422,9 @@ public class Ventana extends javax.swing.JFrame {
                                     nuevo_archivo2.comentarios.add(comment);
                                 }
                                 //-->agregamos los errores encontrados (la lista se lleno en los archivos A_Lexico_FCA.jflex y A_sintacticos_FCA.cup)
-                                for(error errores : listaErrores){
+                                for(error errors : listaErrores){
                                     //--> guardamos los errore indicando el nombre del archivo
-                                    error nuevo_error = new error(errores.tipo, errores.valor, nuevo_archivo2.nombre_archivo, errores.fila, errores.columna);
+                                    error nuevo_error = new error(errors.tipo, errors.valor, nuevo_archivo2.nombre_archivo, errors.fila, errors.columna);
                                     nuevo_archivo2.lista_errores.add(nuevo_error);
                                 }
                                 //Arbol arbol = new Arbol(raiz);
@@ -462,7 +452,10 @@ public class Ventana extends javax.swing.JFrame {
         } catch (IOException | DirectoryIteratorException ex) {
 		    System.err.println(ex);
 		}
-    }    
+    }
+    
+    
+    
     /**
      * Metodo para verificar las variables repetidas en ambos archivos
      * @param archivo1 recibe el archivo del proyecto 1 con toda su informacion
@@ -475,7 +468,9 @@ public class Ventana extends javax.swing.JFrame {
                 if(id_variable_arch1.equals(id_variable_arch2)){
                     jTextArea2.append("Variable repetida \"" + id_variable_arch1 +"\" en archivos " + archivo1.nombre_archivo + "\n");
                     this.cont_variables_repetidas++;
+                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "variable",id_variable_arch1,  1));
                 }
+
             }
         }
     }
@@ -745,7 +740,7 @@ public class Ventana extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("GernerarReporteEstadistico{\n    compare(\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto1\",\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\proyecto2\");\n    DefinirGlobales{\n        string reporte1 = \"Probabilidades esperadas para Variables archivo archivo2vars.js\";\n        string reporte2 = \"Probabilidades obtenidos para Variables archivo archivo2vars.js\";\n\n        double pe1 = 0;\n        double pe2 = 1;\n        double pe3 = 0;\n        double pe4 = 1;\n        double pe5 = 0;\n        double pe6 = 1;\n        double pe7 = 1;\n\n        double po1 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"punteo\"};\n        double po2 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"validacion\"};\n        double po3 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"aritmetica\"};\n        double po4 = ${PuntajeEspecifico,\"archivo2vars.js\",\"variable\",\"punteo2\"};\n        double po5 = ${PuntajeEspecifico,\"variables.js\",\"variable\",\"A\"};\n        double po6 = ${PuntajeEspecifico,\"variables.js\",\"variable\",\"variable\"};\n        double po7 = ${PuntajeEspecifico,\"variables.js\",\"variable\",\"compi1\"};\n        \n    }\n\n    GraficaBarras{\n        Titulo: reporte1;\n        Ejex: [ \"punteo\", \"validacion\" , \"aritmetica\", \"punteo2\" ];\n        Valores: [ pe1, pe2, pe3, pe4 ];\n        Titulox: \"Nombre de las variables\";\n        Tituloy: \"Puntaje\";\n    }\n\n    GraficaBarras{\n        Titulo: reporte2;\n        Ejex: [ \"punteo\", \"validacion\" , \"aritmetica\", \"punteo2\" ];\n        Valores: [ po1, po2, po3, po4 ];\n        Titulox: \"Nombre de las variables\";\n        Tituloy: \"Puntaje\";\n    }\n}");
+        jTextArea1.setText("GenerarReporteEstadistico{\n    definirglobales{\n        string reporteResumen = \"Reporte de Archivo file_1.js de los proyectos\";\n\n        ## variables para Reportes de Barras\n\n        Double pr1 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"triangle_draw\"};\n        Double pr2 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_triangle_i\"};\n        Double pr3 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"sq_draw\"};\n        Double pr4 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_square_i\"};\n        Double pr5 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_square_j\"};\n        Double pr6 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_triangle_j\"};\n        Double pr9 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_triangle_draw\"};\n        Double pr12 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_square_draw\"};\n        Double pr15 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"x\"};\n        Double pr16 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"a\"};\n\n        Double pe1 = 0;\n        Double pe2 = 1;\n        Double pe3 = 0;\n        Double pe4 = 1;\n        Double pe5 = 1;\n        Double pe6 = 1;\n        Double pe9 = 0;\n        Double pe12 = 0;\n        Double pe15 = 0;\n        Double pe16 = 0;\n\n        String titulobarrasesperada = \"Probabilidades esperadas para variables archivo file_1.js\";\n        String titulobarrasreal = \"Probabilidades obtenidas para variables archivo file_1.js\";\n    }\n\n    #*\n    Este comentario debería ser ignorado 189214'!\"\"$%$&\"#$\"#\"#4\n    *#\n\n    ##Cargamos los proyectos correspondientes\n    COMPARE(\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\ProyectoA\", \"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\ProyectoB\");\n\n    GraficaLineas{\n        TiTulO: reporteResumen; \n        ArChIvO: \"file_1.js\";\n    }\n\n    graficalineas{\n        titulo: \"Reporte file_2\"; \n        archivo: \"file_2.js\";\n    }\n\n    ## Agregamos las graficas de barras\n\n    GraficaBarras {\n        Titulo: titulobarrasreal;\n        EjeX: [ \"triangle_draw\", \"draw_triangle_i\", \"sq_draw\", \"draw_square_i\", \"draw_square_j\", \"draw_triangle_j\", \"draw_triangle_draw\", \"draw_square_draw\", \"x\", \"a\" ];\n        Valores: [ pr1, pr2, pr3, pr4, pr5, pr6, pr9, pr12, pr15, pr16 ];\n        TituloX: \"Nombre de las variables\";\n        TituloY: \"Puntaje\";\n    }\n\n    GraficaBarras {\n        Titulo: titulobarrasesperada;\n        EjeX: [ \"triangle_draw\", \"draw_triangle_i\", \"sq_draw\", \"draw_square_i\", \"draw_square_j\", \"draw_triangle_j\", \"draw_triangle_draw\", \"draw_square_draw\", \"x\", \"a\" ];\n        Valores: [ pe1, pe2, pe3, pe4, pe5, pe6, pe9, pe12, pe15, pe16 ];\n        TituloX: \"Nombre de las variables\";\n        TituloY: \"Puntaje\";\n    }\n\n}");
         jScrollPane1.setViewportView(jTextArea1);
 
         jMenu1.setText("Archivo");
@@ -819,6 +814,11 @@ public class Ventana extends javax.swing.JFrame {
         jMenu4.add(jMenuItem8);
 
         jMenuItem9.setText("Reporte Estadístico");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem9);
 
         jMenuItem10.setText("Reporte de Tokens");
@@ -841,56 +841,43 @@ public class Ventana extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(36, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(229, 229, 229)
+                .addGap(238, 238, 238)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(273, 273, 273))
+                .addGap(205, 205, 205))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        /*JFileChooser VentText =new JFileChooser();
-        VentText.showOpenDialog(null);
-        File archivo= VentText.getSelectedFile();
-        try{
-            FileReader Abrir = new FileReader(archivo);
-            BufferedReader leer= new BufferedReader(Abrir);
-            String text="";
-            String linea="";
-            while(((linea=leer.readLine())!=null)){
-                text+=linea+"\n";
-            }
-            jTextArea1.setText(text);
-            JOptionPane.showMessageDialog(null,"Archivo cargado Correctamente");
-        }
-        catch(Exception e){}*/
+        
+
+        //*************ABRIR ARCHIVO************
         if(seleccionar.showDialog(null,"Abrir")==JFileChooser.APPROVE_OPTION){
             archivo=seleccionar.getSelectedFile();
             if(archivo.canRead()){
-                if(archivo.getName().endsWith("js")){ //tengo que cambiar la extencion del archivo
+                if(archivo.getName().endsWith("fca")){ //extencion del archivo
                     String documento = Abr(archivo);
                     jTextArea1.setText(documento);
                 }else{
@@ -898,6 +885,7 @@ public class Ventana extends javax.swing.JFrame {
                 }
             }
         }
+        
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -940,9 +928,7 @@ public class Ventana extends javax.swing.JFrame {
         }
        
         JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        */
-        
-       
+        */      
         try {
             Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             sint.parse();
@@ -950,8 +936,7 @@ public class Ventana extends javax.swing.JFrame {
             for(Object ins : instrucciones){
                 if(ins instanceof Comparar){
                     Comparar comp = (Comparar)ins;
-                    archivos_carpetas(comp.getRuta1(), comp.getRuta2());
-                    //this.ReporteErrores();
+                    Comparamos(comp.getRuta1(), comp.getRuta2());
                 }
             }
             //comienza el analizador del fca, las graficas
@@ -971,6 +956,7 @@ public class Ventana extends javax.swing.JFrame {
         } catch (Exception e) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
         }
+        
         
         
         
@@ -1029,6 +1015,10 @@ public class Ventana extends javax.swing.JFrame {
         //***************REPORTE DE TOKENS***********
         this.ReporteTokens();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
     
     /**
      * @param args the command line arguments

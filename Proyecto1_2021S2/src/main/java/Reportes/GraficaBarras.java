@@ -45,8 +45,6 @@ public class GraficaBarras {
     
     public void valores(){
         for(Caracteristica caract : this.lista_caracteristica){
-            
-            
             switch(caract.tipo){
                 case 0: //titulo  
                     System.out.println("titulo -> " + caract.valor.valor);
@@ -59,9 +57,7 @@ public class GraficaBarras {
                                 titulo_grafica = val.valor.toString();
                             }
                         }
-                     
                     }
-                    
                     break;
                 case 1: //ejex
                     System.out.println("ejex -> ");
@@ -113,7 +109,6 @@ public class GraficaBarras {
     }
     
     public void generar_graficaBarras(){
-        
         /*
             SE PROCEDE A GRAFICAR 
         */
@@ -127,9 +122,7 @@ public class GraficaBarras {
                     true,  
                     false,  
                     false
-                   
            );
-            
            //recorro la lista de "ejex" y "valores"
            for(int i=0; i < this.ejex.size(); i++){
                if(this.valores.get(i) instanceof Integer){
@@ -138,7 +131,6 @@ public class GraficaBarras {
                    dataset.setValue((double)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
                }
            }
-           
             ChartFrame frame = new ChartFrame("Grafica de Barras", chart);
             frame.pack();
             frame.setVisible(true);

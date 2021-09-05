@@ -406,6 +406,13 @@ DECLARACIONVARIABLES::= TIPO:a id:b igual:c EXPRESION:d puntoycoma:e        {:  
                                                                                 padre.AddHijo(hijo);
                                                                                 RESULT = padre;            
                                                                             :}
+        |comilladoble:a comilladoble:b                                      {:  Nodo padre = new Nodo("EXPRESION", "", 0, 0);
+                                                                                Nodo hijo1 = new Nodo("comilladoble", a, aright, aleft);
+                                                                                Nodo hijo2 = new Nodo("comilladoble",b, bright, bleft);
+                                                                                padre.AddHijo(hijo1);
+                                                                                padre.AddHijo(hijo2);
+                                                                                RESULT = padre;            
+                                                                            :}
     ;
 
 
@@ -487,7 +494,7 @@ DECLARACIONFOR::= TIPO:a id:b igual:c EXPRESION:d                           {:  
                                                                                 RESULT = padre;
                                                                             :}
     | id:a igual:b EXPRESION:c                                              {:  Nodo padre = new Nodo ("DECLARACIONFOR","",0,0);
-                                                                                padre.AddHijo(new Nodo ("id",a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo ("id", a, aright, aleft));
                                                                                 padre.AddHijo(new Nodo ("igual",b, bright, bleft));
                                                                                 padre.AddHijo(c);
                                                                                 RESULT = padre;
@@ -504,20 +511,36 @@ CONTADOR::= id:a incremento:b                                               {:  
                                                                                 padre.AddHijo(new Nodo("decremento", b, bright, bleft));
                                                                                 RESULT = padre;
                                                                             :}
+    |id:a igual:b id:c mas:d EXPRESION:e                                    {:  Nodo padre = new Nodo ("CONTADOR","",0,0);
+                                                                                padre.AddHijo(new Nodo("id", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("igual", b, bright, bleft));
+                                                                                padre.AddHijo(new Nodo("id",c, cright, cleft));
+                                                                                padre.AddHijo(new Nodo("mas",d, dright, dleft));
+                                                                                padre.AddHijo(e);
+                                                                                RESULT = padre;
+                                                                            :}
+    |id:a igual:b id:c menos:d EXPRESION:e                                  {:  Nodo padre = new Nodo ("CONTADOR","",0,0);
+                                                                                padre.AddHijo(new Nodo("id", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("igual", b, bright, bleft));
+                                                                                padre.AddHijo(new Nodo("id",c, cright, cleft));
+                                                                                padre.AddHijo(new Nodo("mas",d, dright, dleft));
+                                                                                padre.AddHijo(e);
+                                                                                RESULT = padre;
+                                                                            :}
     ;
 
 TIPO::= var_js:a                                                            {:  Nodo padre = new Nodo("TIPO","",0,0);
-                                                                                Nodo hijo= new Nodo("var", a, aright, aleft); 
+                                                                                Nodo hijo= new Nodo("var_js", a, aright, aleft); 
                                                                                 padre.AddHijo(hijo);
                                                                                 RESULT = padre;
                                                                             :}
     |let_js:a                                                               {:  Nodo padre = new Nodo("TIPO","",0,0);
-                                                                                Nodo hijo= new Nodo("let", a, aright, aleft); 
+                                                                                Nodo hijo= new Nodo("let_js", a, aright, aleft); 
                                                                                 padre.AddHijo(hijo);
                                                                                 RESULT = padre;
                                                                             :}
     |const_js:a                                                             {:  Nodo padre = new Nodo("TIPO","",0,0);
-                                                                                Nodo hijo= new Nodo("const", a, aright, aleft); 
+                                                                                Nodo hijo= new Nodo("const_js", a, aright, aleft); 
                                                                                 padre.AddHijo(hijo);
                                                                                 RESULT = padre;
                                                                             :}
@@ -608,6 +631,15 @@ CONSOLA::=console_js:a punto:b log_js:c parentesisA:d EXPRESION:e parentesisC:f 
                                                                                                  padre.AddHijo(e);
                                                                                                  padre.AddHijo(new Nodo("parentesisC",f, fright, fleft));
                                                                                                  padre.AddHijo(new Nodo("puntoycoma",g, gright, gleft));
+                                                                                                 RESULT = padre;
+                                                                                              :}
+    |console_js:a punto:b log_js:c parentesisA:d EXPRESION:e parentesisC:f                     {: Nodo padre= new Nodo("CONSOLA","",0,0);
+                                                                                                 padre.AddHijo(new Nodo("console_js",a, aright, aleft));
+                                                                                                 padre.AddHijo(new Nodo("punto",b, bright, bleft));
+                                                                                                 padre.AddHijo(new Nodo("log_js",c, cright, cleft));
+                                                                                                 padre.AddHijo(new Nodo("parentesisA",d, dright, dleft));
+                                                                                                 padre.AddHijo(e);
+                                                                                                 padre.AddHijo(new Nodo("parentesisC",f, fright, fleft));
                                                                                                  RESULT = padre;
                                                                                               :}
     ;

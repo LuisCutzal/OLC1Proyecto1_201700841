@@ -145,8 +145,7 @@ INFOBARRA::=titulo:a dospuntos:b DATO:c puntoycoma:d                            
     |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
     |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {: RESULT = new Caracteristica(2,d); :}
     |tituloX:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(3,c); :}
-    |tituloY:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(4,c); :}
-    
+    |tituloY:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(4,c); :} 
     ;
 
 INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {: RESULT = a; RESULT.add(b); :}
