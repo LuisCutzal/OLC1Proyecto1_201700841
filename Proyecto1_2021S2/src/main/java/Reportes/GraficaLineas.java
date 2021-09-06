@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package Reportes;
+
+import com.mycompany.proyecto1_2021s2.Archivo;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -12,9 +14,7 @@ import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
-
 import com.mycompany.proyecto1_2021s2.Ventana;
-import com.mycompany.proyecto1_2021s2.Variables;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -28,127 +28,62 @@ import com.mycompany.proyecto1_2021s2.Variables;
 import org.jfree.chart.JFreeChart; 
 import org.jfree.chart.plot.PlotOrientation; 
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.XYSeriesCollection;
 
 
 public class GraficaLineas {
-    
-    public LinkedList<Caracteristica> lista_caracteristica;
-    String etiqueta_archivo ;
-    String ety;
-    String titulo_grafica ;
-    public LinkedList<String> ejex = new LinkedList<>();
-    public LinkedList<Object> valores = new LinkedList<>();
-    
-    public GraficaLineas(LinkedList<Caracteristica> lista_caracteristica){
-        this.lista_caracteristica = lista_caracteristica;
+    public LinkedList<Caracteristica> entraeda;
+    String nombreArchivo;
+    String tituloGrafica;
+    public GraficaLineas(LinkedList<Caracteristica> lista){
+        this.entraeda=lista;
     }
     
-    public void valores(){
-        for(Caracteristica caract : this.lista_caracteristica){
-            
-            
-            switch(caract.tipo){
-                case 0: //titulo  
-                    System.out.println("titulo -> " + caract.valor.valor);
-                    if(caract.valor.tipo == 4){
-                        titulo_grafica = caract.valor.valor.toString();
-                    }else if(caract.valor.tipo == 3){
-                        for(Variables var : Ventana.variables_FCA){
-                            if(var.getIdentificador().equalsIgnoreCase(caract.valor.valor.toString())){
-                                Valor val = (Valor)var.valor;
-                                titulo_grafica = val.valor.toString();
-                            }
-                        }
-                     
-                    }
-                    
-                    break;
-                case 2: //valores
-                    System.out.println("valores -> ");
-                    for(Valor val : caract.lista_valores){
-                        if(val.tipo == 1 || val.tipo == 2 || val.tipo == 4){ 
-                            this.valores.add(val.valor);
-                        }else if(val.tipo == 3){ //id
-                            //se recomienda tener una lista de variables donde se guarde su nombre y valor 
-                            for(Variables variable: Ventana.variables_FCA){
-                                if(variable.getIdentificador().equalsIgnoreCase(val.valor.toString())){
-                                    this.valores.add(variable.getValor());
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case 5: //archivo
-                    System.out.println("Archivo -> " + caract.valor.valor);
-                    if(caract.valor.tipo == 4){
-                        etiqueta_archivo = caract.valor.valor.toString();
-                    }
-                    break;
-
-                /*case 3: //titulox
-                    System.out.println("titulox -> " + caract.valor.valor);
-                    if(caract.valor.tipo == 4){
-                        etiqueta_eje_X = caract.valor.valor.toString();
-                    }
-                    break;
-                case 4: //tituloy
-                    System.out.println("tituloy -> " + caract.valor.valor);
-                    if(caract.valor.valor instanceof String){
-                        etiqueta_eje_Y = caract.valor.valor.toString();
-                    }
-                    break;*/
+    
+    public void Valores(){
+    for(Caracteristica carac: this.entraeda){
+        switch(carac.tipo){
+            case 0:// el titulo
+                System.out.println("titulo->"+carac.valor.valor);
+                if(carac.valor.tipo==4){
+                    this.tituloGrafica=carac.valor.valor.toString();
+                }
+            case 5: // nombre del archivo
+                System.out.println("nombre del Archivo->"+carac.valor.valor);
+                if(carac.valor.tipo==4){
+                    this.nombreArchivo=carac.valor.valor.toString();
+                }
             }
-            
         }
     }
+
     
     public void generar_graficaLineas(){
-        
-        /*
-            SE PROCEDE A GRAFICAR 
-        */
-            /*DefaultCategoryDataset dataset = new DefaultCategoryDataset(); //se utilizo la libreria jfreechart-1.5.3
-            JFreeChart chart= ChartFactory.createBarChart(
-                    titulo_grafica,      
-                    etiqueta_archivo,
-                    ety,
-                    dataset,
-                    PlotOrientation.VERTICAL,
-                    true,  
-                    false,  
-                    false
-                   
-           );*/
-            /*
-            XYSeriesCollection dataset= new XYSeriesCollection();
-            JFreeChart chart = ChartFactory.createXYLineChart(
-                    titulo_grafica,//titulo de la grafica
-                    etiqueta_archivo, //nombre del archivo
-                    ,//puntuacion
-                    dataset,
-                    PlotOrientation.VERTICAL,
-                    true,  
-                    true,  
-                    false
-            );
-            
-            
-            
-            
-           //recorro la lista de "ejex" y "valores"
-           for(int i=0; i < this.ejex.size(); i++){
-               if(this.valores.get(i) instanceof Integer){
-                    dataset.setValue((int)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
-               }else if(this.valores.get(i) instanceof Double){
-                   dataset.setValue((double)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
-               }
+        DefaultCategoryDataset dataset= new DefaultCategoryDataset();
+        JFreeChart LineasG = ChartFactory.createLineChart(
+                "",
+                "ArchivosInternos",
+                "Puntaje",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false);
+        for(Archivo arch: Ventana.datos_archivos){
+            if(arch.getUbi()=="A" && arch.getNombreArchivo().equals(this.nombreArchivo)){
+                dataset.addValue(arch.getListaVariables().size(),"PROYECTO A","variables");
+                dataset.addValue(arch.getListaClases().size(),"PROYECTO A","clases");
+                dataset.addValue(arch.getListaMetodos().size(),"PROYECTO A","metodos");
            }
-           
-            ChartFrame frame = new ChartFrame("Grafica de Lineas", chart);
+           if(arch.getUbi()=="B" && arch.getNombreArchivo().equals(this.nombreArchivo)){
+                dataset.addValue(arch.getListaVariables().size(),"PROYECTO B","variables");
+                dataset.addValue(arch.getListaClases().size(),"PROYECTO B","clases");
+                dataset.addValue(arch.getListaMetodos().size(),"PROYECTO B","metodos");
+           }
+        }
+        ChartFrame frame = new ChartFrame("Grafica de Lineas", LineasG);
             frame.pack();
-            frame.setVisible(true);*/
-            
+            frame.setVisible(true);
     }
     
+
 }

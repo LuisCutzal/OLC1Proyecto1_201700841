@@ -28,6 +28,7 @@ import com.mycompany.proyecto1_2021s2.Variables;
 import org.jfree.chart.JFreeChart; 
 import org.jfree.chart.plot.PlotOrientation; 
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeriesCollection;
 
 
 public class GraficaBarras {
@@ -78,7 +79,6 @@ public class GraficaBarras {
                 case 2: //valores
                     System.out.println("valores -> ");
                     for(Valor val : caract.lista_valores){
-                       
                         if(val.tipo == 1 || val.tipo == 2 || val.tipo == 4){ 
                             this.valores.add(val.valor);
                         }else if(val.tipo == 3){ //id
@@ -113,7 +113,7 @@ public class GraficaBarras {
             SE PROCEDE A GRAFICAR 
         */
             DefaultCategoryDataset dataset = new DefaultCategoryDataset(); //se utilizo la libreria jfreechart-1.5.3
-            JFreeChart chart= ChartFactory.createBarChart(
+            JFreeChart BarrasG= ChartFactory.createBarChart(
                     titulo_grafica,      
                     etiqueta_eje_X,
                     etiqueta_eje_Y,
@@ -131,23 +131,10 @@ public class GraficaBarras {
                    dataset.setValue((double)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
                }
            }
-            ChartFrame frame = new ChartFrame("Grafica de Barras", chart);
+            ChartFrame frame = new ChartFrame("Grafica de Barras", BarrasG);
             frame.pack();
             frame.setVisible(true);
             
-          /*  
-            GENERAR IMAGEN
-            int width = 640;   
-            int height = 480;
-        
-            File barChart = new File( "BarChart"+".jpeg" ); 
-            try {
-                ChartUtilities.saveChartAsJPEG( barChart , chart , width , height );    //se utilizo jfreechart-1.0.1
-            
-            } catch (IOException ex) {
-                Logger.getLogger(GBarras.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           */ 
     }
     
 }

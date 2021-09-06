@@ -9,7 +9,7 @@ package AnalizadoresJS;
 import java_cup.runtime.*;
 import com.mycompany.proyecto1_2021s2.error;
 import com.mycompany.proyecto1_2021s2.Ventana;
-
+import com.mycompany.proyecto1_2021s2.Token;
 /*----------------------------------------------------------
   ------------  2da Area: Opciones y Declaraciones ---------
   ----------------------------------------------------------*/
@@ -752,7 +752,10 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 56: break;
           case 2: 
-            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" numero"); 
+                        Token nuevoTk = new Token("Numero",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                         return new Symbol(Simbolos.numero, yycolumn, yyline, yytext());
             }
           case 57: break;
           case 3: 
@@ -764,7 +767,10 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 59: break;
           case 5: 
-            { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" id");  
+                        Token nuevoTk = new Token("Identificador",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
             }
           case 60: break;
           case 6: 
@@ -849,7 +855,10 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 80: break;
           case 26: 
-            { System.out.println("Reconocio "+yytext()+" igualacion"); return new Symbol(Simbolos.igualacion, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" igualacion");  
+                Token nuevoTk = new Token("Igualacion",yytext(), yyline, yycolumn);
+                Ventana.listaTokens.add(nuevoTk);
+                return new Symbol(Simbolos.igualacion, yycolumn, yyline, yytext());
             }
           case 81: break;
           case 27: 
@@ -881,47 +890,80 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 88: break;
           case 34: 
-            { System.out.println("Reconocio "+yytext()+" if_js"); return new Symbol(Simbolos.if_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" if_js");  
+                        Token nuevoTk = new Token("If",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.if_js, yycolumn, yyline, yytext());
             }
           case 89: break;
           case 35: 
-            { System.out.println("Reconocio "+yytext()+" do_js"); return new Symbol(Simbolos.do_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" do_js");  
+                        Token nuevoTk = new Token("Do",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.do_js, yycolumn, yyline, yytext());
             }
           case 90: break;
           case 36: 
-            { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" decimal");  
+                        Token nuevoTk = new Token("Decimal",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext());
             }
           case 91: break;
           case 37: 
-            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" cadena");  
+                        Token nuevoTk = new Token("Cadena",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext());
             }
           case 92: break;
           case 38: 
-            { System.out.println("Reconocio "+yytext()+" let_js"); return new Symbol(Simbolos.let_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" let_js");  
+                        Token nuevoTk = new Token("Let",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.let_js, yycolumn, yyline, yytext());
             }
           case 93: break;
           case 39: 
-            { System.out.println("Reconocio "+yytext()+" log_js"); return new Symbol(Simbolos.log_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" log_js");  
+                        Token nuevoTk = new Token("Log",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.log_js, yycolumn, yyline, yytext());
             }
           case 94: break;
           case 40: 
-            { System.out.println("Reconocio "+yytext()+" var_js"); return new Symbol(Simbolos.var_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" var_js");  
+                        Token nuevoTk = new Token("Var",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.var_js, yycolumn, yyline, yytext());
             }
           case 95: break;
           case 41: 
-            { System.out.println("Reconocio "+yytext()+" for_js"); return new Symbol(Simbolos.for_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" for_js");  
+                        Token nuevoTk = new Token("For",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.for_js, yycolumn, yyline, yytext());
             }
           case 96: break;
           case 42: 
-            { System.out.println("Reconocio "+yytext()+" case_js"); return new Symbol(Simbolos.case_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" case_js");  
+                        Token nuevoTk = new Token("Case",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.case_js, yycolumn, yyline, yytext());
             }
           case 97: break;
           case 43: 
-            { System.out.println("Reconocio "+yytext()+" else_js"); return new Symbol(Simbolos.else_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" else_js");  
+                        Token nuevoTk = new Token("Else",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.else_js, yycolumn, yyline, yytext());
             }
           case 98: break;
           case 44: 
-            { System.out.println("Reconocio "+yytext()+" true_js"); return new Symbol(Simbolos.true_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" true_js");  
+                        Token nuevoTk = new Token("True",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.true_js, yycolumn, yyline, yytext());
             }
           case 99: break;
           case 45: 
@@ -930,27 +972,45 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 100: break;
           case 46: 
-            { System.out.println("Reconocio "+yytext()+" class_js"); return new Symbol(Simbolos.class_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" class_js");  
+                        Token nuevoTk = new Token("class",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.class_js, yycolumn, yyline, yytext());
             }
           case 101: break;
           case 47: 
-            { System.out.println("Reconocio "+yytext()+" const_js"); return new Symbol(Simbolos.const_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" const_js");  
+                        Token nuevoTk = new Token("Const",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.const_js, yycolumn, yyline, yytext());
             }
           case 102: break;
           case 48: 
-            { System.out.println("Reconocio "+yytext()+" Class_js"); return new Symbol(Simbolos.Class_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Class_js");  
+                        Token nuevoTk = new Token("Class",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.Class_js, yycolumn, yyline, yytext());
             }
           case 103: break;
           case 49: 
-            { System.out.println("Reconocio "+yytext()+" false_js"); return new Symbol(Simbolos.false_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" false_js");  
+                        Token nuevoTk = new Token("False",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.false_js, yycolumn, yyline, yytext());
             }
           case 104: break;
           case 50: 
-            { System.out.println("Reconocio "+yytext()+" while_js"); return new Symbol(Simbolos.while_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" while_js");  
+                        Token nuevoTk = new Token("While",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.while_js, yycolumn, yyline, yytext());
             }
           case 105: break;
           case 51: 
-            { System.out.println("Reconocio "+yytext()+" break_js"); return new Symbol(Simbolos.break_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" break_js");  
+                        Token nuevoTk = new Token("Break",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.break_js, yycolumn, yyline, yytext());
             }
           case 106: break;
           case 52: 
@@ -958,15 +1018,24 @@ public class ALexico implements java_cup.runtime.Scanner {
             }
           case 107: break;
           case 53: 
-            { System.out.println("Reconocio "+yytext()+" console_js"); return new Symbol(Simbolos.console_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" console_js");  
+                        Token nuevoTk = new Token("Console",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.console_js, yycolumn, yyline, yytext());
             }
           case 108: break;
           case 54: 
-            { System.out.println("Reconocio "+yytext()+" require"); return new Symbol(Simbolos.require, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" require");  
+                        Token nuevoTk = new Token("Requiere",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.require, yycolumn, yyline, yytext());
             }
           case 109: break;
           case 55: 
-            { System.out.println("Reconocio "+yytext()+" default_js"); return new Symbol(Simbolos.default_js, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" default_js");  
+                        Token nuevoTk = new Token("Default",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.default_js, yycolumn, yyline, yytext());
             }
           case 110: break;
           default:

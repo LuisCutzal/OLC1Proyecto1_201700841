@@ -9,6 +9,8 @@ package Analizadores;
 import java_cup.runtime.*;
 import com.mycompany.proyecto1_2021s2.error;
 import com.mycompany.proyecto1_2021s2.Ventana;
+import com.mycompany.proyecto1_2021s2.Token;
+
 /*----------------------------------------------------------
   ------------  2da Area: Opciones y Declaraciones ---------
   ----------------------------------------------------------*/
@@ -941,15 +943,24 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 41: break;
           case 2: 
-            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos.numero, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" numero");  
+                        Token nuevoTk = new Token("Numero",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.numero, yycolumn, yyline, yytext());
             }
           case 42: break;
           case 3: 
-            { System.out.println("Reconocio "+yytext()+" letra"); return new Symbol(Simbolos.letra, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" letra"); 
+                        Token nuevoTk = new Token("Letra",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.letra, yycolumn, yyline, yytext());
             }
           case 43: break;
           case 4: 
-            { System.out.println("Reconocio "+yytext()+" comilladoble"); return new Symbol(Simbolos.comilladoble, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" comilladoble");   
+              Token nuevoTk = new Token("Comilla Doble",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.comilladoble, yycolumn, yyline, yytext());
             }
           case 44: break;
           case 5: 
@@ -957,63 +968,108 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 45: break;
           case 6: 
-            { System.out.println("Reconocio "+yytext()+" comillasimple"); return new Symbol(Simbolos.comillasimple, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" comillasimple");   
+              Token nuevoTk = new Token("Comilla Simple",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.comillasimple, yycolumn, yyline, yytext());
             }
           case 46: break;
           case 7: 
-            { System.out.println("Reconocio "+yytext()+" guionBajo"); return new Symbol(Simbolos.guionBajo, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" guionBajo");   
+              Token nuevoTk = new Token("Guion Bajo",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.guionBajo, yycolumn, yyline, yytext());
             }
           case 47: break;
           case 8: 
-            { System.out.println("Reconocio "+yytext()+" llaveabre"); return new Symbol(Simbolos.llaveabre, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" llaveabre");   
+              Token nuevoTk = new Token("Llave Abre",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.llaveabre, yycolumn, yyline, yytext());
             }
           case 48: break;
           case 9: 
-            { System.out.println("Reconocio "+yytext()+" llavecierra"); return new Symbol(Simbolos.llavecierra, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" llavecierra");   
+              Token nuevoTk = new Token("Llave cierra",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.llavecierra, yycolumn, yyline, yytext());
             }
           case 49: break;
           case 10: 
-            { System.out.println("Reconocio "+yytext()+" dospuntos"); return new Symbol(Simbolos.dospuntos, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" dospuntos");   
+              Token nuevoTk = new Token("Dos puntos",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.dospuntos, yycolumn, yyline, yytext());
             }
           case 50: break;
           case 11: 
-            { System.out.println("Reconocio "+yytext()+" puntoycoma"); return new Symbol(Simbolos.puntoycoma, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" puntoycoma");   
+              Token nuevoTk = new Token("Punto y Coma",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.puntoycoma, yycolumn, yyline, yytext());
             }
           case 51: break;
           case 12: 
-            { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos.coma, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" coma");   
+              Token nuevoTk = new Token("Coma",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.coma, yycolumn, yyline, yytext());
             }
           case 52: break;
           case 13: 
-            { System.out.println("Reconocio "+yytext()+" dolar"); return new Symbol(Simbolos.dolar, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" dolar");   
+              Token nuevoTk = new Token("Dolar",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.dolar, yycolumn, yyline, yytext());
             }
           case 53: break;
           case 14: 
-            { System.out.println("Reconocio "+yytext()+" guion"); return new Symbol(Simbolos.guion, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" guion");   
+              Token nuevoTk = new Token("Guion",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.guion, yycolumn, yyline, yytext());
             }
           case 54: break;
           case 15: 
-            { System.out.println("Reconocio "+yytext()+" corcheteA"); return new Symbol(Simbolos.corcheteA, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" corcheteA");   
+              Token nuevoTk = new Token("CorcheteA",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.corcheteA, yycolumn, yyline, yytext());
             }
           case 55: break;
           case 16: 
-            { System.out.println("Reconocio "+yytext()+" corcheteC"); return new Symbol(Simbolos.corcheteC, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" corcheteC");   
+              Token nuevoTk = new Token("CorcheteC",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.corcheteC, yycolumn, yyline, yytext());
             }
           case 56: break;
           case 17: 
-            { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos.igual, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" igual");   
+              Token nuevoTk = new Token("Igual",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.igual, yycolumn, yyline, yytext());
             }
           case 57: break;
           case 18: 
-            { System.out.println("Reconocio "+yytext()+" parentesisA"); return new Symbol(Simbolos.parentesisA, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" parentesisA");   
+              Token nuevoTk = new Token("ParentesisA",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.parentesisA, yycolumn, yyline, yytext());
             }
           case 58: break;
           case 19: 
-            { System.out.println("Reconocio "+yytext()+" parentesisC"); return new Symbol(Simbolos.parentesisC, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" parentesisC");  
+              Token nuevoTk = new Token("ParentesisC",yytext(), yyline, yycolumn);
+              Ventana.listaTokens.add(nuevoTk);
+              return new Symbol(Simbolos.parentesisC, yycolumn, yyline, yytext());
             }
           case 59: break;
           case 20: 
-            { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" id"); 
+                        Token nuevoTk = new Token("Identificador",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.id, yycolumn, yyline, yytext());
             }
           case 60: break;
           case 21: 
@@ -1021,15 +1077,24 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 61: break;
           case 22: 
-            { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" decimal"); 
+                        Token nuevoTk = new Token("Decimal",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext());
             }
           case 62: break;
           case 23: 
-            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" cadena"); 
+                        Token nuevoTk = new Token("Cadena",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext());
             }
           case 63: break;
           case 24: 
-            { System.out.println("Reconocio "+yytext()+" ejeX"); return new Symbol(Simbolos.ejeX, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" ejeX");  
+                        Token nuevoTk = new Token("EjeX",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.ejeX, yycolumn, yyline, yytext());
             }
           case 64: break;
           case 25: 
@@ -1037,63 +1102,108 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 65: break;
           case 26: 
-            { System.out.println("Reconocio "+yytext()+" string"); return new Symbol(Simbolos.string, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" string");  
+                        Token nuevoTk = new Token("String",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.string, yycolumn, yyline, yytext());
             }
           case 66: break;
           case 27: 
-            { System.out.println("Reconocio "+yytext()+" titulo"); return new Symbol(Simbolos.titulo, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" titulo");  
+                        Token nuevoTk = new Token("Titulo",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.titulo, yycolumn, yyline, yytext());
             }
           case 67: break;
           case 28: 
-            { System.out.println("Reconocio "+yytext()+" dou"); return new Symbol(Simbolos.dou, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" dou");  
+                        Token nuevoTk = new Token("Double",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.dou, yycolumn, yyline, yytext());
             }
           case 68: break;
           case 29: 
-            { System.out.println("Reconocio "+yytext()+" ar"); return new Symbol(Simbolos.ar, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" ar");  
+                        Token nuevoTk = new Token("Archivo",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.ar, yycolumn, yyline, yytext());
             }
           case 69: break;
           case 30: 
-            { System.out.println("Reconocio "+yytext()+" compare"); return new Symbol(Simbolos.compare, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" compare");  
+                        Token nuevoTk = new Token("Compare",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.compare, yycolumn, yyline, yytext());
             }
           case 70: break;
           case 31: 
-            { System.out.println("Reconocio "+yytext()+" tituloX"); return new Symbol(Simbolos.tituloX, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" tituloX");  
+                        Token nuevoTk = new Token("Titulo X",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.tituloX, yycolumn, yyline, yytext());
             }
           case 71: break;
           case 32: 
-            { System.out.println("Reconocio "+yytext()+" tituloY"); return new Symbol(Simbolos.tituloY, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" tituloY");  
+                        Token nuevoTk = new Token("Titulo Y",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.tituloY, yycolumn, yyline, yytext());
             }
           case 72: break;
           case 33: 
-            { System.out.println("Reconocio "+yytext()+" Valores"); return new Symbol(Simbolos.Valores, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Valores");  
+                        Token nuevoTk = new Token("Valores",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.Valores, yycolumn, yyline, yytext());
             }
           case 73: break;
           case 34: 
-            { System.out.println("Reconocio "+yytext()+" graficaPie"); return new Symbol(Simbolos.graficaPie, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" graficaPie");  
+                        Token nuevoTk = new Token("Grafia Pie",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.graficaPie, yycolumn, yyline, yytext());
             }
           case 74: break;
           case 35: 
-            { System.out.println("Reconocio "+yytext()+" graficaBarras"); return new Symbol(Simbolos.graficaBarras, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" graficaBarras");  
+                        Token nuevoTk = new Token("Grafica Barras",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.graficaBarras, yycolumn, yyline, yytext());
             }
           case 75: break;
           case 36: 
-            { System.out.println("Reconocio "+yytext()+" graficaLineas"); return new Symbol(Simbolos.graficaLineas, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" graficaLineas");  
+                        Token nuevoTk = new Token("Grafica Lineas",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.graficaLineas, yycolumn, yyline, yytext());
             }
           case 76: break;
           case 37: 
-            { System.out.println("Reconocio "+yytext()+" PuntajeGeneral"); return new Symbol(Simbolos.PuntajeGeneral, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" PuntajeGeneral");  
+                        Token nuevoTk = new Token("Puntaje General",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.PuntajeGeneral, yycolumn, yyline, yytext());
             }
           case 77: break;
           case 38: 
-            { System.out.println("Reconocio "+yytext()+" DefinirGlobales"); return new Symbol(Simbolos.DefinirGlobales, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" DefinirGlobales");  
+                        Token nuevoTk = new Token("Definir Globales",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.DefinirGlobales, yycolumn, yyline, yytext());
             }
           case 78: break;
           case 39: 
-            { System.out.println("Reconocio "+yytext()+" PuntajeEspecifico"); return new Symbol(Simbolos.PuntajeEspecifico, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" PuntajeEspecifico");  
+                        Token nuevoTk = new Token("Puntaje Especifico",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.PuntajeEspecifico, yycolumn, yyline, yytext());
             }
           case 79: break;
           case 40: 
-            { System.out.println("Reconocio "+yytext()+" generarReporteEstadistico"); return new Symbol(Simbolos.generarReporteEstadistico, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" generarReporteEstadistico");  
+                        Token nuevoTk = new Token("Generar Reporte Estadistico",yytext(), yyline, yycolumn);
+                        Ventana.listaTokens.add(nuevoTk);
+                        return new Symbol(Simbolos.generarReporteEstadistico, yycolumn, yyline, yytext());
             }
           case 80: break;
           default:

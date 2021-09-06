@@ -2,7 +2,6 @@ class draws {
     //Esta clase es un ejemplo de un archivo de entrada
     tringle_size = 3;
     square_size = 8;
-
     set_size(tam) {
         tringle_size = tam;
     }

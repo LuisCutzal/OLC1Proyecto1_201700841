@@ -10,6 +10,7 @@ import Analizadores.Sintactico;
 import AnalizadoresJS.ALexico;
 import AnalizadoresJS.SintacticoJS;
 import Reportes.GraficaBarras;
+import Reportes.GraficaLineas;
 import java.awt.Panel;
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,7 +43,8 @@ import javax.swing.JTextArea;
  */
 public class Ventana extends javax.swing.JFrame {
     public static LinkedList<error> listaErrores = new LinkedList<error>();
-    LinkedList<Archivo> datos_archivos = new LinkedList<>();
+    public static LinkedList<Token> listaTokens = new LinkedList<Token>();
+    public static LinkedList<Archivo> datos_archivos = new LinkedList<>();
     static LinkedList<Object> instrucciones = new LinkedList<Object>();
     public static LinkedList<String> listacomentarios = new LinkedList<>();
     public int cont_variables_repetidas = 0;
@@ -123,7 +125,7 @@ public class Ventana extends javax.swing.JFrame {
                     if(clase.token=="llavecierra"){
                         tamañoClase=clase.linea;
                         System.out.println("llavecierra: " + tamañoClase );//para saber cuantas lineas tiene el archivo js
-                        clases.add(new ClasesRepetidas(tamañoClase,nombreClase));
+                        clases.add(new ClasesRepetidas(tamañoClase,nombreClase));//no es clasesRepetidas es solo clases
                     }
                 }
             }
@@ -148,7 +150,7 @@ public class Ventana extends javax.swing.JFrame {
                 }
                     tamañoMetodo=lineaM2-lineaM1;
                     System.out.println("total de Lineas Metodo: " + (tamañoMetodo+1));
-                    metodos.add(new MetodosRepetidos(tamañoMetodo,tamañoParametros,nombreMetodo));
+                    metodos.add(new MetodosRepetidos(tamañoMetodo,tamañoParametros,nombreMetodo));//no es metodosRepetidos es solo metodos
             }
             
             if(instruccion.token=="IMPORT"){
@@ -299,7 +301,6 @@ public class Ventana extends javax.swing.JFrame {
                         System.out.println("Los nombres son iguales, vamos a comparar --> " + file_p1.getFileName());
                         //--> 1ero vamos a analizar el archivo1 del proyecto 1
                         try{
-                            
                             System.out.println("----------- " + nombre_archivo1 + " en PROYECTO 1 ----------- ");
                             Nodo raiz = null;
                             //Mandamos a analizar el archivo del proyecto 1 
@@ -311,9 +312,10 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
+                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
                                 //--> vamos a guardar las variables encontradas en el archivo,
                                 encontrar(raiz,nuevo_archivo1.variables,nuevo_archivo1.clases,nuevo_archivo1.metodos);
+                                nuevo_archivo1.setUbi("A");
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : listacomentarios){
                                     nuevo_archivo1.comentarios.add(comment);
@@ -323,16 +325,19 @@ public class Ventana extends javax.swing.JFrame {
                                     //--> guardamos los errore indicando el nombre del archivo
                                     error nuevo_error = new error(errors.tipo, errors.valor, nuevo_archivo1.nombre_archivo, errors.fila, errors.columna);
                                     nuevo_archivo1.lista_errores.add(nuevo_error);
-                                }                                
-                                //Arbol arbol = new Arbol(raiz);
-                                //arbol.GraficarSintactico();
+                                }
+                                //-->agregamos los tokens encontrados(la lista se lleno en los archivos del fca, hace falta ver en los archivos js)
                                 
+                                for(Token tk:listaTokens){
+                                    Token nuevotk = new Token(tk.tipo,tk.valor,ruta_proy1+"/"+nuevo_archivo1.nombre_archivo,tk.fila,tk.columna);
+                                    nuevo_archivo1.lista_tokens.add(nuevotk);
+                                }
                                 //-->guardamos el archivo en una lista
                                 this.datos_archivos.add(nuevo_archivo1);
                                 //-->limpiamos variables
                                 listaErrores.clear();
                                 listacomentarios.clear();
-                                
+                                listaTokens.clear();
                             }
                         }catch(Exception ex){
                             System.out.println("Error en analizar el archivo del proyecto.");
@@ -352,9 +357,10 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
+                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
                                 //--> vamos a guardar las variables encontradas en el archivo
                                 encontrar(raiz, nuevo_archivo2.variables,nuevo_archivo2.clases,nuevo_archivo2.metodos);
+                                nuevo_archivo2.setUbi("B");
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : listacomentarios){
                                     nuevo_archivo2.comentarios.add(comment);
@@ -365,14 +371,19 @@ public class Ventana extends javax.swing.JFrame {
                                     error nuevo_error = new error(errors.tipo, errors.valor, nuevo_archivo2.nombre_archivo, errors.fila, errors.columna);
                                     nuevo_archivo2.lista_errores.add(nuevo_error);
                                 }
-                                //Arbol arbol = new Arbol(raiz);
-                                //arbol.GraficarSintactico();
+                                //-->agregamos los tokens encontrados(la lista se lleno en los archivos fca, me hace falta ver los archivos js)
+                                for(Token tk : listaTokens){
+                                    Token nuevotk = new Token(tk.tipo,tk.valor,ruta_proy2+"/"+nuevo_archivo2.nombre_archivo,tk.fila,tk.columna);
+                                    nuevo_archivo2.lista_tokens.add(nuevotk);
+                                }
+                                
+                                
                                 //-->guardamos el archivo en una lista
                                 this.datos_archivos.add(nuevo_archivo2);
                                 //-->limpiamos variables
                                 listaErrores.clear();
                                 listacomentarios.clear();
-                                
+                                listaTokens.clear();
                             }
                         }catch(Exception ex){
                             System.out.println("Error en analizar el archivo del proyecto.");
@@ -383,6 +394,7 @@ public class Ventana extends javax.swing.JFrame {
                         if(nuevo_archivo1 != null && nuevo_archivo2 != null){
                             variables_repetidas(nuevo_archivo1, nuevo_archivo2);
                             comentariosrepetidos(nuevo_archivo1, nuevo_archivo2);
+                            MetodosRepetidos(nuevo_archivo1, nuevo_archivo2);
                         }
                     }
                 }
@@ -433,8 +445,7 @@ public class Ventana extends javax.swing.JFrame {
                 if(clases.getId().equals(clases2.getId())){
                     if(clases.getLineas()==clases2.getLineas()){
                         this.cont_clases_repetidas++;
-                        this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Clases",clases.getId(),  0.2));
-                        this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"Lineas",String.valueOf(clases.getLineas()),0.4));
+                        
                     }
                 }
             }
@@ -547,8 +558,8 @@ public class Ventana extends javax.swing.JFrame {
                + "<td>\n\t"
                + "<table style =\"border: 1px solid black;\">\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td><b>Lexema</b></td>\n\t"
                + "<td><b>Tipo</b></td>\n\t"
-               + "<td><b>Descripcion</b></td>\n\t"
                + "<td><b>Fila</b></td>\n\t"
                +  "<td><b>Columna</b></td>\n\t"
                +  "<td><b>Archivo</b></td>\n\t"
@@ -556,8 +567,8 @@ public class Ventana extends javax.swing.JFrame {
                
                 for(error error : Reporte_errores){
                     Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
-                    + "<td>" + error.tipo + "</td>"
                     + "<td>" + error.valor + "</td>"
+                    + "<td>" + error.tipo + "</td>"
                     + "<td>" + error.fila  + "</td>"
                     +  "<td>" + error.columna + "</td>"
                     +  "<td>" + error.archivo + "</td>"
@@ -595,20 +606,20 @@ public class Ventana extends javax.swing.JFrame {
     //inicio de reporte de tokens
     
         public void ReporteTokens(){
-        LinkedList<error> Reporte_errores = new LinkedList<>();
+        LinkedList<Token> Reporte_tokens = new LinkedList<>();
         for(Archivo archivo : datos_archivos){
-            Reporte_errores.addAll(archivo.lista_errores);
+            Reporte_tokens.addAll(archivo.lista_tokens);
         }
         FileWriter fichero = null;
         PrintWriter pw = null;
                 try {
-                    String path = "ReporteErrores.html";
+                    String path = "ReporteTokens.html";
                     fichero = new FileWriter(path);
                     pw = new PrintWriter(fichero); 
                 String Html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//ES\">\n\t"
                + "<HTML>\n\t"
                + "<HEAD>\n\t"
-               + "<TITLE>REPORTE DE ERRORES</TITLE>\n\t"
+               + "<TITLE>REPORTE DE TOKENS</TITLE>\n\t"
                + "<style>\n\t"
                + "body {\n\t"
                + "background:#AAAA;\n\t"
@@ -645,27 +656,27 @@ public class Ventana extends javax.swing.JFrame {
                + "</style>\n\t"
                + "</HEAD>\n\t"
                + "<BODY>\n\t"
-               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carné: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carné: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE TOKENS</H2></CENTER></div>\n"
                + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
                "<table style=\"margin:0 auto; \"border=3>\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
                + "<td>\n\t"
                + "<table style =\"border: 1px solid black;\">\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td><b>Lexema</b></td>\n\t"
                + "<td><b>Tipo</b></td>\n\t"
-               + "<td><b>Descripcion</b></td>\n\t"
                + "<td><b>Fila</b></td>\n\t"
                +  "<td><b>Columna</b></td>\n\t"
                +  "<td><b>Archivo</b></td>\n\t"
                + "</tr>\n\t";
                
-                for(error error : Reporte_errores){
+                for(Token tk : Reporte_tokens){
                     Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
-                    + "<td>" + error.tipo + "</td>"
-                    + "<td>" + error.valor + "</td>"
-                    + "<td>" + error.fila  + "</td>"
-                    +  "<td>" + error.columna + "</td>"
-                    +  "<td>" + error.archivo + "</td>"
+                    + "<td>" + tk.valor + "</td>"
+                    + "<td>" + tk.tipo + "</td>"
+                    + "<td>" + tk.fila  + "</td>"
+                    +  "<td>" + tk.columna + "</td>"
+                    +  "<td>" + tk.archivo + "</td>"
                     + "</tr>\n\t";
                 }  
                 Html += "</tr></table></tr></table></UL></div>\n\t"
@@ -684,7 +695,7 @@ public class Ventana extends javax.swing.JFrame {
                     }
                 }
                 try {
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteErrores.html");
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteTokens.html");
             //System.out.println("Final");
         } catch (Exception e) {
             e.printStackTrace();
@@ -737,7 +748,6 @@ public class Ventana extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("GenerarReporteEstadistico{\n    definirglobales{\n        string reporteResumen = \"Reporte de Archivo file_1.js de los proyectos\";\n\n        ## variables para Reportes de Barras\n\n        Double pr1 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"triangle_draw\"};\n        Double pr2 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_triangle_i\"};\n        Double pr3 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"sq_draw\"};\n        Double pr4 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_square_i\"};\n        Double pr5 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_square_j\"};\n        Double pr6 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_triangle_j\"};\n        Double pr9 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_triangle_draw\"};\n        Double pr12 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"draw_square_draw\"};\n        Double pr15 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"x\"};\n        Double pr16 = ${PuntajeEspecifico,\"file_1.js\",\"variable\",\"a\"};\n\n        Double pe1 = 0;\n        Double pe2 = 1;\n        Double pe3 = 0;\n        Double pe4 = 1;\n        Double pe5 = 1;\n        Double pe6 = 1;\n        Double pe9 = 0;\n        Double pe12 = 0;\n        Double pe15 = 0;\n        Double pe16 = 0;\n\n        String titulobarrasesperada = \"Probabilidades esperadas para variables archivo file_1.js\";\n        String titulobarrasreal = \"Probabilidades obtenidas para variables archivo file_1.js\";\n    }\n\n    #*\n    Este comentario debería ser ignorado 189214'!\"\"$%$&\"#$\"#\"#4\n    *#\n\n    ##Cargamos los proyectos correspondientes\n    COMPARE(\"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\ProyectoA\", \"C:\\Users\\Domingo\\Desktop\\USAC\\Segundo Semestre 2021\\Compi1\\lab\\Poyecto1\\Entrada\\ProyectoB\");\n\n    GraficaLineas{\n        TiTulO: reporteResumen; \n        ArChIvO: \"file_1.js\";\n    }\n\n    graficalineas{\n        titulo: \"Reporte file_2\"; \n        archivo: \"file_2.js\";\n    }\n\n    ## Agregamos las graficas de barras\n\n    GraficaBarras {\n        Titulo: titulobarrasreal;\n        EjeX: [ \"triangle_draw\", \"draw_triangle_i\", \"sq_draw\", \"draw_square_i\", \"draw_square_j\", \"draw_triangle_j\", \"draw_triangle_draw\", \"draw_square_draw\", \"x\", \"a\" ];\n        Valores: [ pr1, pr2, pr3, pr4, pr5, pr6, pr9, pr12, pr15, pr16 ];\n        TituloX: \"Nombre de las variables\";\n        TituloY: \"Puntaje\";\n    }\n\n    GraficaBarras {\n        Titulo: titulobarrasesperada;\n        EjeX: [ \"triangle_draw\", \"draw_triangle_i\", \"sq_draw\", \"draw_square_i\", \"draw_square_j\", \"draw_triangle_j\", \"draw_triangle_draw\", \"draw_square_draw\", \"x\", \"a\" ];\n        Valores: [ pe1, pe2, pe3, pe4, pe5, pe6, pe9, pe12, pe15, pe16 ];\n        TituloX: \"Nombre de las variables\";\n        TituloY: \"Puntaje\";\n    }\n\n}");
         jScrollPane1.setViewportView(jTextArea1);
 
         jMenu1.setText("Archivo");
@@ -891,42 +901,7 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        Nodo raiz = null;
-        /*
-        try {
-            SintacticoJS sint=new SintacticoJS(new ALexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
-            
-            sint.parse();
-            raiz = sint.getRaiz();
-            System.out.println("Lectura del archivo JS correcta");
-             
-        } catch (Exception e) {
-            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
-        }
-        if(raiz != null){
-            jTextArea2.setText("");
-            variables.clear();
-            clases.clear();
-            importaciones.clear();
-            metodos.clear();
-            asignaciones.clear();
-            sentenciasIf.clear();
-            sentenciasFor.clear();
-            sentenciasWhile.clear();
-            sentenciasDo.clear();
-            sentenciasSwhitch.clear();
-            consolas.clear();
-            breaks.clear();
-            llamadas.clear();
-            contadores.clear();
-            expresiones.clear();
-            encontrar(raiz,variables);
-            imprimir();
-        }
-       
-        JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        */      
-        try {
+            try {
             Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             sint.parse();
             instrucciones=sint.instrucciones;
@@ -939,7 +914,9 @@ public class Ventana extends javax.swing.JFrame {
             //comienza el analizador del fca, las graficas
             //comienza grafica barras
             for(Object ins : instrucciones){
-                 if(ins instanceof GraficaBarras){
+                
+                //grafica barras
+                if(ins instanceof GraficaBarras){
                     GraficaBarras grafica_barras = (GraficaBarras)ins;
                     grafica_barras.valores();
                     grafica_barras.generar_graficaBarras();
@@ -947,20 +924,21 @@ public class Ventana extends javax.swing.JFrame {
                     //En este caso como lo trabajo se que sera una lista de variables 
                     this.variables_FCA = (LinkedList<Variables>)ins;
                 }
+                
+                //grafica lineas
+                if(ins instanceof GraficaLineas){
+                    GraficaLineas grafica_lineas = (GraficaLineas)ins;
+                    grafica_lineas.Valores();
+                    grafica_lineas.generar_graficaLineas();
+                }else if(ins instanceof LinkedList){
+                    this.variables_FCA = (LinkedList<Variables>)ins;
+                }
+                
             }
-            //termina grafica barras
-             
         } catch (Exception e) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
         }
         
-        
-        
-        
-        
-         
-            
-            
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed

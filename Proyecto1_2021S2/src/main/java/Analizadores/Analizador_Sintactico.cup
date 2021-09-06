@@ -108,9 +108,11 @@ INSTRUCCION::= COMPARE:a                                                        
     |GRAFICABARRAS:a                                                                                      {: RESULT = a; :}
     |GRAFICAPIE:a                                                                                         {: RESULT = a; :}
     |GRAFICASLINEAS:a                                                                                     {: RESULT = a; :}
+    |error INSTRUCCION
     ;
 
 COMPARE::= compare:a parentesisA:b  cadena:c  coma:d   cadena:e   parentesisC:f  puntoycoma:g             {: RESULT = new Comparar(c.substring(1,c.length()-1),e.substring(1,e.length()-1)); :}
+    |error puntoycoma
     ;
 
 
@@ -122,6 +124,7 @@ DEFINICIONVARIABLESG::= DEFINICIONVARIABLESG:a string:b id:c igual:d DATO:e punt
     |DEFINICIONVARIABLESG:a dou:b id:c igual:d DATO:e puntoycoma:f                                        {: RESULT = a; RESULT.add(new Variables(2, c, e)); :}
     |string:a id:b igual:c DATO:d puntoycoma:e                                                            {: RESULT = new LinkedList<>(); RESULT.add(new Variables(1, b, d)); :}
     |dou:a id:b igual:c DATO:d puntoycoma:e                                                               {: RESULT = new LinkedList<>(); RESULT.add(new Variables(2, b, d)); :}
+    |error puntoycoma
     ;
 
 
@@ -146,6 +149,7 @@ INFOBARRA::=titulo:a dospuntos:b DATO:c puntoycoma:d                            
     |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {: RESULT = new Caracteristica(2,d); :}
     |tituloX:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(3,c); :}
     |tituloY:a dospuntos:b  DATO:c  puntoycoma:d                                                          {: RESULT = new Caracteristica(4,c); :} 
+    |error puntoycoma
     ;
 
 INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                                                   {: RESULT = a; RESULT.add(b); :}
@@ -153,8 +157,8 @@ INFOSLINEAS::=INFOSLINEAS:a INFOLINEA:b                                         
     ;
 
 INFOLINEA::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                      {: RESULT = new Caracteristica(0,c); :}
-    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {: RESULT = new Caracteristica(5,c);/*este id 5 es para el archivo de la grafica de lineas*/:}
-    |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {: RESULT = new Caracteristica(2,d); :}
+    |ar:a dospuntos:b DATO:c puntoycoma:d                                                                 {: RESULT = new Caracteristica(5,c); :}
+    |error puntoycoma
     ;
 
 INFOS::=INFOS:a INFO:b                                                                                    {: RESULT = a; RESULT.add(b); :}
@@ -164,6 +168,7 @@ INFOS::=INFOS:a INFO:b                                                          
 INFO::=titulo:a dospuntos:b DATO:c puntoycoma:d                                                           {: RESULT = new Caracteristica(0,c); :}
     |ejeX:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                     {: RESULT = new Caracteristica(1,d); :}
     |Valores:a dospuntos:b corcheteA:c DATOS:d  corcheteC:e puntoycoma:f                                  {: RESULT = new Caracteristica(2,d); :}
+    |error puntoycoma
     ;
 
 DATOS::= DATOS:a coma:b DATO:c                                                                            {: RESULT = a; RESULT.add(c); :}

@@ -38,6 +38,16 @@ public class Nodo {
     public void AddHijo(Nodo nuevo){
         this.hijos.add(nuevo);
     }
-    
-    
+    public String getTkn(){
+        return this.token;
+    }
+    public String getLex(){
+        return this.lexema;
+    }    
+    public int getLine(){
+        return this.linea;
+    }  
+    public int getCol(){
+        return this.column;
+    }    
 }
