@@ -716,13 +716,13 @@ public class SintacticoJS extends java_cup.runtime.lr_parser {
         public void syntax_error(Symbol s)
         {
             System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
-            error nuevo = new error("Error Sintactico (Recuperado)", s.value.toString(), s.right+1, s.left+1);
+            error nuevo = new error("Error Sintactico en JS (Recuperado) ", s.value.toString(), s.right+1, s.left+1);
             Ventana.listaErrores.add(nuevo);
         }
         public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
         {
             System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido. No se Recupero");
-            error nuevo = new error("Error Sintactico", s.value.toString(), s.right+1, s.left+1);
+            error nuevo = new error("Error Sintactico en JS ", s.value.toString(), s.right+1, s.left+1);
             Ventana.listaErrores.add(nuevo);
         }
 

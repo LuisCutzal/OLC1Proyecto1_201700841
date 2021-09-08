@@ -17,20 +17,18 @@ public class Archivo {
     LinkedList<String> variables;
     LinkedList<String> comentarios;
     LinkedList<ClasesRepetidas> clases;
-    LinkedList<MetodosRepetidos> metodos;
     LinkedList<error> lista_errores;
     LinkedList<Token> lista_tokens;
     String Ubicacion;
     String identificador="";
     LinkedList<Integer> lineasClase;
     
-    public Archivo(String nombre_archivo, LinkedList<String> variables, LinkedList<String> comentarios, LinkedList<error>lista_errores,LinkedList<ClasesRepetidas> clases,LinkedList<MetodosRepetidos> metodos,LinkedList<Token> lista_tokens){
+    public Archivo(String nombre_archivo, LinkedList<String> variables, LinkedList<String> comentarios, LinkedList<error>lista_errores,LinkedList<ClasesRepetidas> clases ,LinkedList<Token> lista_tokens){
         this.nombre_archivo = nombre_archivo;
         this.variables = variables;
         this.comentarios = comentarios;
         this.lista_errores = lista_errores;
         this.clases=clases;
-        this.metodos=metodos;
         this.lista_tokens=lista_tokens;
     }
     public String getNombreArchivo(){
@@ -51,9 +49,6 @@ public class Archivo {
     
     public LinkedList<ClasesRepetidas> getListaClases(){
         return this.clases;
-    }    
-    public LinkedList<MetodosRepetidos> getListaMetodos(){
-        return this.metodos;
     }
     
     public LinkedList<Token> getListaTokens(){

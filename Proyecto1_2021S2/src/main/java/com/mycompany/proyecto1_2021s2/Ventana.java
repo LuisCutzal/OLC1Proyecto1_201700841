@@ -11,7 +11,7 @@ import AnalizadoresJS.ALexico;
 import AnalizadoresJS.SintacticoJS;
 import Reportes.GraficaBarras;
 import Reportes.GraficaLineas;
-import java.awt.Panel;
+import Reportes.GraficaPie;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,17 +26,11 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-
 /**
  *
  * @author Domingo
@@ -55,11 +49,14 @@ public class Ventana extends javax.swing.JFrame {
     public static LinkedList<Puntajes> lista_puntajesEspecificos = new LinkedList<>();
     JFileChooser seleccionar = new JFileChooser();
 
+    public static LinkedList<DirImagen> listaImagen = new LinkedList<>();
+    public static LinkedList<Resumen> listaresumenV1 = new LinkedList<Resumen>();
+    public static LinkedList<Resumen> listaresumenC = new LinkedList<>();
+    public static LinkedList<Resumen> listaresumenCla = new LinkedList<>();
+    public static LinkedList<Resumen> listaresumenMet = new LinkedList<>();
     public Ventana() {
         initComponents();
     }
-       
-        
         File archivo;
         FileInputStream entrada;
         FileOutputStream salida;
@@ -77,7 +74,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         return  documento;
         }
-        public String Guardar(File archivo,String documento){
+    public String Guardar(File archivo,String documento){
         String mensaje=null;
         try {
             salida=new FileOutputStream(archivo);
@@ -85,34 +82,23 @@ public class Ventana extends javax.swing.JFrame {
             salida.write(bit);
             mensaje="Archivo Guardado";
         } catch (Exception e) {
+           if(mensaje == null){
+               JOptionPane.showMessageDialog(null,"Error, No se ha abierto ningun archivo y por esa razon no se guardara nada en algun lugar");
+               //System.out.println("Error, No se ha abierto ningun archivo y por esa razon no se guardara nada en algun lugar");
+           }
         }
         return mensaje;
-        }
-    /**
-     * Metodo para generar el reporte de errores
-     */
-
-    LinkedList<String> clases = new LinkedList<String>();//funciona
-    LinkedList<String> importaciones = new LinkedList<String>();//funciona
-    LinkedList<String> metodos = new LinkedList<String>();//funciona
-    LinkedList<String> asignaciones = new LinkedList<String>();//funciona
-    LinkedList<String> sentenciasIf = new LinkedList<String>();//funciona pero aun tengo que ver validaciones
-    //ArrayList<String> elses = new ArrayList<String>();//aun no se si tengo que agregar una lista para else, else if
-    LinkedList<String> sentenciasFor = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
-    LinkedList<String> sentenciasWhile = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
-    LinkedList<String> sentenciasDo = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
-    LinkedList<String> sentenciasSwhitch = new LinkedList<String>();//funciona pero aun tengo q ver validaciones de los casos y el default
-    LinkedList<String> consolas = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
-    LinkedList<String> breaks = new LinkedList<String>();//funciona pero aun tengo q ver validaciones
-    LinkedList<String> llamadas = new LinkedList<String>();//funciona
-    LinkedList<String> contadores = new LinkedList<String>();
-    LinkedList<String> parametros = new LinkedList<String>();
+    }
+    
     LinkedList<String> expresiones = new LinkedList<String>();
+    LinkedList<MetodosRepetidos> metodos = new LinkedList<>();
     int tamañoClase=0;
     int tamañoMetodo=0;
     int tamañoParametros=0;
-    String nombreMetodo="",nombreClase="";
-    public void encontrar(Nodo nodo,LinkedList<String> variables,LinkedList<ClasesRepetidas> clases,LinkedList<MetodosRepetidos> metodos){
+    //para saber cuantos metodos hay en los archivos
+    int totalmetodos=0;
+    String nombreMetodo="",nombreClase="",nombreMetodoClase="";    
+    public void encontrar(Nodo nodo,LinkedList<String> variables,LinkedList<ClasesRepetidas> clases){
         int lineaM1=0,lineaM2=0;
         for(Nodo instruccion : nodo.hijos){
             //System.out.println("Nodos "+ instruccion.lexema);
@@ -124,17 +110,19 @@ public class Ventana extends javax.swing.JFrame {
                     }
                     if(clase.token=="llavecierra"){
                         tamañoClase=clase.linea;
-                        System.out.println("llavecierra: " + tamañoClase );//para saber cuantas lineas tiene el archivo js
+                       //System.out.println("llavecierra: " + tamañoClase );//para saber cuantas lineas tiene el archivo js
                         clases.add(new ClasesRepetidas(tamañoClase,nombreClase));//no es clasesRepetidas es solo clases
                     }
                 }
             }
-
+            
+            //ReporteEstadistico repoe = new ReporteEstadistico("Total Variables", id_variable_arch1, cont_variables_repetidas);
             if(instruccion.token == "METODO"){
                 for(Nodo metodo : instruccion.hijos){
                     if(metodo.token == "id"){
                         //metodos.add(metodo.lexema);
                         nombreMetodo=metodo.lexema;
+                        totalmetodos++;
                     }
                     if(metodo.token=="llaveabre"){
                         //System.out.println("linea inicio metodo: "+metodo.linea);
@@ -149,17 +137,11 @@ public class Ventana extends javax.swing.JFrame {
                     }
                 }
                     tamañoMetodo=lineaM2-lineaM1;
-                    System.out.println("total de Lineas Metodo: " + (tamañoMetodo+1));
-                    metodos.add(new MetodosRepetidos(tamañoMetodo,tamañoParametros,nombreMetodo));//no es metodosRepetidos es solo metodos
+                    //System.out.println("total de Lineas Metodo: " + (tamañoMetodo+1));
+                    clases.getLast().Metodos.add(new MetodosRepetidos(tamañoMetodo,tamañoParametros,nombreMetodo));
+                    //metodos.add(new MetodosRepetidos(tamañoMetodo,tamañoParametros,nombreMetodo));//no es metodosRepetidos es solo metodos
             }
-            
-            if(instruccion.token=="IMPORT"){
-                for(Nodo importacion : instruccion.hijos){
-                    if(importacion.token == "id"){
-                        importaciones.add(importacion.lexema);
-                    }
-                }
-            }
+
             if(instruccion.token == "DECLARACIONVARIABLES"){
                 for(Nodo declaracion : instruccion.hijos){
                     if(declaracion.token == "id"){
@@ -167,22 +149,6 @@ public class Ventana extends javax.swing.JFrame {
                     }
                 }
             }
-            if(instruccion.token == "ASIGNACIONVARIABLES"){
-                for(Nodo asignacion : instruccion.hijos){
-                    if(asignacion.token == "id"){
-                        asignaciones.add(asignacion.lexema);
-                    }
-                }
-            }
-            
-            if(instruccion.token == "SENTENCIAIF"){//en esta parte tengo dudas respecto a el if, else if y else ver despues, por el momento funciona
-                for(Nodo sentenciaif : instruccion.hijos){
-                    if(sentenciaif.token == "if_js"){
-                        sentenciasIf.add(sentenciaif.lexema);
-                    }
-                }
-            }
-            
             if(instruccion.token == "SENTENCIAFOR"){
                 for(Nodo sentenciafor : instruccion.hijos){
                     if(sentenciafor.token=="DECLARACIONFOR"){
@@ -191,59 +157,14 @@ public class Ventana extends javax.swing.JFrame {
                         }
                     }
                 }
-            }       
-            if(instruccion.token == "SENTENCIAWHILE"){
-                for(Nodo sentenciawhile : instruccion.hijos){
-                    if(sentenciawhile.token == "while_js"){
-                        sentenciasWhile.add(sentenciawhile.lexema);
-                    }
-                }
             }
-            
-            if(instruccion.token == "SENTENCIADOWHILE"){
-                for(Nodo sentenciaDowhile : instruccion.hijos){
-                    if(sentenciaDowhile.token == "do_js"){
-                        sentenciasDo.add(sentenciaDowhile.lexema);
-                    }
-                }
-            }
-            
-            if(instruccion.token == "SENTENCIASWITCH"){
-                for(Nodo sentenciaSwitch : instruccion.hijos){
-                    if(sentenciaSwitch.token == "switch_js"){
-                        sentenciasSwhitch.add(sentenciaSwitch.lexema);
-                    }
-                }
-            }
-            if(instruccion.token == "CONSOLA"){
-                for(Nodo consola : instruccion.hijos){
-                    if(consola.token == "console_js"){
-                        consolas.add(consola.lexema);
-                    }
-                }
-            }
-            
             if(instruccion.token == "PARAMETROS"){//queda pendiente
                 Nodo prueba=null;
                 for(Nodo breacks : instruccion.hijos){
                     prueba=breacks;
                 }
                 if(prueba.lexema==""){
-                    encontrar(prueba,variables,clases,metodos);
-                }
-            }
-            if(instruccion.token == "LLAMADA"){
-                for(Nodo llamada : instruccion.hijos){
-                    if(llamada.token == "id"){
-                        llamadas.add(llamada.lexema);
-                    }
-                }
-            }
-            if(instruccion.token == "CONTADOR"){
-                for(Nodo contador : instruccion.hijos){
-                    if(contador.token == "id"){
-                        contadores.add(contador.lexema);
-                    }
+                    encontrar(prueba,variables,clases);
                 }
             }
             if(instruccion.token=="EXPRESION"){
@@ -269,17 +190,11 @@ public class Ventana extends javax.swing.JFrame {
                 }
             }
             if(instruccion.lexema == "" ){
-                encontrar(instruccion,variables,clases,metodos);
+                encontrar(instruccion,variables,clases);
             }
         }
+        
     }
-
-    /**
-     * Metodo para verificar los archivos dentro de una carpeta 
-     * @param ruta_proy1 indica la ruta donde se encuentra la carpeta del proyecto 1
-     * @param ruta_proy2 indica la ruta donde se encuentra la carpeta del proyecto 2
-     */
-    
     public void Comparamos(String ruta_proy1, String ruta_proy2){
         try{
             DirectoryStream<Path> stream_p1 = Files.newDirectoryStream(Paths.get(ruta_proy1), "*.js");
@@ -298,7 +213,7 @@ public class Ventana extends javax.swing.JFrame {
                     FileReader fr2 = new FileReader (archivo2);
                     //Si se llaman igual se comienza el proceso para analizar copias
                     if(nombre_archivo1.equals(nombre_archivo2)){
-                        System.out.println("Los nombres son iguales, vamos a comparar --> " + file_p1.getFileName());
+                        System.out.println("El nombre de los archivos son iguales, se procede a comparar --> " + file_p1.getFileName());
                         //--> 1ero vamos a analizar el archivo1 del proyecto 1
                         try{
                             System.out.println("----------- " + nombre_archivo1 + " en PROYECTO 1 ----------- ");
@@ -308,31 +223,27 @@ public class Ventana extends javax.swing.JFrame {
                             parse.parse();
 
                             raiz = parse.getRaiz();
-                            if(raiz == null){
+                            /*if(raiz == null){
                                 System.out.println("No se genero bien el arbol");
-                            }else{
+                            }*/
+                            if (raiz !=null){
                                 
-                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
-                                //--> vamos a guardar las variables encontradas en el archivo,
-                                encontrar(raiz,nuevo_archivo1.variables,nuevo_archivo1.clases,nuevo_archivo1.metodos);
+                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
+                                encontrar(raiz,nuevo_archivo1.variables,nuevo_archivo1.clases);
                                 nuevo_archivo1.setUbi("A");
-                                //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : listacomentarios){
                                     nuevo_archivo1.comentarios.add(comment);
                                 }
-                                //-->agregamos los errores encontrados (la lista se lleno en los archivos A_Lexico_FCA.jflex y A_sintacticos_FCA.cup)
                                 for(error errors : listaErrores){
-                                    //--> guardamos los errore indicando el nombre del archivo
                                     error nuevo_error = new error(errors.tipo, errors.valor, nuevo_archivo1.nombre_archivo, errors.fila, errors.columna);
                                     nuevo_archivo1.lista_errores.add(nuevo_error);
                                 }
-                                //-->agregamos los tokens encontrados(la lista se lleno en los archivos del fca, hace falta ver en los archivos js)
-                                
                                 for(Token tk:listaTokens){
                                     Token nuevotk = new Token(tk.tipo,tk.valor,ruta_proy1+"/"+nuevo_archivo1.nombre_archivo,tk.fila,tk.columna);
                                     nuevo_archivo1.lista_tokens.add(nuevotk);
                                 }
-                                //-->guardamos el archivo en una lista
+                                
+                                
                                 this.datos_archivos.add(nuevo_archivo1);
                                 //-->limpiamos variables
                                 listaErrores.clear();
@@ -343,44 +254,34 @@ public class Ventana extends javax.swing.JFrame {
                             System.out.println("Error en analizar el archivo del proyecto.");
                             System.out.println("Causa: "+ex.getCause());
                         }
-                        //--> 2do vamos a analizar el archivo2
                         try{
                             
                             System.out.println("----------- " + nombre_archivo2 + " en PROYECTO 2----------- ");
                             Nodo raiz = null;
-                            //Mandamos a analizar el archivo del proyecto 2
                             SintacticoJS parse = new SintacticoJS(new ALexico(new BufferedReader(fr2)));
                             parse.parse();
 
                             raiz = parse.getRaiz();
-                            if(raiz == null){
+                            /*if(raiz == null){
                                 System.out.println("No se genero bien el arbol");
-                            }else{
-                                
-                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
-                                //--> vamos a guardar las variables encontradas en el archivo
-                                encontrar(raiz, nuevo_archivo2.variables,nuevo_archivo2.clases,nuevo_archivo2.metodos);
+                            }*/
+                            if(raiz!=null){
+                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
+                                encontrar(raiz, nuevo_archivo2.variables,nuevo_archivo2.clases);
                                 nuevo_archivo2.setUbi("B");
-                                //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : listacomentarios){
                                     nuevo_archivo2.comentarios.add(comment);
                                 }
-                                //-->agregamos los errores encontrados (la lista se lleno en los archivos A_Lexico_FCA.jflex y A_sintacticos_FCA.cup)
                                 for(error errors : listaErrores){
-                                    //--> guardamos los errore indicando el nombre del archivo
                                     error nuevo_error = new error(errors.tipo, errors.valor, nuevo_archivo2.nombre_archivo, errors.fila, errors.columna);
                                     nuevo_archivo2.lista_errores.add(nuevo_error);
                                 }
-                                //-->agregamos los tokens encontrados(la lista se lleno en los archivos fca, me hace falta ver los archivos js)
                                 for(Token tk : listaTokens){
                                     Token nuevotk = new Token(tk.tipo,tk.valor,ruta_proy2+"/"+nuevo_archivo2.nombre_archivo,tk.fila,tk.columna);
                                     nuevo_archivo2.lista_tokens.add(nuevotk);
                                 }
-                                
-                                
-                                //-->guardamos el archivo en una lista
+                                                               
                                 this.datos_archivos.add(nuevo_archivo2);
-                                //-->limpiamos variables
                                 listaErrores.clear();
                                 listacomentarios.clear();
                                 listaTokens.clear();
@@ -389,114 +290,224 @@ public class Ventana extends javax.swing.JFrame {
                             System.out.println("Error en analizar el archivo del proyecto.");
                             System.out.println("Causa: "+ex.getCause());
                         }
-                        
-                        //--> detectamos copias entre estos dos archivos 
                         if(nuevo_archivo1 != null && nuevo_archivo2 != null){
                             variables_repetidas(nuevo_archivo1, nuevo_archivo2);
                             comentariosrepetidos(nuevo_archivo1, nuevo_archivo2);
+                            ClasesRepetidas(nuevo_archivo1, nuevo_archivo2);
                             MetodosRepetidos(nuevo_archivo1, nuevo_archivo2);
+                            
                         }
                     }
                 }
             }
         } catch (IOException | DirectoryIteratorException ex) {
 		    System.err.println(ex);
-		}
+        }
     }
-    
-    
-    
     /**
      * Metodo para verificar las variables repetidas en ambos archivos
      * @param archivo1 recibe el archivo del proyecto 1 con toda su informacion
      * @param archivo2 recibe el archivo del proyecto 2 con toda su informacion
      */
+    
+    
     public void variables_repetidas(Archivo archivo1, Archivo archivo2){
-        //dar el punteo. 
+        //dar el punteo
+        int vueltaA=0,vueltaB=0;
         for(String id_variable_arch1 : archivo1.variables){
             for(String id_variable_arch2 : archivo2.variables){
                 if(id_variable_arch1.equals(id_variable_arch2)){
                     jTextArea2.append("Variable repetida \"" + id_variable_arch1 +"\" en archivos " + archivo1.nombre_archivo + "\n");
                     this.cont_variables_repetidas++;
                     this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "variable",id_variable_arch1,  1));
+                    //this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(), "variable",id_variable_arch2,  1));
                 }
-
             }
         }
+        
+        for (int i = 0; i < archivo1.variables.size(); i++) {
+            vueltaA++;
+        }
+        for (int i = 0; i < archivo2.variables.size(); i++) {
+            vueltaB++;
+        }
+        int total=vueltaA+vueltaB;
+        TV(total);
+    }
+    public void TV(int A){
+        Resumen rv = new Resumen(A);
+        listaresumenV1.add(rv);
     }
     
     public void comentariosrepetidos(Archivo archivo1, Archivo archivo2){
+        int comA=0, comB=0;
         for(String comment : archivo1.comentarios){
             for(String comment2 : archivo2.comentarios){
-                if(comment.equalsIgnoreCase(comment2)){
-                    //jTextArea2.append("Comentario repetido: \"" + comment +"\" en archivos " + archivo2.nombre_archivo + "\n");
+                if(comment.equalsIgnoreCase(comment2)){//para comentarios repetidos
                     jTextArea2.append("Comentario repetido: " + comment +" en archivos " + archivo2.nombre_archivo+" y " +archivo1.nombre_archivo+ "\n");
                     this.cont_comment_repetido++;
-                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Comentario",comment,  1));
+                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "comentario",comment,  1));
+                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(), "comentario",comment,  1));
                 }
             }
         }
+        for (int i = 0; i < archivo1.comentarios.size(); i++) {
+            comA++;
+        }
+        for (int i = 0; i < archivo2.comentarios.size(); i++) {
+            comB++;
+        }
+        int total=comA+comB;
+        TC(total);
+    }
+    public void TC(int B){
+        Resumen rc = new Resumen(B);
+        listaresumenC.add(rc);
     }
     
     public void ClasesRepetidas(Archivo archivo1,Archivo archivo2){
+        int reCla1=0,reCla2=0;
         for(ClasesRepetidas clases : archivo1.clases){
             for(ClasesRepetidas clases2: archivo2.clases){
-                //repitencia de identificador
-                if(clases.getId().equals(clases2.getId())){
-                    if(clases.getLineas()==clases2.getLineas()){
-                        this.cont_clases_repetidas++;
-                        
+                //ahora vamos con los metodos
+                for(MetodosRepetidos metodos : clases.Metodos){
+                    for(MetodosRepetidos metodos2:clases2.Metodos){
+                        if(clases.id.equals(clases2.id)){
+                            if(metodos.id.equals(metodos2.id) && metodos.CantidadParametros == metodos2.CantidadParametros && metodos.linas == metodos2.linas){
+                                //v v v
+                                if(clases.getLineas()==clases2.getLineas()){
+                                    jTextArea2.append("Clase repetido: " + archivo1.clases +" en archivos " + archivo1.nombre_archivo+ "\n");
+                                    this.cont_clases_repetidas++;
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),1));
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases2.getId(),1));
+                                }
+                                //v v f
+                                else if(clases.getLineas()!= clases2.getLineas()){
+                                    
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.6));
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases.getId(),0.6));
+                                }
+                            }else if(metodos.id != metodos2.id && metodos.CantidadParametros != metodos2.CantidadParametros && metodos.linas != metodos2.linas){
+                                //v f v
+                                if(clases.getLineas()==clases2.getLineas()){
+                                    
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.6));
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases2.getId(),0.6));
+                                }//v f f
+                                else if(clases.getLineas()!= clases2.getLineas()){
+                                    
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.2));
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases.getId(),0.2));
+                                }
+                            }
+                        }//f v v
+                        else if(clases.id != clases2.id){
+                            if(metodos.id.equals(metodos2.id) && metodos.CantidadParametros == metodos2.CantidadParametros && metodos.linas == metodos2.linas){
+                                if(clases.getLineas()==clases2.getLineas()){
+                                    this.cont_clases_repetidas++;
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.8));
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases2.getId(),0.8));
+                                }//f v f
+                                else if(clases.getLineas()!= clases2.getLineas()){
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.4));
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases.getId(),0.4));
+                                }
+                            }//f f v
+                            else if(metodos.id != metodos2.id && metodos.CantidadParametros != metodos2.CantidadParametros && metodos.linas != metodos2.linas){
+                                if(clases.getLineas()==clases2.getLineas()){
+                                    
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.4));
+                                    this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases2.getId(),0.4));
+                                }
+                            }
+                        }
                     }
                 }
+                
             }
+            
         }
+        for (int i = 0; i <archivo1.clases.size(); i++) {
+            reCla1++;
+        }
+        for (int i = 0; i <archivo2.clases.size(); i++) {
+            reCla2++;
+        }
+        int toCla=reCla1+reCla2;
+        RCla(toCla);
+    }
+    public void RCla(int CC){
+        Resumen rCla = new Resumen(CC);
+        listaresumenCla.add(rCla);
     }
     
     
     public void MetodosRepetidos(Archivo archivo1,Archivo archivo2){
-        for(MetodosRepetidos metodos : archivo1.metodos){
-            for(MetodosRepetidos metodos2: archivo2.metodos){
-                //repitencia de identificador
-                if(metodos.getIdMetodo().equals(metodos2.getIdMetodo())){//id
-                    if(metodos.getLineas()==metodos2.getLineas()){//lineas
-                        if(metodos.getParametros()==metodos2.getParametros()){//parametros
+        int met1=0,met2=0;
+        for(ClasesRepetidas clases : archivo1.clases){
+            for(ClasesRepetidas clases2: archivo2.clases){
+                for(MetodosRepetidos metodos : clases.Metodos){
+                    for(MetodosRepetidos metodos2: clases2.Metodos){
+                        //v v v
+                        if(metodos.id.equals(metodos2.id) && metodos.CantidadParametros == metodos2.CantidadParametros && metodos.linas == metodos2.linas){
+                            jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
                             this.cont_metodos_repetidos++;
-                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  1));//si id, parametos y lineas son iguales
-                        }
-                    }else if(metodos.getLineas()==metodos2.getLineas()){
-                        if(metodos.getParametros()!=metodos2.getParametros()){
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),1));
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),1));
+                        }//v v f
+                        else if(metodos.id.equals(metodos2.id) && metodos.getParametros() == metodos2.getParametros() && metodos.getLineas() != metodos2.getLineas()){
+                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
                             this.cont_metodos_repetidos++;
-                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.7));//si id y lineas son iguales pero parametros no
-                        }
-                    }else if(metodos.getLineas()!=metodos2.getLineas()){
-                        if(metodos.getParametros()==metodos2.getParametros()){
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.7));
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.7));
+                        }//v f v
+                        else if(metodos.id.equals(metodos2.id) && metodos.getParametros() != metodos2.getParametros() && metodos.getLineas() == metodos2.getLineas()){
+                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
                             this.cont_metodos_repetidos++;
-                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.7));//si id y parametros son iguales pero lineas no
-                        }
-                    }
-                    this.cont_metodos_repetidos++;
-                    this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.4));// si id es igual pero parametros y lineas no
-                }else {
-                    if(metodos.getLineas()==metodos2.getLineas()){//lineas
-                        if(metodos.getParametros()==metodos2.getParametros()){//parametros
-                            this.cont_metodos_repetidos++;
-                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.6));//si lineas y parametros son iguales pero id no
-                        }
-                    }else if(metodos.getLineas()==metodos2.getLineas()){
-                        if(metodos.getParametros()!=metodos2.getParametros()){
-                            this.cont_metodos_repetidos++;
-                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.3));//si lineas son iguales pero id y parametros no
-                        }
-                    }
-                    else if(metodos.getLineas()!=metodos2.getLineas()){
-                        if(metodos.getParametros()==metodos2.getParametros()){//parametros
-                            this.cont_metodos_repetidos++;
-                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(), "Metodos",metodos.getIdMetodo(),  0.3));//si parametros son iguales pero id y lineas no
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.7));
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.7));
+                        }//v f f
+                        else if(metodos.id.equals(metodos2.id) && metodos.getParametros() != metodos2.getParametros() && metodos.getLineas() != metodos2.getLineas()){
+                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                            //this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.4));
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.4));
+                        }//f v v
+                        else if(metodos.id != metodos2.id && metodos.getParametros() == metodos2.getParametros() && metodos.getLineas() == metodos2.getLineas()){
+                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                            //this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.6));
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.6));
+                        }//f v f
+                        else if(metodos.id != metodos2.id && metodos.getParametros() == metodos2.getParametros() && metodos.getLineas() != metodos2.getLineas()){
+                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                            //this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.3));
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.3));
+                        }//f f v
+                        else if(metodos.id != metodos2.id && metodos.getParametros() != metodos2.getParametros() && metodos.getLineas() == metodos2.getLineas()){
+                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                            //this.cont_metodos_repetidos++;
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.3));
+                            this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.3));
                         }
                     }
                 }
+                for (int i = 0; i < clases.Metodos.size(); i++) {
+                    met1++;
+                }
+                for (int i = 0; i < clases2.Metodos.size(); i++) {
+                    met2++;
+                }
+                int total = met1+met2;
+                TM(total);
             }
         }
+    }
+    
+    public void TM(int M){
+        Resumen rm = new Resumen(M);
+        listaresumenMet.add(rm);
     }
     
     //inicio de reporte de errores
@@ -518,8 +529,8 @@ public class Ventana extends javax.swing.JFrame {
                + "<style>\n\t"
                + "body {\n\t"
                + "background:#AAAA;\n\t"
-               +/* el fondo de todo el cuerpo*/ "padding: 20px;\n\t"
-               + /*el espacio entre el borde y su contenido*/ "}\n\t"
+               + "padding: 20px;\n\t"
+               +  "}\n\t"
                + "h2 {\n\t"
                + "color: #5D6D7E;\n\t"
                + "font-family: Calibri;\n\t"
@@ -551,7 +562,7 @@ public class Ventana extends javax.swing.JFrame {
                + "</style>\n\t"
                + "</HEAD>\n\t"
                + "<BODY>\n\t"
-               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carné: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
                + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
                "<table style=\"margin:0 auto; \"border=3>\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
@@ -591,18 +602,14 @@ public class Ventana extends javax.swing.JFrame {
                 }
                 try {
             Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteErrores.html");
+            jTextArea2.append("Generar Reporte de Errores \n");
             //System.out.println("Final");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     //fin reporte errores
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    
+
     //inicio de reporte de tokens
     
         public void ReporteTokens(){
@@ -622,32 +629,32 @@ public class Ventana extends javax.swing.JFrame {
                + "<TITLE>REPORTE DE TOKENS</TITLE>\n\t"
                + "<style>\n\t"
                + "body {\n\t"
-               + "background:#AAAA;\n\t"
-               +/* el fondo de todo el cuerpo*/ "padding: 20px;\n\t"
-               + /*el espacio entre el borde y su contenido*/ "}\n\t"
+               + "background:#0496FF;\n\t"
+               +"padding: 20px;\n\t"
+               + "}\n\t"
                + "h2 {\n\t"
-               + "color: #5D6D7E;\n\t"
-               + "font-family: Calibri;\n\t"
+               + "color: #FFF;\n\t"
+               + "font-family: Courier New;\n\t"
                + /*tipo de fuente*/ "}\n\t"
                + ".articulo {\n\t"
                + "font-size: 14px;\n\t"
-               + "font-family: Calibri;\n\t"
-               + "background: #7FB3D5;\n\t"
-               + "border: 6px solid #2471A3;\n\t" //borde cuadro arriba
+               + "font-family: Courier New;\n\t"
+               + "background: #FFBC42;\n\t"
+               + "border: 6px solid #0496FF;\n\t" //borde cuadro arriba
                + "color: #AAAAAFF;\n\t"
                + "padding: 13px;\n\t"
                + "}\n\t"
                + ".tabla {\n\t"
                + "font-size: 14px;\n\t"
-               + "font-family: Century Gothic;\n\t"
+               + "font-family: Cooper Black;\n\t"
                + "background: #AAAAA;\n\t"
-               + "border: 6px solid #5D6D7E;\n\t" //borde cuadro abajo
+               + "border: 6px solid #0496FF;\n\t" //borde cuadro abajo
                + "color: #000000;\n\t"
                + "padding: 13px;\n\t"
                + "}\n\t"
                + ".fin {\n\t"
                + "font-size: 14px;\n\t"
-               + "font-family: Eras Light ITC;\n\t"
+               + "font-family: Elephant Pro;\n\t"
                + "background: #7FB3D5;\n\t"
                + "border: 6px solid #F74316;\n\t"
                + "color: #000000;\n\t" +//2939B5
@@ -656,7 +663,7 @@ public class Ventana extends javax.swing.JFrame {
                + "</style>\n\t"
                + "</HEAD>\n\t"
                + "<BODY>\n\t"
-               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carné: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE TOKENS</H2></CENTER></div>\n"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE TOKENS</H2></CENTER></div>\n"
                + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
                "<table style=\"margin:0 auto; \"border=3>\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
@@ -696,6 +703,7 @@ public class Ventana extends javax.swing.JFrame {
                 }
                 try {
             Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteTokens.html");
+            jTextArea2.append("Generar Reporte de Tokens \n");
             //System.out.println("Final");
         } catch (Exception e) {
             e.printStackTrace();
@@ -703,12 +711,202 @@ public class Ventana extends javax.swing.JFrame {
     }
     
     
-    
-    
-    
     //****FIN DEL REPORTE DE TOKENS
     
+    public void todo(){
+        LinkedList<error> RepEr = new LinkedList<>();
+        jTextArea2.append("Iniciando Analisis \n");
+        jTextArea2.append("Fin Analisis \n");
+        try {
+            Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
+            sint.parse();
+            instrucciones=sint.instrucciones;
+            for(Object ins : instrucciones){
+                if(ins instanceof Comparar){
+                    Comparar comp = (Comparar)ins;
+                    Comparamos(comp.getRuta1(), comp.getRuta2());
+                }
+            }
+            graficas(instrucciones);
+            for(Archivo arch : datos_archivos){
+                RepEr.addAll(arch.lista_errores);
+            }
+            for(error err:RepEr){
+                jTextArea2.append(err.tipo+err.valor +" no reconocido \n");
+            }
+            
+        } catch (Exception e) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
     
+    public void graficas(LinkedList<Object> instrucci) throws IOException{
+        
+        for(Object ins : instrucci){
+           //grafica barras
+            if(ins instanceof GraficaBarras){
+                GraficaBarras grafica_barras = (GraficaBarras)ins;
+                grafica_barras.valores();
+                grafica_barras.generar_graficaBarras();
+            }else if(ins instanceof LinkedList){
+                //En este caso como lo trabajo se que sera una lista de variables 
+                this.variables_FCA = (LinkedList<Variables>)ins;
+            }
+            //grafica lineas
+            if(ins instanceof GraficaLineas){
+                GraficaLineas grafica_lineas = (GraficaLineas)ins;
+                grafica_lineas.Valores();
+                grafica_lineas.generar_graficaLineas();
+            }else if(ins instanceof LinkedList){
+                this.variables_FCA = (LinkedList<Variables>)ins;
+            }
+            //grafica pie
+            if(ins instanceof GraficaPie){
+                GraficaPie grafica_pie = (GraficaPie)ins;
+                grafica_pie.valores();
+                grafica_pie.generar_graficaPie();
+            }else if(ins instanceof LinkedList){
+                this.variables_FCA = (LinkedList<Variables>)ins;
+            }
+        }
+    }
+        
+//Reporte estadistico
+        
+    public void ReporteEstadistico(){
+        /*LinkedList<Resumen> todo = new LinkedList<>();
+        for(Resumen archivo : listaresumen){
+            archivo.addAll(listaImagen);
+        }*/
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+                try {
+                    String path = "ReporteEstadistico.html";
+                    fichero = new FileWriter(path);
+                    pw = new PrintWriter(fichero); 
+                String Html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//ES\">\n\t"
+               + "<HTML>\n\t"
+               + "<HEAD>\n\t"
+               + "<TITLE>REPORTE ESTADISTICO</TITLE>\n\t"
+               + "<style>\n\t"
+               + "body {\n\t"
+               + "background:#0496FF;\n\t"
+               +"padding: 20px;\n\t"
+               + "}\n\t"
+               + "h2 {\n\t"
+               + "color: #FFF;\n\t"
+               + "font-family: Courier New;\n\t"
+               + /*tipo de fuente*/ "}\n\t"
+               + ".articulo {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Courier New;\n\t"
+               + "background: #FFBC42;\n\t"
+               + "border: 6px solid #0496FF;\n\t" //borde cuadro arriba
+               + "color: #AAAAAFF;\n\t"
+               + "padding: 13px;\n\t"
+               + "}\n\t"
+               + ".tabla {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Cooper Black;\n\t"
+               + "background: #AAAAA;\n\t"
+               + "border: 6px solid #0496FF;\n\t" //borde cuadro abajo
+               + "color: #000000;\n\t"
+               + "padding: 13px;\n\t"
+               + "}\n\t"
+               + ".fin {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Elephant Pro;\n\t"
+               + "background: #7FB3D5;\n\t"
+               + "border: 6px solid #F74316;\n\t"
+               + "color: #000000;\n\t" +//2939B5
+               "padding: 13px;\n\t"
+               + "}\n\t"
+               + "</style>\n\t"
+               + "</HEAD>\n\t"
+               + "<BODY>\n\t"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE ESTADISTICO</H2></CENTER></div>\n"
+               + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
+               "<table style=\"margin:0 auto; \"border=3>\n\t"
+               + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td>\n\t"
+               + "<table style =\"border: 1px solid black;\">\n\t"
+               + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td><b>Tipo</b></td>\n\t"
+               + "<td><b>ProyectoA</b></td>\n\t"
+               +  "<td><b>ProyectoB</b></td>\n\t"
+               + "</tr>\n\t";
+                    for (int i = 0; i < listaresumenV1.size(); i++) {//variables
+                        if(i==0){
+                        Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
+                        + "<td>" + "Total Variables"+ "</td>" //tipo
+                        + "<td>" + listaresumenV1.get(1).getA() + "</td>" //proyecto A
+                        + "<td>" + listaresumenV1.get(0).getA() + "</td>"//proyecto B
+                        + "</tr>\n\t";
+                        }
+                    }
+                    for (int a = 0; a < listaresumenMet.size(); a++) {//metodos
+                        if(a==0){
+                        Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
+                        + "<td>" + "Total Metodos"+ "</td>" //tipo
+                        + "<td>" + listaresumenMet.get(1).getA() + "</td>" //proyecto A
+                        + "<td>" + listaresumenMet.get(0).getA() + "</td>"//proyecto B
+                        + "</tr>\n\t";
+                        }
+                    }
+                    for (int b = 0; b < listaresumenCla.size(); b++) {//clases
+                        if(b==0){
+                        Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
+                        + "<td>" + "Total Clases"+ "</td>" //tipo
+                        + "<td>" + listaresumenCla.get(1).getA() + "</td>" //proyecto A
+                        + "<td>" + listaresumenCla.get(0).getA() + "</td>"//proyecto B
+                        + "</tr>\n\t";
+                        }
+                    }
+                    for (int c = 0; c < listaresumenC.size(); c++) {//comentarios
+                        if(c==0){
+                        Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
+                        + "<td>" + "Total Comentarios"+ "</td>" //tipo
+                        + "<td>" + listaresumenC.get(1).getA() + "</td>" //proyecto A
+                        + "<td>" + listaresumenC.get(0).getA() + "</td>"//proyecto B
+                        + "</tr>\n\t";
+                        }
+                    }
+                Html += "</tr></table></tr></table></UL></div>\n\t";
+                for(DirImagen error : listaImagen){//barras
+                    Html+="<img src="+"\"" + error.ubicacion +".png"+"\""+
+                            "width=" +"\""+800 +"\""+ "height="+"\""+750 +"\""+">" 
+                            + "<p> </p>" ;
+                }
+                Html+="\n\t"
+                +"</BODY>\n\t"
+                + "</HTML>";
+                pw.print(Html);
+                    
+                } catch (Exception e) {
+                }finally{
+                    if(null!=fichero){
+                        try {
+                            fichero.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteEstadistico.html");
+            jTextArea2.append("Generar Reporte Estadistico \n");
+            //System.out.println("Final");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+     //fin reporte estadistico
+    
+        public void Json(){
+            
+        }
+        
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -837,6 +1035,11 @@ public class Ventana extends javax.swing.JFrame {
         jMenu4.add(jMenuItem10);
 
         jMenuItem11.setText("Reporte JSON");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem11);
 
         jMenuBar1.add(jMenu4);
@@ -849,12 +1052,12 @@ public class Ventana extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
             .addGroup(layout.createSequentialGroup()
-                .addGap(238, 238, 238)
+                .addGap(263, 263, 263)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
@@ -869,7 +1072,7 @@ public class Ventana extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addGap(30, 30, 30))
         );
@@ -888,7 +1091,7 @@ public class Ventana extends javax.swing.JFrame {
                     String documento = Abr(archivo);
                     jTextArea1.setText(documento);
                 }else{
-                    JOptionPane.showMessageDialog(null,"Error");
+                    JOptionPane.showMessageDialog(null,"Error, archivo invalido, no cuenta con la extension .FCA");
                 }
             }
         }
@@ -901,43 +1104,9 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-            try {
-            Sintactico sint=new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
-            sint.parse();
-            instrucciones=sint.instrucciones;
-            for(Object ins : instrucciones){
-                if(ins instanceof Comparar){
-                    Comparar comp = (Comparar)ins;
-                    Comparamos(comp.getRuta1(), comp.getRuta2());
-                }
-            }
-            //comienza el analizador del fca, las graficas
-            //comienza grafica barras
-            for(Object ins : instrucciones){
-                
-                //grafica barras
-                if(ins instanceof GraficaBarras){
-                    GraficaBarras grafica_barras = (GraficaBarras)ins;
-                    grafica_barras.valores();
-                    grafica_barras.generar_graficaBarras();
-                }else if(ins instanceof LinkedList){
-                    //En este caso como lo trabajo se que sera una lista de variables 
-                    this.variables_FCA = (LinkedList<Variables>)ins;
-                }
-                
-                //grafica lineas
-                if(ins instanceof GraficaLineas){
-                    GraficaLineas grafica_lineas = (GraficaLineas)ins;
-                    grafica_lineas.Valores();
-                    grafica_lineas.generar_graficaLineas();
-                }else if(ins instanceof LinkedList){
-                    this.variables_FCA = (LinkedList<Variables>)ins;
-                }
-                
-            }
-        } catch (Exception e) {
-            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, e);
-        }
+        //comienza el metodo para analizar todo
+        jTextArea2.setText("");
+        todo();
         
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -949,8 +1118,12 @@ public class Ventana extends javax.swing.JFrame {
         
 
         //****************GUARDAR***********
-        String documento = jTextArea1.getText();
-        String mensaje=Guardar(archivo, documento);    
+        try {
+            String documento = jTextArea1.getText();
+            String mensaje=Guardar(archivo, documento); 
+        } catch (Exception e) {
+        }
+           
         
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -985,15 +1158,21 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        // TODO add your handling code here:
-        
+         
         //***************REPORTE DE TOKENS***********
         this.ReporteTokens();
+        
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
+        this.ReporteEstadistico();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        this.Json();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1045,12 +1224,12 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
+    public static javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    public static javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }

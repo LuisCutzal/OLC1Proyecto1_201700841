@@ -1,3 +1,5 @@
+//Autor: Herlindo Corona
+
 class draws_generator {
 
     tringle_size = 3;
@@ -36,3 +38,8 @@ class draws_generator {
         }
     }
 }
+
+/*
+    Si este comentario se repite
+    cuenta como parte de la repitencia
+    */

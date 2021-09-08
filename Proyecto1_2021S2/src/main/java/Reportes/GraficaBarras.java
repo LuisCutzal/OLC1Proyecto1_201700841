@@ -4,32 +4,18 @@
  * and open the template in the editor.
  */
 package Reportes;
-import java.io.File;
-import java.io.IOException;
+import com.mycompany.proyecto1_2021s2.DirImagen;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
-import org.jfree.chart.ChartUtilities;
-
 import com.mycompany.proyecto1_2021s2.Ventana;
 import com.mycompany.proyecto1_2021s2.Variables;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author sandr
- */
+import java.io.File;
+import java.io.IOException;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart; 
 import org.jfree.chart.plot.PlotOrientation; 
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.XYSeriesCollection;
-
 
 public class GraficaBarras {
     
@@ -47,8 +33,7 @@ public class GraficaBarras {
     public void valores(){
         for(Caracteristica caract : this.lista_caracteristica){
             switch(caract.tipo){
-                case 0: //titulo  
-                    System.out.println("titulo -> " + caract.valor.valor);
+                case 0: //titulo
                     if(caract.valor.tipo == 4){
                         titulo_grafica = caract.valor.valor.toString();
                     }else if(caract.valor.tipo == 3){
@@ -61,28 +46,23 @@ public class GraficaBarras {
                     }
                     break;
                 case 1: //ejex
-                    System.out.println("ejex -> ");
                     for(Valor val : caract.lista_valores){
                         if(val.tipo == 1 || val.tipo == 2 || val.tipo == 4){ 
                             this.ejex.add(val.valor.toString());
                         }else if(val.tipo == 3){ //id
-                            //se recomienda tener una lista de variables donde se guarde su nombre y valor 
                             for(Variables variable: Ventana.variables_FCA){
                                 if(variable.getIdentificador().equalsIgnoreCase(val.valor.toString())){
                                     this.ejex.add(variable.getValor().toString());
                                 }
                             }
                         }
-                        System.out.println("val: " + val.valor);
                     }
                     break;
                 case 2: //valores
-                    System.out.println("valores -> ");
                     for(Valor val : caract.lista_valores){
                         if(val.tipo == 1 || val.tipo == 2 || val.tipo == 4){ 
                             this.valores.add(val.valor);
                         }else if(val.tipo == 3){ //id
-                            //se recomienda tener una lista de variables donde se guarde su nombre y valor 
                             for(Variables variable: Ventana.variables_FCA){
                                 if(variable.getIdentificador().equalsIgnoreCase(val.valor.toString())){
                                     this.valores.add(variable.getValor());
@@ -92,26 +72,20 @@ public class GraficaBarras {
                     }
                     break;
                 case 3: //titulox
-                    System.out.println("titulox -> " + caract.valor.valor);
                     if(caract.valor.tipo == 4){
                         etiqueta_eje_X = caract.valor.valor.toString();
                     }
                     break;
                 case 4: //tituloy
-                    System.out.println("tituloy -> " + caract.valor.valor);
                     if(caract.valor.valor instanceof String){
                         etiqueta_eje_Y = caract.valor.valor.toString();
                     }
                     break;
             }
-            
         }
     }
     
-    public void generar_graficaBarras(){
-        /*
-            SE PROCEDE A GRAFICAR 
-        */
+    public void generar_graficaBarras() throws IOException{
             DefaultCategoryDataset dataset = new DefaultCategoryDataset(); //se utilizo la libreria jfreechart-1.5.3
             JFreeChart BarrasG= ChartFactory.createBarChart(
                     titulo_grafica,      
@@ -123,8 +97,8 @@ public class GraficaBarras {
                     false,  
                     false
            );
-           //recorro la lista de "ejex" y "valores"
-           for(int i=0; i < this.ejex.size(); i++){
+            Ventana.jTextArea2.append("Generando Grafica de Barras: "+titulo_grafica+"\n");
+            for(int i=0; i < this.ejex.size(); i++){
                if(this.valores.get(i) instanceof Integer){
                     dataset.setValue((int)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
                }else if(this.valores.get(i) instanceof Double){
@@ -134,7 +108,11 @@ public class GraficaBarras {
             ChartFrame frame = new ChartFrame("Grafica de Barras", BarrasG);
             frame.pack();
             frame.setVisible(true);
-            
+        int ancho = 1000;
+        int alto = 750;
+        File f = new File ("Grafica de Barras "+titulo_grafica+".png");
+        ChartUtilities.saveChartAsPNG(f,BarrasG,ancho,alto);
+        DirImagen ubi = new DirImagen("Grafica de Barras "+titulo_grafica);
+        Ventana.listaImagen.add(ubi);
     }
-    
 }

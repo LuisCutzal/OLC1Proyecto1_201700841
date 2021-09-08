@@ -39,7 +39,7 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 
 comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
-comentariodoble     = "\/*"[^]+ "\*/"{InputCharacter}* {LineTerminator}?
+comentariodoble     = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 //------> Estados
 
 %%
@@ -275,8 +275,8 @@ comentariodoble     = "\/*"[^]+ "\*/"{InputCharacter}* {LineTerminator}?
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
 
 //------> Errores Lexicos
-.                       { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn); 
-                            error nuevo = new error("Error Lexico", yytext(), yyline, yycolumn);
+.                       { System.out.println("Error Lexico JS"+yytext()+" Linea "+yyline+" Columna "+yycolumn); 
+                            error nuevo = new error("Error Lexico en JS ", yytext(), yyline, yycolumn);
                             Ventana.listaErrores.add(nuevo);
                         }
 

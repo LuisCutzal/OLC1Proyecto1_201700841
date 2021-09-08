@@ -14,8 +14,6 @@ public class Caracteristica {
     public int tipo;
     public Valor valor;
     public LinkedList<Valor> lista_valores;
-    
-    
     public Caracteristica(int tipo, Valor valor){
         this.tipo = tipo;
         this.valor = valor;

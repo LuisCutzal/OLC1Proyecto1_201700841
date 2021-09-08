@@ -1,9 +1,8 @@
-
 class complex_exercises {
     fibonacci_generator(fibonacci_generator_max) {
         let fibonacci_generator_num1 = 0
         let fibonacci_generator_num2 = 1;
-        for (let fibonacci_generator_i = 1; fibonacci_generator_i <= fibonacci_generator_max; fibonacci_generator_i = fibonacci_generator_i + 1) { 
+        for (let fibonacci_generator_i = 1; fibonacci_generator_i <= fibonacci_generator_max; fibonacci_generator_i = fibonacci_generator_i + 1) {
             console.log(fibonacci_generator_num1 + " ");
             let fibonacci_generator_prev = fibonacci_generator_num1 + fibonacci_generator_num2;
             fibonacci_generator_num1 = fibonacci_generator_num2;

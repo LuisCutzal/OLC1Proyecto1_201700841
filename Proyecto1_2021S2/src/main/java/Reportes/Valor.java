@@ -18,7 +18,7 @@ public class Valor {
     
         //--> para puntajes especificos
     public String nombrearchivo;
-    public String caracteristica; // 1= variable
+    public String caracteristica; // 1 = variable
     public String identificador; // nombre del identificador de la variable
     
     
@@ -54,9 +54,9 @@ public class Valor {
             //puntaje especifico 
             for(Puntajes puntaje : Ventana.lista_puntajesEspecificos){
                 //--> archivos que ya tenemos 
-               if(this.nombrearchivo.equalsIgnoreCase(puntaje.getNombreArchivo())){
-                   if(this.caracteristica.equalsIgnoreCase(puntaje.getCaracteristica())){
-                       if(this.identificador.equalsIgnoreCase(puntaje.id)){
+               if(this.nombrearchivo.equalsIgnoreCase(puntaje.getNombreArchivo())){//primera cadena del archvio cup FCA
+                   if(this.caracteristica.equalsIgnoreCase(puntaje.getCaracteristica())){//segunda cadena del archivo cup FCA
+                       if(this.identificador.equalsIgnoreCase(puntaje.id)){//tercera cadena del archivo cup FCA
                            return puntaje.getValor();
                        }
                    }
@@ -64,7 +64,6 @@ public class Valor {
             }
             //--> si llega hasta aca significa que no encontro nada quiere decir que no se repitio
             return 0; //el valor es 0 
-            
         }
          return null;
     }

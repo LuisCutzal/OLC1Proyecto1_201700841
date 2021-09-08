@@ -5,6 +5,8 @@
  */
 package com.mycompany.proyecto1_2021s2;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author Domingo
@@ -12,7 +14,7 @@ package com.mycompany.proyecto1_2021s2;
 public class ClasesRepetidas {
     public int canLineas;
     public String id;
-    
+    public LinkedList<MetodosRepetidos> Metodos = new LinkedList<>();//se agrego una lista de tipo metodos y se inicializo, se hizo de esta forma para no afectar al constructor con otro parametro
     public ClasesRepetidas(int Lineas, String id){
         this.canLineas=Lineas;
         this.id=id;

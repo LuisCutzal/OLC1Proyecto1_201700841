@@ -1,11 +1,13 @@
+//Autor: Erick Lemus
 class draws {
     //Esta clase es un ejemplo de un archivo de entrada
     tringle_size = 3;
     square_size = 8;
+
     set_size(tam) {
         tringle_size = tam;
     }
-    
+
     draw_triangle() {
         let triangle_draw = "";
         for (let draw_triangle_i = tringle_size; draw_triangle_i >= 1; draw_triangle_i--) {
@@ -14,7 +16,6 @@ class draws {
                 triangle_draw = triangle_draw + "*"
             }
             triangle_draw = triangle_draw + "\n"
-            
         }
         console.log(triangle_draw);
     }
