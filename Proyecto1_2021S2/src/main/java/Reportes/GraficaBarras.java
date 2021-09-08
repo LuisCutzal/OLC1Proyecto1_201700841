@@ -68,6 +68,16 @@ public class GraficaBarras {
                                     this.valores.add(variable.getValor());
                                 }
                             }
+                        }else if(val.tipo==5){//puntaje especifico
+                            for (int i = 0; i < Ventana.lista_puntajesEspecificos.size(); i++) {
+                                if(Ventana.lista_puntajesEspecificos.get(i).getNombreArchivo().equalsIgnoreCase(val.nombrearchivo)){
+                                    if(Ventana.lista_puntajesEspecificos.get(i).getCaracteristica().equalsIgnoreCase(val.caracteristica)){
+                                        if(Ventana.lista_puntajesEspecificos.get(i).getId().equalsIgnoreCase(val.identificador)){
+                                            this.valores.add(val.getValor());
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     break;

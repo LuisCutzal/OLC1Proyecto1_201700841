@@ -31,6 +31,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 /**
  *
  * @author Domingo
@@ -383,14 +386,16 @@ public class Ventana extends javax.swing.JFrame {
                                 }
                                 //v v f
                                 else if(clases.getLineas()!= clases2.getLineas()){
-                                    
+                                    jTextArea2.append("Clase repetido: " + archivo1.clases +" en archivos " + archivo1.nombre_archivo+ "\n");
+                                    this.cont_clases_repetidas++;
                                     this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.6));
                                     this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases.getId(),0.6));
                                 }
                             }else if(metodos.id != metodos2.id && metodos.CantidadParametros != metodos2.CantidadParametros && metodos.linas != metodos2.linas){
                                 //v f v
                                 if(clases.getLineas()==clases2.getLineas()){
-                                    
+                                    jTextArea2.append("Clase repetido: " + archivo1.clases +" en archivos " + archivo1.nombre_archivo+ "\n");
+                                    this.cont_clases_repetidas++;
                                     this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.6));
                                     this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases2.getId(),0.6));
                                 }//v f f
@@ -404,6 +409,7 @@ public class Ventana extends javax.swing.JFrame {
                         else if(clases.id != clases2.id){
                             if(metodos.id.equals(metodos2.id) && metodos.CantidadParametros == metodos2.CantidadParametros && metodos.linas == metodos2.linas){
                                 if(clases.getLineas()==clases2.getLineas()){
+                                    jTextArea2.append("Clase repetido: " + archivo1.clases +" en archivos " + archivo1.nombre_archivo+ "\n");
                                     this.cont_clases_repetidas++;
                                     this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"clase",clases.getId(),0.8));
                                     this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"clase",clases2.getId(),0.8));
@@ -456,13 +462,13 @@ public class Ventana extends javax.swing.JFrame {
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),1));
                         }//v v f
                         else if(metodos.id.equals(metodos2.id) && metodos.getParametros() == metodos2.getParametros() && metodos.getLineas() != metodos2.getLineas()){
-                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                            jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
                             this.cont_metodos_repetidos++;
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.7));
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.7));
                         }//v f v
                         else if(metodos.id.equals(metodos2.id) && metodos.getParametros() != metodos2.getParametros() && metodos.getLineas() == metodos2.getLineas()){
-                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                            jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
                             this.cont_metodos_repetidos++;
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.7));
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.7));
@@ -474,8 +480,8 @@ public class Ventana extends javax.swing.JFrame {
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.4));
                         }//f v v
                         else if(metodos.id != metodos2.id && metodos.getParametros() == metodos2.getParametros() && metodos.getLineas() == metodos2.getLineas()){
-                            //jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
-                            //this.cont_metodos_repetidos++;
+                            jTextArea2.append("Metodo repetido \"" + metodos.getIdMetodo() +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                            this.cont_metodos_repetidos++;
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo1.getNombreArchivo(),"metodo",metodos.getIdMetodo(),0.6));
                             this.lista_puntajesEspecificos.add(new Puntajes(archivo2.getNombreArchivo(),"metodo",metodos2.getIdMetodo(),0.6));
                         }//f v f
@@ -516,6 +522,8 @@ public class Ventana extends javax.swing.JFrame {
         for(Archivo archivo : datos_archivos){
             Reporte_errores.addAll(archivo.lista_errores);
         }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String fecha =dtf.format(LocalDateTime.now());
         FileWriter fichero = null;
         PrintWriter pw = null;
                 try {
@@ -562,7 +570,7 @@ public class Ventana extends javax.swing.JFrame {
                + "</style>\n\t"
                + "</HEAD>\n\t"
                + "<BODY>\n\t"
-               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841<BR>Fecha: "+fecha+"</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
                + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
                "<table style=\"margin:0 auto; \"border=3>\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
@@ -617,6 +625,8 @@ public class Ventana extends javax.swing.JFrame {
         for(Archivo archivo : datos_archivos){
             Reporte_tokens.addAll(archivo.lista_tokens);
         }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String fecha =dtf.format(LocalDateTime.now());
         FileWriter fichero = null;
         PrintWriter pw = null;
                 try {
@@ -663,7 +673,7 @@ public class Ventana extends javax.swing.JFrame {
                + "</style>\n\t"
                + "</HEAD>\n\t"
                + "<BODY>\n\t"
-               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE TOKENS</H2></CENTER></div>\n"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841<BR>Fecha: "+fecha+"</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE DE TOKENS</H2></CENTER></div>\n"
                + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
                "<table style=\"margin:0 auto; \"border=3>\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
@@ -778,6 +788,9 @@ public class Ventana extends javax.swing.JFrame {
         for(Resumen archivo : listaresumen){
             archivo.addAll(listaImagen);
         }*/
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String fecha =dtf.format(LocalDateTime.now());
+        
         FileWriter fichero = null;
         PrintWriter pw = null;
                 try {
@@ -824,7 +837,7 @@ public class Ventana extends javax.swing.JFrame {
                + "</style>\n\t"
                + "</HEAD>\n\t"
                + "<BODY>\n\t"
-               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE ESTADISTICO</H2></CENTER></div>\n"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Nombre: Luis Cutzal<BR> Carne: 201700841<BR>Fecha: "+fecha+"</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1<BR>REPORTE ESTADISTICO</H2></CENTER></div>\n"
                + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
                "<table style=\"margin:0 auto; \"border=3>\n\t"
                + "<tr align=\"center\" bottom=\"middle\">\n\t"
@@ -904,6 +917,112 @@ public class Ventana extends javax.swing.JFrame {
      //fin reporte estadistico
     
         public void Json(){
+            System.out.println("comeinza json \n");
+            //total de variables, metodos, clases y comentarios en los 2 archivos
+            double suma1=0,suma2=0,suma3=0,suma4=0;
+            double rep1=0,rep2=0,rep3=0,rep4=0;
+            for (int i = 0; i < listaresumenV1.size(); i++) {//variables
+                if(i==0){
+                    listaresumenV1.get(1).getA();//proyecto A
+                    listaresumenV1.get(0).getA();//proyecto B
+                    suma1=listaresumenV1.get(1).getA()+listaresumenV1.get(0).getA();
+                }
+            }
+            System.out.println("total variables: " +suma1);
+            for (int a = 0; a < listaresumenMet.size(); a++) {//metodos
+                if(a==0){
+                    listaresumenMet.get(1).getA();
+                    listaresumenMet.get(0).getA();
+                    suma2=listaresumenMet.get(1).getA()+listaresumenMet.get(0).getA();
+                }
+            }
+            System.out.println("total metodos: " +suma2);
+            for (int b = 0; b < listaresumenCla.size(); b++) {//clases
+                if(b==0){
+                    listaresumenCla.get(1).getA();
+                    listaresumenCla.get(0).getA();
+                    suma3=listaresumenCla.get(1).getA()+listaresumenCla.get(0).getA();
+                }
+            }
+            System.out.println("total clases: " +suma3);
+            for (int c = 0; c < listaresumenC.size(); c++) {//comentarios
+                if(c==0){
+                    listaresumenC.get(1).getA();
+                    listaresumenC.get(0).getA();
+                    suma4=listaresumenC.get(1).getA()+listaresumenC.get(0).getA();
+                }
+            }
+            System.out.println("total comentarios: " +suma4);
+            
+            
+            //total de variables, metodos, clases y comentarios repetidos
+            rep1=this.cont_variables_repetidas;
+            System.out.println("Var repetidas: " + rep1);
+            rep2=this.cont_metodos_repetidos;
+            System.out.println("Met repetidos: "+rep2);
+            rep3=this.cont_clases_repetidas;
+            System.out.println("Cla repetidas: "+rep3);
+            rep4=this.cont_comment_repetido;
+            System.out.println("Com repetidos: "+rep4);
+            
+            double general=0;
+            //      1                2             3                4
+            // (variables)*0.2 + (metodos)0.3 + (clases)*0.3 + (comentarios)*0.2 
+            general=((rep1/suma1)*(0.2))+((rep2/suma2)*(0.3))+((rep3/suma3)*(0.3))+((rep4/suma4)*(0.2));
+            System.out.println("General: " + general);
+            /*
+            
+            for (int i = 0; i < lista_puntajesEspecificos.size(); i++) {
+                System.out.println("archivo: "+lista_puntajesEspecificos.get(i).nombrearchivo);
+                System.out.println("tipo: "+lista_puntajesEspecificos.get(i).caracteristica);
+                System.out.println("nombre: "+lista_puntajesEspecificos.get(i).id);
+                System.out.println("puntaje: "+lista_puntajesEspecificos.get(i).valor);
+            }
+            
+            */
+            
+            FileWriter fichero = null;
+            PrintWriter pw = null;
+                try {
+                    String path = "ReporteJSon.json";
+                    fichero = new FileWriter(path);
+                    pw = new PrintWriter(fichero);
+                    //todo el json
+                    String json;
+                    json="{\n"
+                            +"\t \""+"PuntajeGeneral"+"\": "+general+",\n"
+                            +"\t \""+"PuntajesEspecificos"+"\":"+"[\n";
+                                
+                                        for (int i = 0; i < lista_puntajesEspecificos.size(); i++) {
+                                            json+="\t \t {\n";
+                                             json+="\t \t \t \""+"archivo"+"\": "+ "\""+ lista_puntajesEspecificos.get(i).nombrearchivo +"\",\n ";
+                                             json+="\t \t \t \""+"tipo"+"\": "+ "\""+ lista_puntajesEspecificos.get(i).caracteristica +"\",\n ";
+                                             json+="\t \t \t \""+"nombre"+"\": "+ "\""+ lista_puntajesEspecificos.get(i).id +"\",\n ";
+                                             json+="\t \t \t \""+"puntaje"+"\": "+ lista_puntajesEspecificos.get(i).valor +"\n ";
+                                            json+="\t \t },\n";
+                                        }
+                                        
+                                
+                            json+="]\n"
+                    +"}";
+                    pw.print(json);
+            } catch (Exception e) {
+            }finally{
+                    if(null!=fichero){
+                        try {
+                            fichero.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            try {
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteJSon.json");
+                jTextArea2.append("Generar Reporte JSon \n");
+                //System.out.println("Final");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             
         }
         

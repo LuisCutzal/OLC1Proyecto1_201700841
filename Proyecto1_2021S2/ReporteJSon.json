@@ -1,0 +1,251 @@
+{
+	 "PuntajeGeneral": 0.19166666666666665,
+	 "PuntajesEspecificos":[
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "variable",
+ 	 	 	 "nombre": "draw_triangle_i",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "variable",
+ 	 	 	 "nombre": "draw_triangle_j",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "variable",
+ 	 	 	 "nombre": "draw_square_i",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "variable",
+ 	 	 	 "nombre": "draw_square_j",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "comentario",
+ 	 	 	 "nombre": "/*
+    Si este comentario se repite
+    cuenta como parte de la repitencia
+    */",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "comentario",
+ 	 	 	 "nombre": "/*
+    Si este comentario se repite
+    cuenta como parte de la repitencia
+    */",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "clase",
+ 	 	 	 "nombre": "draws",
+ 	 	 	 "puntaje": 0.4
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "clase",
+ 	 	 	 "nombre": "draws",
+ 	 	 	 "puntaje": 0.4
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "set_size",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "set_size",
+ 	 	 	 "puntaje": 1.0
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "set_size",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_triangle",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "set_size",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_square",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_triangle",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "set_size",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_triangle",
+ 	 	 	 "puntaje": 0.7
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_triangle",
+ 	 	 	 "puntaje": 0.7
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_triangle",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_square",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_sq",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "set_size",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_sq",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_triangle",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_sq",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_square",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "imprimir",
+ 	 	 	 "puntaje": 0.6
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "set_size",
+ 	 	 	 "puntaje": 0.6
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "imprimir",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_triangle",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "imprimir",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_1.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "draw_square",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "fibonacci_generator",
+ 	 	 	 "puntaje": 0.7
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "fibonacci_generator",
+ 	 	 	 "puntaje": 0.7
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "fibonacci_generator",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "fact_generator",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "torresDeHanoi",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "fibonacci_generator",
+ 	 	 	 "puntaje": 0.3
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "torresDeHanoi",
+ 	 	 	 "puntaje": 0.6
+ 	 	 },
+	 	 {
+	 	 	 "archivo": "file_2.js",
+ 	 	 	 "tipo": "metodo",
+ 	 	 	 "nombre": "hanoi_generator",
+ 	 	 	 "puntaje": 0.6
+ 	 	 },
+]
+}
